@@ -16,4 +16,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://sa-refugees-usa-guide.vercel.app/sitemap.xml
+Sitemap: https://www.sarefugeesusa.org/sitemap.xml

@@ -4,7 +4,9 @@
 - congress.gov (e.g. Public Law 119-21 benefit eligibility changes): fetch timed out. Not cited. Verify, then add to health/benefits pages.
 - medicaid.gov SHO #26-001 (Medicaid/CHIP federal funding limits from 1 Oct 2026): not an allowed source. Health page therefore says the Medicaid change is "not stated by the official sources this site uses". Find equivalent on acf.gov/federalregister.gov.
 - 30-day minimum PIR service period: only in a non-official (Switchboard) PDF. acf.gov says "up to 90 days".
-- SA citizenship law and effect of using an SA passport on US refugee status: no allowed official source. Page is thin and points to the sibling guide. Look for a USCIS Policy Manual or federal register source on re-availment.
+- SA citizenship law (loss or retention of South African citizenship): still not taken from a U.S. source. The passport page points to the sibling guide for SA logistics. The effect of using an SA passport, or of travel to South Africa, on U.S. refugee status is now cited from the USCIS asylee and refugee guide and the Adjudicator's Field Manual chapter on refugee travel documents. Do not put that sentence back to "not stated".
+- APHIS disease-status page did not name South Africa. Do not state that South Africa is or is not FMD-affected or screwworm-affected.
+- USCIS processing times tool: do not quote a grouped "Travel Document" median as the refugee travel document time.
 
 ## Conflicts to re-check
 - ACF benefits fact sheet says 4 months RCA/RMA; DCL 26-05 + 91 FR 62534 say up to 12 months (8 months briefly in 91 FR 43107).
