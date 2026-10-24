@@ -107,8 +107,8 @@ class Site:
         s.terms=[(anchor,[re.compile(p,re.I) for p in pats]) for anchor,pats in (terms or [])]
         if os.path.exists(s.out): shutil.rmtree(s.out)
         os.makedirs(s.out)
-    def page(s,path,title,desc,body,stage=None,kind='article',faqs=None):
-        if faqs:
+    def page(s,path,title,desc,body,stage=None,kind='article',faqs=None,show_faqs=True):
+        if faqs and show_faqs:
             body+='<h2>Questions and answers</h2>'+''.join(f'<details class="card"><summary>{q}</summary><div>{ahtml}</div></details>' for q,ahtml in faqs)
         nav=''.join('<div class="grp"><span class="glabel">'+esc(g)+'</span>'+''.join(f'<a href="{href(p)}">{esc(t)}</a>' for p,t in items)+'</div>' for g,items in s.groups)
         url=canon_url(s.base, path)

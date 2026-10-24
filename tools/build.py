@@ -69,13 +69,14 @@ G=[("1. Applying",[('eligibility/index.html','Eligibility and referral'),('onlin
  ("3. First 90 days",[('benefits/index.html','Benefits checklist'),('health-cover/index.html','Health cover (RMA and Medicaid)'),('jobs/index.html','Jobs and employment services'),('agency-not-helping/index.html','When your agency is not helping')]),
  ("4. First year",[('travel-document/index.html','Can I leave the USA?'),('sa-passport-citizenship/index.html','SA passport and citizenship risks')]),
  ("5. Green card and beyond",[('green-card/index.html','Green card after 1 year (I-485)')]),
+ ("FAQ",[('faq/index.html','Common questions')]),
  ("About",[('about/index.html','About this site'),('glossary/index.html','Words and abbreviations explained'),('disclaimer/index.html','Disclaimer')])]
 ORDER=['index.html']+[p for g,it in G for p,t in it]
 STAGE={p:g for g,it in G for p,t in it}
 FOOT=f'<p>This is an independent, unofficial guide. It is not affiliated with any government or agency, including the U.S. Department of State, the U.S. Embassy in South Africa, ORR/ACF, USCIS, SSA, CBP, any resettlement agency or the South African government. Read more on the <a href="/about/">About page</a> and the <a href="/disclaimer/">disclaimer</a>. Facts link to official pages; always check the linked source.</p>'
 GLOSS=[]
 def gterm(h,pats,html): GLOSS.append((h,pats,html))
-def P(path,title,desc,body,faqs=None): s.page(path,title,desc,body,STAGE.get(path),faqs=faqs)
+def P(path,title,desc,body,faqs=None,show_faqs=True): s.page(path,title,desc,body,STAGE.get(path),faqs=faqs,show_faqs=show_faqs)
 def L(path,text,frm=None): return f'<a href="{href(path)}">{text}</a>'
 gterm("A3 and A03",[r'\bA03\b',r'\bA3\b',r'\(a\)\(3\)'],f'The refugee code USCIS prints on an Employment Authorization Document. You may also see it written A3 or A03. SSA accepts an EAD in this category as evidence of status.{src("gc","ssnr","ben")}')
 gterm("ACF",[r'\bACF\b'],f'The Administration for Children and Families, the part of the Department of Health and Human Services that includes the Office of Refugee Resettlement.{src("pir")}')
@@ -156,6 +157,7 @@ blurb={
  'travel-document/index.html':'Whether you can leave the USA, and how the refugee travel document works.',
  'sa-passport-citizenship/index.html':'Why a South African passport can put refugee status at risk.',
  'green-card/index.html':'You must apply after 1 year of physical presence. Travel can pause that clock.',
+ 'faq/index.html':'Short answers on applying, arrival, work, benefits, pets and the green card.',
  'about/index.html':'Independent site, sources and method.',
  'glossary/index.html':'Plain-English meanings for the abbreviations on this site.',
  'disclaimer/index.html':'General information only. Not legal advice and not a government site.'}
@@ -511,6 +513,94 @@ P(f,"Refugee green card after 1 year: Form I-485 steps for 2026","USCIS steps fo
 <div class="card warn"><p>Do not leave while the I-485 is pending until a lawyer has told you which document, if any, keeps the application alive. The Form I-131 instructions say leaving without advance parole generally abandons a pending I-485, and they do not say a refugee travel document prevents that{src("i131i")}.</p>
 <p>Do not put Form I-131 in the same envelope as Form I-485{src("gc")}. The travel page is {L("travel-document/index.html","Can I leave the USA?",f)}.</p></div>''')
 
+faq_groups=[
+("Applying",[
+("Who can be considered for this programme?",
+ f'<p>The U.S. Embassy page dated 7 October 2026 says you must be a South African national, of Afrikaner ethnicity or a member of a racial minority, able to describe persecution or a fear of persecution, at least 18 or referred with a parent, and living in South Africa.{src("emb")}</p><p>Not everyone who meets that list is referred. The U.S. government decides access, not RSC Africa or Amerikaners. Read {L("eligibility/index.html","Eligibility and referral")}.{src("emb")}</p>'),
+("Is the programme only for Afrikaners?",
+ f'<p>The Embassy criteria include Afrikaner ethnicity or a member of a racial minority in South Africa.{src("emb")}</p><p>Presidential Determination 2026-14 allocates the extra fiscal year 2026 admissions among Afrikaners from South Africa, and Presidential Determination 2026-24 says fiscal year 2027 admissions are primarily allocated among Afrikaners.{src("pd26","pd27")}</p><p>The pages do not use the same words, so read {L("eligibility/index.html","Eligibility and referral")} and {L("programme-status/index.html","Programme status and caps")}.</p>'),
+("How do I apply?",
+ f'<p>If no USRAP partner has contacted you yet, complete the online USRAP Intake Questionnaire on the Department of State website the Embassy links.{src("emb")} {a(S["uiq"],"Open the official questionnaire")}</p><p>The referral partners the Embassy names are RSC Africa, operated by Church World Service, and Amerikaners.{src("emb","embfaq")}</p><p>Read {L("online-intake/index.html","Online intake questionnaire")}.</p>'),
+("I already sent a Statement of Interest. Do I still need the questionnaire?",
+ f'<p>Yes, if you are still interested and a partner has not contacted you: the 7 October 2026 Embassy page says you must complete the questionnaire.{src("emb")}</p><p>A 13 February 2025 notice told people to email PretoriaPRMInfo@state.gov, but the October page does not mention that mailbox and does not say the email was replaced.{src("emb2025","emb")}</p><p>Follow the newer page, explained on {L("online-intake/index.html","Online intake questionnaire")}.</p>'),
+("Does it cost anything to apply?",
+ f'<p>No. The Embassy FAQ says referrals, applications and related services are free, and it names only RSC Africa (Church World Service) and Amerikaners as official implementers in South Africa.{src("embfaq","emb")}</p><p>Do not pay anyone who says they can speed the case up or guarantee approval.{src("embfaq")}</p><p>Read {L("avoiding-scams/index.html","Avoiding scams")}.</p>'),
+("How long does the process take?",
+ f'<p>There is no standard or guaranteed timeline. Every case is different, and times vary widely.{src("embfaq")}</p><p>When the case is ready for a pre-screen interview you receive a case number for the RSC Africa MyCase site, and later questions go to SouthAfrica@cwsafrica.org with that number.{src("embfaq")}</p><p>Read {L("online-intake/index.html","Online intake questionnaire")} and {L("programme-status/index.html","Programme status and caps")}.</p>'),
+("I submitted the form and no one has contacted me. Was I accepted?",
+ f'<p>Check the dashboard first: each person should show "Information Entry Complete", and you must select "Submit Family Group UIQ Application" until the family group status says "Complete", even if you are applying alone.{src("embfaq")}</p><p>If that is done and you still have no case number, wait. You can track the case only after RSC Africa gives you one.{src("embfaq")}</p><p>Read {L("online-intake/index.html","Online intake questionnaire")}.</p>'),
+("Can I apply if I am outside South Africa?",
+ f'<p>No. Every person on the case, including children, must be living and physically present in South Africa, so a temporary work visa or a holiday abroad does not qualify.{src("embfaq")}</p><p>Processing includes in-person appointments.{src("embfaq")}</p><p>Read {L("eligibility/index.html","Eligibility and referral")}.</p>'),
+("What civil documents will I need?",
+ f'<p>The Embassy FAQ says cases use civil documents such as birth, marriage, death and divorce records, and that the set depends on the case.{src("embfaq")}</p><p>Some start with a short form, and others are later asked for the full record. An unabridged birth certificate is almost always required for a child who will resettle with a parent, and RSC Africa tells you what your case needs.{src("embfaq")}</p><p>Read {L("online-intake/index.html","Online intake questionnaire")}.</p>'),
+]),
+("Interview and medicals",[
+("What happens after I am accepted for processing?",
+ f'<p>RSC Africa contacts you with the next steps: a pre-screen interview, security vetting, a USCIS interview and a medical exam.{src("embfaq")}</p><p>USCIS, in the Department of Homeland Security, decides refugee status. The State Department, the U.S. Mission in South Africa and RSC Africa do not.{src("embfaq")}</p><p>Read {L("online-intake/index.html","Online intake questionnaire")} and {L("programme-status/index.html","Programme status and caps")}.</p>'),
+("How do I get an interview and a medical exam?",
+ f'<p>After you are granted access, RSC Africa contacts you to schedule the pre-screen interview, the USCIS interview and the medical exam.{src("embfaq")}</p><p>The medical exam is arranged with panel physicians in Cape Town, Johannesburg or Pretoria, as close to where you live as they can.{src("embfaq")}</p><p>You do not book those appointments from a public website. Read {L("online-intake/index.html","Online intake questionnaire")}.</p>'),
+("What security checks do I have to complete?",
+ f'<p>USRAP implementers run the security and background checks while the case is processed.{src("embfaq")}</p><p>The Embassy FAQ says the step it asks of you, when contacted, is fingerprinting with Managed Integrity Evaluation (MIE).{src("embfaq")}</p><p>If your address, email or phone changes after you have access, tell RSC Africa immediately. Read {L("online-intake/index.html","Online intake questionnaire")}.{src("embfaq")}</p>'),
+("Who decides my case, and can it change at the last minute?",
+ f'<p>USCIS decides each case, and vetting continues until arrival, so status can change even shortly before travel.{src("embfaq")}</p><p>USCIS has found some South African cases ineligible for continued processing: there is no appeal, no one on that case may apply again, and MyCase is deactivated within five days of the email notice.{src("embfaq")}</p><p>Read {L("eligibility/index.html","Eligibility and referral")}.</p>'),
+]),
+("Travel and arrival",[
+("Who books the flight to the United States?",
+ f'<p>The October 2026 Embassy page names one official booker: RSC Africa, operated by Church World Service.{src("emb")}</p><p>Travel booked by anyone else is not supported and can put your entry, and your initial help, at risk.{src("emb")}</p><p>That page does not name the International Organization for Migration as the office that books these flights. Read <a href="/bringing-pets/#refugee-flights">who books a refugee flight</a>.{src("emb")}</p>'),
+("Can I choose which city I go to?",
+ f'<p>Not as a free choice. Tell RSC Africa early about a friend, family member or employer in the United States, called a U.S. tie.{src("embfaq")}</p><p>They try to place you nearby, but they cannot always do it, and other location wishes are not considered.{src("embfaq")}</p><p>Once you support yourself you may move, as explained on {L("first-90-days/index.html","First 90 days")}.</p>'),
+("Who meets me, and will I have housing?",
+ f'<p>A local resettlement provider case manager meets you at the airport, or arranges for your U.S. tie to meet you, and then gives basic support.{src("embfaq")}</p><p>The provider typically finds the first housing. The Embassy FAQ says it should be safe and adequate, but it may be an apartment rather than a house, and some people need a roommate.{src("embfaq")}</p><p>Read {L("first-90-days/index.html","First 90 days")}.</p>'),
+("Should I contact the U.S. agency before I fly?",
+ f'<p>No. Ask RSC Africa before you travel, because local providers are not able to answer pre-arrival email, phone or WhatsApp.{src("embfaq")}</p><p>After you arrive, the provider contacts you, and if you leave the place you were sent you may lose the initial resettlement services.{src("embfaq")}</p><p>Read {L("first-90-days/index.html","First 90 days")} and {L("agency-not-helping/index.html","When your agency is not helping")}.</p>'),
+("What help do I get in the first weeks?",
+ f'<p>The Embassy FAQ describes limited help through the Program of Initial Resettlement, typically for 30 to 90 days, including some housing, orientation and basic benefits.{src("embfaq")}</p><p>The Office of Refugee Resettlement says services run up to 90 days and does not state a 30-day minimum, so the two pages use different wording.{src("pir","embfaq")}</p><p>The stated goal is early self-sufficiency through work. See {L("first-90-days/index.html","First 90 days")}.</p>'),
+]),
+("First months",[
+("Can I work as soon as I arrive?",
+ f'<p>Yes, refugees may work immediately on arrival, and USCIS creates an Employment Authorization Document for a principal refugee and family who arrive with them, usually within a few weeks.{src("gc")}</p><p>There is no fee for the initial or renewal refugee work card in category (a)(3), and for Form I-9 the Form I-94 arrival record is acceptable for 90 days.{src("gc")}</p><p>Read {L("jobs/index.html","Jobs and employment services")}.</p>'),
+("How do I get a Social Security card?",
+ f'<p>If you asked for a Social Security number during processing, the Department of Homeland Security sends the data to the Social Security Administration, which mails the card to the address you gave or to your sponsoring agency.{src("ssncfr")}</p><p>You can also apply at an office with your arrival record or a work card in category A3, and refugees receive an unrestricted card.{src("ssnr")}</p><p>How long delivery takes is not stated, so ask your resettlement agency if it does not arrive, and read {L("social-security-card/index.html","Social Security card")}.</p>'),
+("What benefits can I get, and for how long?",
+ f'<p>Sign up immediately. Cash and medical help are time-limited from your eligibility date, and you may qualify for Temporary Assistance for Needy Families (TANF), Supplemental Security Income (SSI), Medicaid or the Supplemental Nutrition Assistance Program (SNAP).{src("ben")}</p><p>Refugee Cash Assistance (RCA), if you are not eligible for TANF or SSI, is up to 12 months in the October 2026 letter for an eligibility date on or after 1 January 2026, while an older fact sheet still says four months.{src("dcl","frrma","ben")}</p><p>Confirm with your provider, and read {L("benefits/index.html","Benefits checklist")}.</p>'),
+("Will I have health cover?",
+ f'<p>The Embassy FAQ says you could get Refugee Medical Assistance (RMA) for up to 12 months, and the October 2026 letter says the same for an eligibility date on or after 1 January 2026, while an older fact sheet still says four months.{src("embfaq","dcl","ben")}</p><p>There is no national health service, and later Medicaid eligibility is not fully stated by the pages this guide uses.{src("embfaq")}</p><p>Ask your resettlement agency which cover you can get, and read {L("health-cover/index.html","Health cover")}.</p>'),
+("What is expected of me after I arrive?",
+ f'<p>The Embassy FAQ says you are expected to look for work soon and to take the first job offered, even if it is not the one you want, and that refusing may put support at risk.{src("embfaq")}</p><p>Many foreign qualifications are not automatically recognised, so that job may be outside your old field or at a lower level.{src("embfaq")}</p><p>Ask your resettlement agency how this applies to you, and read {L("jobs/index.html","Jobs and employment services")}.</p>'),
+("What if my resettlement agency is not helping?",
+ f'<p>Start with your case manager and the provider grievance process, which should be explained when you arrive.{src("embfaq","pir")}</p><p>You can also contact the State Refugee Coordinator on the federal contact list, or the initial-resettlement mailbox named on the guide page below.{src("src","pir")}</p><p>Read {L("agency-not-helping/index.html","When your agency is not helping")}.</p>'),
+]),
+("Green card after 1 year",[
+("When do I apply for permanent residence, and is there a fee?",
+ f'<p>USCIS requires an application after at least one year of physical presence, while the Embassy FAQ says to apply exactly one year after arrival.{src("gc","embfaq")}</p><p>The Policy Manual counts only days inside the United States when the application is decided, so a trip means you wait until those days add up to a year.{src("pm7")}</p><p>A principal pays no filing fee and no biometrics fee. Whether a family member on the same case pays is not stated clearly, so ask your resettlement agency, and read {L("green-card/index.html","Green card after 1 year")}.{src("gc")}</p>'),
+]),
+("Travel abroad",[
+("Can I leave on my South African passport?",
+ f'<p>Do not leave on a South African passport, and do not treat a trip back as safe. USCIS says refugees cannot get a passport from the country of nationality, and that going back can be evidence you no longer need protection.{src("guide")}</p><p>You need a refugee travel document before you leave, unless you already have advance parole.{src("i131i","td")}</p><p>Speak to an immigration attorney or an accredited representative before you book, and read {L("travel-document/index.html","Can I leave the USA?")}.</p>'),
+("Does a trip abroad count toward the one-year residence rule?",
+ f'<p>No. Days outside the United States do not count, and the Policy Manual measures the year when the application is decided.{src("pm7")}</p><p>The public page also says you must be physically present for at least one year after admission when you file.{src("gc")}</p><p>Read both before you travel in the first year, on {L("green-card/index.html","Green card after 1 year")} and {L("travel-document/index.html","Can I leave the USA?")}.</p>'),
+]),
+("Pets",[
+("Will the programme bring my pet?",
+ f'<p>No. Neither the U.S. government nor programme partners fund or arrange pet travel, including for an emotional-support animal.{src("emb","embfaq")}</p><p>Wait at least 90 days, because the first housing may not allow pets and pet deposits cannot be paid from resettlement funds.{src("emb","embfaq")}</p><p>You arrange any later shipping yourself, not every animal can enter, and the detail is on {L("bringing-pets/index.html","Bringing your pets")}.</p>'),
+("What are the import rules for a dog from South Africa?",
+ f'<p>South Africa is on the high-risk dog list. A dog needs a microchip before the rabies vaccine, must be at least 6 months old on entry, and needs a valid rabies blood test from an approved lab or a booking that includes 28 days of quarantine.{src("cdc_hr","cdc_fv")}</p><p>The import form is free, and the Embassy wait of at least 90 days is a separate rule.{src("cdc_fv","emb")}</p><p>Read {L("bringing-pets/index.html","Bringing your pets")}.</p>'),
+]),
+("Family",[
+("Can I live near family or friends who are already in the United States?",
+ f'<p>Tell RSC Africa as early as you can. A friend, family member or employer in the United States is called a U.S. tie, including someone who arrived as a refugee before you.{src("embfaq")}</p><p>An effort is made to place you nearby, but it is not guaranteed, and a wish that is not a U.S. tie is not used to pick a city.{src("embfaq")}</p><p>Read {L("first-90-days/index.html","First 90 days")}.</p>'),
+("My partner has an H-2A or H-2B visa. Can we still apply?",
+ f'<p>An H-2A or H-2B visa does not by itself stop you applying. You still have to be living and physically present in South Africa.{src("embfaq")}</p><p>If you hold, or plan to seek, another U.S. status at the same time, the Embassy FAQ says to consult an immigration attorney, because the two applications can affect each other.{src("embfaq")}</p><p>Read {L("eligibility/index.html","Eligibility and referral")}.</p>'),
+]),
+]
+faq_flat=[(q,a) for _g,items in faq_groups for q,a in items]
+faq_body=f'''<h1>Common questions</h1>
+<div class="card note"><p><strong>These answers are general.</strong> They are not legal advice and they are not about any individual case. Confirm your own facts with your resettlement agency, RSC Africa, an accredited representative or an immigration attorney. Read the {L("disclaimer/index.html","disclaimer")} and the {L("glossary/index.html","glossary")}. Last checked {D}.</p></div>
+<p>The questions below are ones people ask about the U.S. Refugee Admissions Program (USRAP) for South Africans: on the U.S. Embassy FAQ, in news about the 2025 and 2026 programme, and in public posts about how to apply, how long it takes, work, pets and family. Each answer uses an official page or a page on this guide that already cites one. If a point is not on those pages, the answer says so instead of guessing.</p>'''
+for g,items in faq_groups:
+    faq_body+=f'<h2>{g}</h2>'+''.join(f'<details class="card"><summary>{q}</summary><div>{a}</div></details>' for q,a in items)
+P('faq/index.html',"Frequently asked questions for South African refugees","Plain answers to common questions South Africans ask about the U.S. Refugee Admissions Program, from the form and interviews to work, pets and the green card.",faq_body,faq_flat,show_faqs=False)
+
 f='about/index.html'
 P(f,"About this independent guide for South African refugees","How this independent guide is built: official sources only, a link beside every fact, and no affiliation with any government.",f'''<h1>About this site</h1>
 <div class="card warn"><strong>{NOTICE}</strong> The full notice is on the {L("disclaimer/index.html","disclaimer",f)}.</div>
@@ -550,6 +640,7 @@ s.page('404.html',"Page not found: South African refugees in the USA guide","Tha
 <li>{L("benefits/index.html","Benefits checklist")}</li>
 <li>{L("travel-document/index.html","Can I leave the USA?")}</li>
 <li>{L("green-card/index.html","Green card after 1 year")}</li>
+<li>{L("faq/index.html","Common questions")}</li>
 <li>{L("glossary/index.html","Words and abbreviations")}</li>
 <li>{L("disclaimer/index.html","Disclaimer")}</li>
 </ul>''',kind='error')
