@@ -52,7 +52,17 @@ S=dict(
  iata="https://www.iata.org/en/programs/cargo/live-animals/pets/",
  nda="https://www.nda.gov.za/index.php/publication/433-export-procedures",
     dalrrd="https://www.dlrrd.gov.za/images/Branches/Economica%20Development%20Trade%20and%20Marketing/international-trade-and-promotions/trade-facilitation/information-packs-18-august-2021/export-certification.pdf",
-    i131addr="https://www.uscis.gov/i-131-addresses")
+    i131addr="https://www.uscis.gov/i-131-addresses",
+    cdc_acf="https://www.cdc.gov/importation/dogs/approved-care-facilities.html",
+    pender="https://penderpetretreat.com/cdc-iad-acf/",
+    gateway="https://gatewayacc.com/more-information/",
+    qatar_pets="https://www.qatarairways.com/en/baggage/animals.html",
+    emirates_pets="https://www.emirates.com/us/english/help/faq-topics/baggage-and-lost-property/faq/what-are-the-rules-and-charges-for-travelling-with-animals/",
+    delta_pets="https://pro.delta.com/content/agency/global/en/products-and-services/pet/pet-policies.html",
+    united_pets="https://www.united.com/en/us/fly/travel/traveling-with-pets.html",
+    petport="https://www.petport.co.za/international-pet-shipping-cost/",
+    brakpan_spca="https://www.citizen.co.za/brakpan-herald/news-headlines/local-news/2026/10/15/spca-sterilisation-drive-treats-79-animals/",
+    parks_vet="https://theparksanimalcare.co.za/pricing/")
 def src(*k): return ' <span class="src">['+', '.join(a(S[x]) for x in k)+']</span>'
 G=[("1. Applying",[('eligibility/index.html','Eligibility and referral'),('online-intake/index.html','Online intake questionnaire'),('programme-status/index.html','Programme status and caps'),('avoiding-scams/index.html','Avoiding scams')]),
  ("2. Arriving",[('bringing-pets/index.html','Bringing your pets'),('first-90-days/index.html','First 90 days'),('social-security-card/index.html','Social Security card')]),
@@ -229,7 +239,7 @@ P(f,"Bringing pets from South Africa to the USA: rules and time","CDC, USDA and 
 <li>Appear healthy. At least 6 months old{src("cdc_fv")}.</li>
 <li>Documents in English, or with a certified English translation{src("cdc_fv")}.</li>
 <li>The CDC Dog Import Form is required for each dog. After you confirm the email, the receipt is emailed. The instructions say the verification message comes from 1cdpwebsurvey@cdc.gov and the receipt arrives within 15 minutes of the first submission. Show it to the airline and to CBP{src("cdc_form")}.</li>
-<li>A fee for the CDC Dog Import Form: not stated on the instructions page checked. The direct form address is on that instructions page. This guide does not copy a second address{src("cdc_form")}.</li>
+<li>The CDC Dog Import Form is free{src("cdc_fv")}. The direct form address is on the CDC instructions page. This guide does not copy a second address{src("cdc_form")}.</li>
 </ul></div>
 <h2>Cats</h2>
 <div class="card"><ul>
@@ -268,6 +278,31 @@ P(f,"Bringing pets from South Africa to the USA: rules and time","CDC, USDA and 
 <li>Inside Florida, dogs and cats 4 months and older need a current USDA-approved rabies vaccination{src("fdacs")}.</li>
 </ul>
 <p>A separate Florida notice about screwworm and travel between U.S. states is not a South Africa import rule. This page does not mix the two{src("fdacs")}.</p></div>
+<h2 id="costs">Approximate costs</h2>
+<div class="card warn"><p><strong>These are estimates only.</strong> Prices change often and are for information only. They are not quotes. Always get a written quote before you book. Last checked 24 October 2026. Amounts are shown in the currency each source uses. This guide does not convert rand (ZAR) to US dollars (USD), because the exchange rate changes daily.</p></div>
+<p>Abbreviations: CDC is the US Centers for Disease Control and Prevention. A titer test is a rabies blood test that shows the vaccine worked. IATA is the International Air Transport Association, which sets crate rules. IPATA is the International Pet and Animal Transportation Association, a group of pet shipping agents.</p>
+<div class="wrap"><table><tr><th>Item</th><th>ZAR</th><th>USD</th><th>Source</th></tr>
+<tr><td>Rabies vaccine and microchip at a low-cost clinic (example: Brakpan SPCA)</td><td>Rabies R50, microchip R150, other dog vaccines R250</td><td>Not given</td><td>{a(S["brakpan_spca"],"Brakpan Herald, 15 Oct 2026")}</td></tr>
+<tr><td>Private vet (example: The Parks Animal Care, Johannesburg)</td><td>Consult R595, vaccinations R765 (rabies included with core vaccines)</td><td>Not given</td><td>{a(S["parks_vet"],"The Parks Animal Care")}</td></tr>
+<tr><td>Rabies titer test (needed for dogs from South Africa, a high-risk country)</td><td>Varies, ask your vet for a quote</td><td>Varies</td><td>{a(S["cdc_labs"],"CDC approved labs")}</td></tr>
+<tr><td>Vet filling in the CDC vaccination form</td><td>Varies, ask your vet</td><td>Varies</td><td>{a(S["cdc_fv"],"CDC")}</td></tr>
+<tr><td>CDC Dog Import Form</td><td>Free</td><td>Free</td><td>{a(S["cdc_fv"],"CDC")}</td></tr>
+<tr><td>South African export health certificate and state vet endorsement</td><td>Varies, ask your local state vet. The exporter pays.</td><td>Not given</td><td>{a(S["nda"],"Department of Agriculture")}, {a(S["dalrrd"],"export PDF")}</td></tr>
+<tr><td>CDC-registered animal care facility on arrival (dog, valid titer)</td><td>Not given</td><td>Gateway (Philadelphia) $500 plus airline fees $100 to $350. Pender (Washington Dulles) $996 plus airline fees $275 to $475.</td><td>{a(S["gateway"],"Gateway")}, {a(S["pender"],"Pender")}</td></tr>
+<tr><td>Same facility, dog with no valid titer (up to 28 days quarantine)</td><td>Not given</td><td>Gateway $3,500. Pender $4,071.</td><td>{a(S["gateway"],"Gateway")}, {a(S["pender"],"Pender")}</td></tr>
+<tr><td>Facility extras</td><td>Not given</td><td>Weekend or after-hours arrival: Gateway $300, Pender $350 to $750</td><td>{a(S["gateway"],"Gateway")}, {a(S["pender"],"Pender")}</td></tr>
+<tr><td>Other CDC-registered facilities (Atlanta, Dallas, Los Angeles, Miami, New York JFK, Seattle)</td><td colspan="2">Varies, ask for a quote</td><td>{a(S["cdc_acf"],"CDC facility list")}</td></tr>
+<tr><td>Qatar Airways, pet as checked baggage</td><td>Not given</td><td>Up to 32 kg (pet and crate): $350. 32 to 75 kg: $450. Heavier goes as cargo. No pets in the cabin.</td><td>{a(S["qatar_pets"],"Qatar Airways")}</td></tr>
+<tr><td>Emirates</td><td colspan="2">From South Africa pets go as cargo (Emirates SkyCargo). Varies, ask for a quote. No pets in the cabin.</td><td>{a(S["emirates_pets"],"Emirates")}</td></tr>
+<tr><td>Delta</td><td colspan="2">No pets in the cabin or as checked baggage to or from South Africa (limited exceptions for US military and State Department staff). Cargo only through a known shipper such as an IPATA agent. Varies, ask for a quote.</td><td>{a(S["delta_pets"],"Delta")}</td></tr>
+<tr><td>United</td><td colspan="2">Does not carry pets to, from or through South Africa.</td><td>{a(S["united_pets"],"United")}</td></tr>
+<tr><td>IATA-approved crate</td><td>Varies by size, ask a pet shop or agent for a quote</td><td>Varies</td><td>{a(S["iata"],"IATA")}</td></tr>
+<tr><td>Pet relocation agent, South Africa to USA (door to door estimate)</td><td>Small (up to 10 kg) R55,000 to R85,000. Medium (10 to 25 kg) R70,000 to R100,000. Large (over 25 kg) R85,000 to R130,000.</td><td>Not given</td><td>{a(S["petport"],"PETport")}</td></tr>
+</table></div>
+<div class="card note"><p><strong>Example total for one dog</strong>, using only the published figures above. Items marked "varies" are not included, so your real total will be higher.</p><ul>
+<li><strong>Low (you arrange it yourself, small dog, valid titer):</strong> about R200 (rabies and microchip at the SPCA) plus $350 (Qatar checked baggage) plus $1,271 (Pender with titer, lowest airline fee). That is about R200 plus $1,621, plus the titer test, state vet, crate and vet form, which vary.</li>
+<li><strong>High (agent, large dog, no valid titer):</strong> R85,000 to R130,000 (agent estimate) plus up to $4,071 if the dog needs 28 days quarantine at Pender. Ask the agent what their quote already includes.</li></ul>
+<p>Check the agent's quote for what is included, such as crate, titer test, state vet, flights and the US facility. Do not pay twice.</p></div>
 <h2>Refugee flights</h2>
 <div class="card"><ul>
 <li>The only official USRAP travel booker the October 2026 Embassy page names is RSC Africa, operated by Church World Service. The Embassy prints {a("https://mycase.rscafrica.org/","https://mycase.rscafrica.org/")} as that partner's site. Travel booked by anyone else is not supported and can put your entry and initial help at risk{src("emb")}.</li>
