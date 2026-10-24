@@ -3,7 +3,7 @@
 import os,sys
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); sys.path.insert(0,HERE)
 import re
-from sitelib import Site,CSS,D,NOTICE,esc,a,slug,href
+from sitelib import Site,CSS,D,NOTICE,esc,a,slug,href,INTAKE_FORM,intake_button
 BASE="https://www.sarefugeesusa.org"
 PP="https://sa-passport-id-usa-guide-w1ab.vercel.app/"; PPC=PP+"citizenship/"
 S=dict(
@@ -26,7 +26,7 @@ S=dict(
  ssnw="https://secure.ssa.gov/poms.nsf/lnx/0110205005",
  ssncfr="https://www.ssa.gov/OP_Home/cfr20/422/422-0103.htm",
  ssa="https://www.ssa.gov/ssnumber/",
- uiq="https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8",
+ uiq=INTAKE_FORM,
  dha="https://www.dha.gov.za/",
  snapu="https://www.fns.usda.gov/snap",
  refu="https://www.uscis.gov/humanitarian/refugees-and-asylum/refugees",
@@ -162,7 +162,7 @@ blurb={
 for g,it in G:
     cards+=f'<section class="card stage"><h2>{esc(g)}</h2><div class="cards">'+''.join(f'<a class="card" href="{href(p)}"><strong>{esc(t)}</strong><br>{esc(blurb[p])}</a>' for p,t in it)+'</div></section>'
 body=f'''<h1>South African refugees coming to the USA: where are you in the journey?</h1>
-<p class="home-cta"><a class="intake" href="/online-intake/">Start the online intake questionnaire</a></p>
+<p class="home-cta">{intake_button()}<a class="guide-link" href="/online-intake/">Read our guide to the questionnaire first</a></p>
 <p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Pick your stage below. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
 <div class="card note"><ul><li>The FY2026 refugee ceiling was raised from 7,500 to 17,500 by Presidential Determination 2026-14{src("pd26")}.</li><li>The FY2027 ceiling is up to 17,500 under Presidential Determination 2026-24{src("pd27")}.</li><li>Since 1 January 2026 the Office of Refugee Resettlement (ORR) runs initial resettlement{src("pir")}.</li></ul></div>
 <div class="card warn"><strong>{NOTICE}</strong></div>
@@ -178,6 +178,7 @@ P(f,"USRAP eligibility and referral rules for South Africans","Who the U.S. Emba
 
 f='online-intake/index.html'
 P(f,"USRAP online intake questionnaire for South Africans","What the official USRAP intake questionnaire is, who should submit it, what the Embassy says happens next, and why the form is free.",f'''<h1>Online intake questionnaire</h1>
+<p class="home-cta">{intake_button()}</p>
 <h2>What it is</h2><div class="card"><p>The U.S. Mission South Africa page (7 October 2026, U.S. Mission South Africa, marked as a 24 minute read) tells people who meet every eligibility rule, and who have not yet been contacted by a USRAP partner, to complete the online USRAP Intake Questionnaire if they want to be considered for referral{src("emb")}.</p>
 <p>The Embassy's own link, checked on {D}, is {a(S["uiq"],"https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8")}{src("emb")}. Do not use a look-alike site.</p>
 <p>The same page says you must complete this questionnaire even if you already submitted a Statement of Interest on the old link, if you are still interested and a partner has not contacted you to act on that statement{src("emb")}.</p></div>
