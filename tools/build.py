@@ -162,6 +162,7 @@ blurb={
 for g,it in G:
     cards+=f'<section class="card stage"><h2>{esc(g)}</h2><div class="cards">'+''.join(f'<a class="card" href="{href(p)}"><strong>{esc(t)}</strong><br>{esc(blurb[p])}</a>' for p,t in it)+'</div></section>'
 body=f'''<h1>South African refugees coming to the USA: where are you in the journey?</h1>
+<p class="home-cta"><a class="intake" href="/online-intake/">Start the online intake questionnaire</a></p>
 <p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Pick your stage below. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
 <div class="card note"><ul><li>The FY2026 refugee ceiling was raised from 7,500 to 17,500 by Presidential Determination 2026-14{src("pd26")}.</li><li>The FY2027 ceiling is up to 17,500 under Presidential Determination 2026-24{src("pd27")}.</li><li>Since 1 January 2026 the Office of Refugee Resettlement (ORR) runs initial resettlement{src("pir")}.</li></ul></div>
 <div class="card warn"><strong>{NOTICE}</strong></div>
