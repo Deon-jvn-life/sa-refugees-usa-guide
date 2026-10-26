@@ -5,7 +5,8 @@
 - medicaid.gov SHO #26-001 (Medicaid/CHIP federal funding limits from 1 Oct 2026): not an allowed source. The health page still says the 1 October 2026 Medicaid change is not stated by the ACF pages or the Federal Register notice linked there. The Embassy FAQ (6 October 2026) does say Medicaid is typically available once a person is a lawful permanent resident. That sentence is on the common questions page. Do not cite medicaid.gov.
 - 30-day minimum PIR service period: only in a non-official (Switchboard) PDF. acf.gov says "up to 90 days".
 - SA citizenship law (loss or retention of South African citizenship): still not taken from a U.S. source. The passport page points to the sibling guide for SA logistics. The effect of using an SA passport, or of travel to South Africa, on U.S. refugee status is now cited from the USCIS asylee and refugee guide and the Adjudicator's Field Manual chapter on refugee travel documents. Do not put that sentence back to "not stated".
-- APHIS disease-status page did not name South Africa. Do not state that South Africa is or is not FMD-affected or screwworm-affected.
+- APHIS disease-status page did not name South Africa on 26 October 2026. Do not state that South Africa is or is not FMD-affected or screwworm-affected.
+- 1 FAM 520 (fam.state.gov/fam/01fam/01fam0520.html) now says the subchapter is unassigned. Do not say that page defines the International Organization for Migration. Keep the existing link.
 - USCIS processing times tool: do not quote a grouped "Travel Document" median as the refugee travel document time.
 
 ## Conflicts to re-check
