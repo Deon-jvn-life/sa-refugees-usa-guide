@@ -155,7 +155,7 @@ class Site:
         robots='<meta name="robots" content="noindex,follow">' if kind=='error' else ''
         canonical='' if kind=='error' else f'<link rel="canonical" href="{esc(url)}">'
         verify=''
-        if s.gsc: verify+=f'<meta name="google-site-verification" content="{esc(s.gsc)}">'
+        if s.gsc: verify+=f'<meta name="google-site-verification" content="{esc(s.gsc)}" />'
         if s.msvalidate: verify+=f'<meta name="msvalidate.01" content="{esc(s.msvalidate)}">'
         og_url='' if kind=='error' else f'<meta property="og:url" content="{esc(url)}">'
         og_type='website' if kind!='article' else 'article'

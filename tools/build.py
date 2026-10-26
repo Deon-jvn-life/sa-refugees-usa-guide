@@ -138,7 +138,7 @@ gterm("Re-entry permit",[r'\bre-entry permits?\b',r'\breentry permits?\b'],f'A t
 gterm("RSC Africa",[r'\bRSC\b'],f'Resettlement Support Center Africa, operated by Church World Service. The Embassy names it as a USRAP partner for case processing and for booking refugee travel to the United States.{src("emb","embfaq")}')
 gterm("UIQ",[r'\bUIQ\b',r'\bUSRAP Intake Questionnaires?\b'],f'The USRAP Intake Questionnaire. The online form the U.S. Embassy in South Africa tells people to complete if they want to be considered for a referral.{src("emb")}')
 TERMS=[(slug(h),pats) for h,pats,_html in GLOSS]
-s=Site(ROOT,BASE,"South African Refugees in the USA: plain-language guide",G,ORDER,FOOT,CSS,terms=TERMS,gsc='',msvalidate='',related=[(PP,"SA Passport and ID Guide (USA)"),("https://sa-smart-id-bank-finder.vercel.app/","SA Smart ID bank finder")])
+s=Site(ROOT,BASE,"South African Refugees in the USA: plain-language guide",G,ORDER,FOOT,CSS,terms=TERMS,gsc='u0-9sKvlH1xyV4_DYf2JvQGap_ao0XPEfzPvMaGs_Ts',msvalidate='',related=[(PP,"SA Passport and ID Guide (USA)"),("https://sa-smart-id-bank-finder.vercel.app/","SA Smart ID bank finder")])
 
 # HOME
 cards=''
