@@ -1,6 +1,6 @@
 """Shared helpers: page shell, nav, breadcrumbs, prev/next, jump list, robots.txt, sitemap.xml, checks."""
 import os,html as H,shutil,re,json,math
-D="24 October 2026"; ISO="2026-10-24"
+D="26 October 2026"; ISO="2026-10-26"
 NOTICE=('This is general information, not legal advice. Refugee status questions can affect your status: '
  'confirm with your resettlement agency, an accredited representative or an immigration attorney.')
 def esc(s): return H.escape(s,quote=True)
