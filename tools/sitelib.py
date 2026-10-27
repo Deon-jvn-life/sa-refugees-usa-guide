@@ -773,7 +773,7 @@ article.content{min-width:0}
 .head-block{margin:0}
 .head-block p{margin:0 0 var(--space-4)}
 .head-block .home-cta{margin:0}
-h1,h2,h3{font-family:Georgia,Palatino,"Palatino Linotype",serif;line-height:1.25;font-weight:700}
+h1,h2,h3,h4,h5,h6,button,input,textarea,select{font-family:inherit}h1,h2,h3{line-height:1.25;font-weight:700}
 h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
@@ -796,7 +796,7 @@ h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
 @media(min-width:960px){
 .toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-family:Georgia,Palatino,"Palatino Linotype",serif;font-size:1.35rem;line-height:1.25}
+.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
 .toc a{min-height:32px}
 }
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
