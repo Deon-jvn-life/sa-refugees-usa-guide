@@ -1,7 +1,7 @@
-"""Shared helpers: page shell, nav, breadcrumbs, prev/next, jump list, robots.txt, sitemap.xml, checks."""
+"""Shared helpers: page shell, topic menu, breadcrumbs, timeline steps, read next, search, robots.txt, sitemap.xml, checks."""
 import os,html as H,shutil,re,json,math
 D="26 October 2026"; ISO="2026-10-26"
-NOTICE=('This is general information, not legal advice. Refugee status questions can affect your status: '
+NOTICE=('This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: '
  'confirm with your resettlement agency, an accredited representative or an immigration attorney.')
 def esc(s): return H.escape(s,quote=True)
 def a(url,text='source'): return f'<a href="{esc(url)}" rel="noopener">{text}</a>'
@@ -98,6 +98,107 @@ def _us_flag_svg():
 SA_FLAG='''<svg class="flag" role="img" aria-label="South African flag" viewBox="0 0 90 60" xmlns="http://www.w3.org/2000/svg"><defs><clipPath id="za-t"><path d="m0 0 45 30L0 60z"/></clipPath><clipPath id="za-f"><path d="m0 0h90v60H0z"/></clipPath></defs><path fill="#E03C31" d="m0 0h90v30H45z"/><path fill="#001489" d="m0 60h90V30H45z"/><g clip-path="url(#za-f)" fill="none"><path stroke="#FFF" stroke-width="20" d="m90 30H45L0 0v60l45-30"/><path fill="#000" stroke="#ffb81c" stroke-width="20" clip-path="url(#za-t)" d="m0 0 45 30L0 60"/><path stroke="#007749" stroke-width="12" d="m0 0 45 30h45M0 60l45-30"/></g></svg>'''
 US_FLAG=_us_flag_svg()
 FLAGS=f'<span class="flags">{SA_FLAG}{US_FLAG}</span>'
+
+SEARCH_JS=r'''(function(){
+  var el=document.getElementById("search-data");
+  var input=document.getElementById("q");
+  var box=document.getElementById("search-results");
+  if(!el||!input||!box) return;
+  var pages=[];
+  try { pages=JSON.parse(el.textContent); } catch(e){ return; }
+  function esc(s){
+    return String(s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function activeWords(q){
+    var t=String(q||"").trim().toLowerCase();
+    if(t.length<2) return [];
+    return t.split(/\s+/).filter(function(w){ return w; });
+  }
+  function match(blob, ws){
+    if(!ws.length) return true;
+    blob=String(blob).toLowerCase();
+    for(var i=0;i<ws.length;i++) if(blob.indexOf(ws[i])<0) return false;
+    return true;
+  }
+  function filterIndex(q){
+    var root=document.getElementById("page-index");
+    if(!root) return;
+    var ws=activeWords(q);
+    var items=root.querySelectorAll("li");
+    var shown=0;
+    for(var i=0;i<items.length;i++){
+      var li=items[i];
+      var blob=li.textContent+" "+(li.getAttribute("data-keywords")||"");
+      var ok=match(blob, ws);
+      li.hidden=!ok;
+      if(ok) shown++;
+    }
+    var sections=root.querySelectorAll("section");
+    for(var s=0;s<sections.length;s++){
+      var sec=sections[s];
+      var lis=sec.querySelectorAll("li");
+      var any=false;
+      for(var k=0;k<lis.length;k++) if(!lis[k].hidden) any=true;
+      sec.hidden=!any;
+    }
+    var status=document.getElementById("index-status");
+    if(status){
+      if(!ws.length) status.textContent="Showing every page.";
+      else if(!shown) status.textContent="No page matches. Try a different word, or clear the search.";
+      else status.textContent="Showing "+shown+" of "+items.length+" pages.";
+    }
+  }
+  function show(q){
+    var ws=activeWords(q);
+    if(!ws.length){
+      box.hidden=true;
+      box.innerHTML="";
+    } else {
+      var hits=[];
+      for(var i=0;i<pages.length;i++){
+        var p=pages[i];
+        var blob=p.t+" "+p.s+" "+p.g+" "+(p.k||"");
+        if(match(blob, ws)) hits.push(p);
+        if(hits.length===8) break;
+      }
+      if(!hits.length){
+        box.innerHTML="<p class=\"search-empty\">No matching page. Open the <a href=\"/find/\">full page list</a>.</p>";
+      } else {
+        var html="<ul>";
+        for(var j=0;j<hits.length;j++){
+          var hit=hits[j];
+          html+="<li><a href=\""+esc(hit.u)+"\"><strong>"+esc(hit.t)+"</strong><span>"+esc(hit.s)+"</span></a></li>";
+        }
+        html+="</ul>";
+        box.innerHTML=html;
+      }
+      box.hidden=false;
+    }
+    filterIndex(q);
+  }
+  input.addEventListener("input", function(){ show(input.value); });
+  input.addEventListener("keydown", function(e){
+    if(e.key==="Escape"){ box.hidden=true; box.innerHTML=""; }
+  });
+  document.addEventListener("click", function(e){
+    if(!box.contains(e.target) && e.target!==input){ box.hidden=true; }
+  });
+  var initial="";
+  try { initial=new URLSearchParams(window.location.search).get("q")||""; } catch(err){ initial=""; }
+  if(initial){ input.value=initial; show(initial); }
+  else filterIndex("");
+  var sums=document.querySelectorAll(".grp > summary");
+  for(var n=0;n<sums.length;n++){
+    sums[n].addEventListener("click", function(){
+      var parent=this.parentNode;
+      var open=document.querySelectorAll(".grp[open]");
+      for(var i=0;i<open.length;i++) if(open[i]!==parent) open[i].removeAttribute("open");
+    });
+  }
+})();'''
+TOC_BOOT='<script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script>'
 class Site:
     def __init__(s,root,base,brand,groups,order,footer,css,terms=None,gsc='',msvalidate='',related=None):
         s.out=os.path.join(root,'site'); s.base=base.rstrip('/'); s.brand=brand; s.groups=groups; s.order=order
@@ -105,37 +206,103 @@ class Site:
         s.gsc=gsc or ''; s.msvalidate=msvalidate or ''; s.related=related or []
         s.titles={p:t for g,items in groups for p,t in items}; s.titles['index.html']='Home'
         s.terms=[(anchor,[re.compile(p,re.I) for p in pats]) for anchor,pats in (terms or [])]
+        s.when={}; s.summaries={}; s.read_next={}; s.aliases={}; s._search_cache=None
         if os.path.exists(s.out): shutil.rmtree(s.out)
         os.makedirs(s.out)
+    def _search_json(s):
+        if s._search_cache is not None: return s._search_cache
+        rows=[{"u":"/","t":"Home","s":"Start here, top tasks, and every topic.","g":"Home","k":"guide home"}]
+        for g,items in s.groups:
+            for p,t in items:
+                rows.append({"u":href(p),"t":t,"s":s.summaries.get(p,""),"g":g,"k":s.aliases.get(p,"")})
+        s._search_cache=json.dumps(rows,ensure_ascii=False).replace("<","\\u003c")
+        return s._search_cache
     def page(s,path,title,desc,body,stage=None,kind='article',faqs=None,show_faqs=True):
         if faqs and show_faqs:
             body+='<h2>Questions and answers</h2>'+''.join(f'<details class="card"><summary>{q}</summary><div>{ahtml}</div></details>' for q,ahtml in faqs)
-        nav=''.join('<div class="grp"><span class="glabel">'+esc(g)+'</span>'+''.join(f'<a href="{href(p)}">{esc(t)}</a>' for p,t in items)+'</div>' for g,items in s.groups)
+        summary=s.summaries.get(path,'')
+        if '<h1>' in body:
+            body=body.replace('<h1>','<h1 id="page-title">',1)
+        if summary and kind!='home' and '<h1' in body:
+            body=body.replace('</h1>','</h1><div class="inshort"><p><strong>In short.</strong> '+esc(summary)+'</p></div>',1)
+        nav_bits=[]
+        for g,items in s.groups:
+            links=[]
+            here=False
+            for p,t in items:
+                cur=' aria-current="page"' if p==path else ''
+                cls=' class="is-current"' if p==path else ''
+                if p==path: here=True
+                links.append(f'<a href="{href(p)}"{cls}{cur}>{esc(t)}</a>')
+            mark=' aria-current="true"' if here else ''
+            nav_bits.append(f'<details class="grp{" has-current" if here else ""}"><summary{mark}>{esc(g)}</summary><div class="glinks">'+''.join(links)+'</div></details>')
+        nav=''.join(nav_bits)
         url=canon_url(s.base, path)
-        h1m=re.search(r'<h1>(.*?)</h1>', body, re.S)
+        h1m=re.search(r'<h1[^>]*>(.*?)</h1>', body, re.S)
         headline=H.unescape(re.sub(r'<[^>]+>','', h1m.group(1))) if h1m else title
+        if path not in s.titles:
+            s.titles[path]=headline
         h2=re.findall(r'<h2>(.*?)</h2>',body)
         def addid(m): return f'<h2 id="{slug(m.group(1))}">{m.group(1)}</h2>'
         body=re.sub(r'<h2>(.*?)</h2>',addid,body)
         used=set()
         body=link_terms(body, s.terms, used)
         foot=link_terms(s.footer, s.terms, used)
+        h2pos=body.find('<h2')
+        if h2pos==-1:
+            head, rest = body, ''
+        else:
+            head, rest = body[:h2pos], body[h2pos:]
         toc=''
-        if len(h2)>=3: toc='<nav class="toc" aria-label="On this page"><strong>On this page</strong><ul>'+''.join(f'<li><a href="#{slug(x)}">{re.sub("<[^>]+>","",x)}</a></li>' for x in h2)+'</ul></nav>'
-        crumbs=f'<nav class="crumbs" aria-label="Breadcrumb"><a href="/">Home</a>'
-        if stage: crumbs+=f' &rsaquo; <span>{esc(stage)}</span>'
-        if path!='index.html': crumbs+=f' &rsaquo; <span>{esc(s.titles.get(path,title))}</span>'
-        crumbs+='</nav>'
+        if len(h2)>=3:
+            opened=' open' if len(h2)<=8 else ''
+            lis=''.join(
+                f'<li><a href="#{slug(x)}">{esc(H.unescape(re.sub("<[^>]+>","",x)))}</a></li>' for x in h2)
+            toc=f'<nav class="toc" aria-label="On this page"><details class="toc-details"{opened}><summary>On this page</summary><ul>{lis}</ul></details>{TOC_BOOT}</nav>'
+        plain=s.titles.get(path, headline)
+        if path=='index.html':
+            crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Home</span></li></ol></nav>'
+        else:
+            items_html=['<li><a href="/">Home</a></li>']
+            if stage:
+                items_html.append(f'<li><a href="/#{slug(stage)}">{esc(stage)}</a></li>')
+            items_html.append(f'<li><span aria-current="page">{esc(plain)}</span></li>')
+            crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol>'+''.join(items_html)+'</ol></nav>'
+        when=s.when.get(path,'')
+        when_html=f'<a class="when" href="/#{slug(when)}">When you need this: {esc(when)}</a>' if when else ''
+        meta=f'<p class="meta"><span class="checked">Last checked: {D}</span>{when_html}</p>'
+        def step_link(target, kind):
+            label=s.titles.get(target)
+            if not label: return ''
+            w=s.when.get(target,'')
+            whtml=f'<span class="pn-when">{esc(w)}</span>' if w else ''
+            word='Previous' if kind=='prev' else 'Next'
+            return f'<a class="{kind}" href="{href(target)}"><span class="pn-k">{word}</span><span class="pn-t">{esc(label)}</span>{whtml}</a>'
         pn=''
         if path in s.order:
-            i=s.order.index(path); pv=s.order[i-1] if i>0 else None; nx=s.order[i+1] if i+1<len(s.order) else None
-            pn='<nav class="pn" aria-label="Previous and next step">'+(f'<a class="prev" href="{href(pv)}">&larr; Previous step: {esc(s.titles[pv])}</a>' if pv else '<span></span>')+(f'<a class="next" href="{href(nx)}">Next step: {esc(s.titles[nx])} &rarr;</a>' if nx else '')+'</nav>'
+            i=s.order.index(path)
+            prev=step_link(s.order[i-1],'prev') if i>0 else ''
+            nxt=step_link(s.order[i+1],'next') if i+1<len(s.order) else ''
+            if prev or nxt:
+                pn='<nav class="pn" aria-label="Pages in time order">'+prev+nxt+'</nav>'
+        rn_items=[]
+        for dest in s.read_next.get(path) or []:
+            label=s.titles.get(dest)
+            if not label: continue
+            blurb=s.summaries.get(dest,'')
+            blurb_html=f'<span class="ls">{esc(blurb)}</span>' if blurb else ''
+            rn_items.append(f'<li><a class="jump" href="{href(dest)}"><span class="lt">{esc(label)}</span>{blurb_html}</a></li>')
+        readnext='<aside class="readnext" aria-labelledby="read-next"><h2 id="read-next">Read next</h2><ul>'+''.join(rn_items)+'</ul></aside>' if rn_items else ''
         for label,text,lo,hi in (('title',title,50,60),('description',desc,120,160)):
             if not (lo<=len(text)<=hi):
                 s.seo.append(f'WARNING: {path} {label} is {len(text)} characters (want {lo} to {hi}): {text}')
         crumbs_ld=[{"@type":"ListItem","position":1,"name":"Home","item":s.base+"/"}]
         if path!='index.html':
-            item={"@type":"ListItem","position":2,"name":headline}
+            pos=2
+            if stage:
+                crumbs_ld.append({"@type":"ListItem","position":pos,"name":stage,"item":s.base+"/#"+slug(stage)})
+                pos+=1
+            item={"@type":"ListItem","position":pos,"name":plain}
             if kind!='error': item["item"]=url
             crumbs_ld.append(item)
         graph=[{"@type":"BreadcrumbList","itemListElement":crumbs_ld}]
@@ -163,15 +330,19 @@ class Site:
         related=''
         if s.related:
             related='<p><strong>Related guides</strong></p><ul>'+''.join(f'<li><a href="{esc(u)}" rel="noopener">{esc(t)}</a></li>' for u,t in s.related)+'</ul>'
-        h=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}">{canonical}{robots}{verify}<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{esc(s.brand)}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">{og_url}<meta property="og:image" content="{esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{esc(image)}">{ld}<style>{s.css}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
-<header><div class="bar"><a class="brand" href="/">{FLAGS}<span class="name">{esc(s.brand)}</span></a><a class="headlink" href="/glossary/">Glossary</a></div><div class="headcta">{intake_button()}</div><details class="menu"><summary>Menu: all steps</summary><nav class="top" aria-label="Main">{nav}</nav></details></header>
-<div class="notice" role="note"><strong>Important:</strong> {NOTICE}</div>
-<main>{crumbs}<p class="checked">Last checked: {D}</p>
-{toc}{body}
-{pn}</main><footer><p><a href="/glossary/">Glossary</a> | <a href="/disclaimer/">Disclaimer</a></p><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {D}.</p></footer></body></html>'''
+        layout_cls='layout has-toc' if toc else 'layout'
+        h=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#1e3a32"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}">{canonical}{robots}{verify}<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{esc(s.brand)}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">{og_url}<meta property="og:image" content="{esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{esc(image)}">{ld}<style>{s.css}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
+<a class="skip" href="#content">Skip to content</a>
+<header><div class="shell"><div class="bar"><a class="brand" href="/">{FLAGS}<span class="name"><span class="name-main">{esc(s.brand)}</span><span class="name-sub">Independent guide. Not a government website.</span></span></a><a class="headlink" href="/glossary/">Word list</a><span class="headcta">{intake_button()}</span></div>
+<div class="search-wrap"><form class="sitesearch" role="search" action="/find/" method="get"><label for="q">Search this guide</label><input id="q" name="q" type="search" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"><button type="submit">Search</button></form><div id="search-results" class="search-results" hidden role="region" aria-live="polite" aria-label="Matching pages"></div></div>
+<details class="menu"><summary aria-controls="site-nav">Topics</summary></details><nav id="site-nav" class="top" aria-label="Topics">{nav}</nav></div></header>
+<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="{layout_cls}">{toc}<div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
+<footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/glossary/">Word list</a><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a><a href="/about/">About</a></nav><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {D}.</p></div></footer>
+<script type="application/json" id="search-data">{s._search_json()}</script><script>{SEARCH_JS}</script></body></html>'''
         for bad in ('\u2014','\u2013','&mdash;','&ndash;'): assert bad not in h,(path,bad)
         assert 'myuscisgov.com' not in h
-        p=os.path.join(s.out,path); os.makedirs(os.path.dirname(p),exist_ok=True); open(p,'w').write(h); s.pages.append(path)
+        assert 'not legal advice' in h and 'information purposes only' in h
+        p=os.path.join(s.out,path); os.makedirs(os.path.dirname(p),exist_ok=True); open(p,'w',encoding='utf-8').write(h); s.pages.append(path)
         if kind!='error': s.indexable.append(path)
     def finish(s):
         if s.seo:
@@ -181,8 +352,24 @@ class Site:
         open(os.path.join(s.out,'robots.txt'),'w').write(''.join(f'User-agent: {b}\nAllow: /\n\n' for b in bots)+f'Sitemap: {s.base}/sitemap.xml\n')
         urls=''.join(f'<url><loc>{canon_url(s.base,p)}</loc><lastmod>{ISO}</lastmod></url>\n' for p in sorted(s.indexable))
         open(os.path.join(s.out,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
+        needles=('not legal advice','information purposes only','Last checked:','/_vercel/insights/script.js')
+        for path in s.pages:
+            html=open(os.path.join(s.out,path),encoding='utf-8').read()
+            for needle in needles:
+                if needle not in html:
+                    raise SystemExit(f'Missing {needle} on {path}')
+            if s.gsc and s.gsc not in html:
+                raise SystemExit('Missing Google verification on '+path)
+            if path!='404.html':
+                if 'rel="canonical" href="https://www.sarefugeesusa.org/' not in html:
+                    raise SystemExit('Missing canonical on '+path)
+                if 'noindex' in html:
+                    raise SystemExit('Unexpected noindex on '+path)
+            elif 'noindex,follow' not in html:
+                raise SystemExit('404 should be noindex')
         missing=_check_links(s.out, s.pages)
         if missing: raise SystemExit('Broken internal links:\n'+'\n'.join(missing))
+
 def _check_links(out, pages):
     missing=[]
     for path in pages:
@@ -293,4 +480,6 @@ def _raster_us(w,h):
         xs=[E*(1+2*k) for k in range(6)] if row%2==0 else [E*(2+2*k) for k in range(5)]
         for x in xs: star(x,y,E*0.42)
     return im.resize((w,h), Image.Resampling.LANCZOS)
-CSS='''body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;color:#1a1a1a;line-height:1.65;background:#fafaf7;font-size:19px}header{background:#123b5c;color:#fff;padding:.7rem 1rem}header a{color:#fff}.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.45rem .8rem}.brand{display:flex;align-items:center;gap:.45rem;font-weight:700;font-size:1.05rem;line-height:1.25;text-decoration:none;color:#fff;min-width:0;flex:1 1 16rem}.brand .name{min-width:0}.flags{display:inline-flex;gap:.28rem;flex:none;align-items:center}.flag{height:22px;width:auto;display:block;border-radius:1px;box-shadow:0 0 0 1px rgba(255,255,255,.45)}.headlink{font-weight:600;text-decoration:underline;white-space:nowrap}.menu summary,details.card summary{cursor:pointer;font-weight:600}details.card summary{font-size:1.05rem}.menu summary{padding:.35rem 0}.menu[open] summary{margin-bottom:.4rem}nav.top{display:flex;flex-wrap:wrap;gap:.8rem 1.6rem}.grp{display:flex;flex-direction:column;min-width:11rem}.glabel{font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:#bcd3e6}.grp a{padding:.2rem 0;text-decoration:none}.grp a:hover{text-decoration:underline}@media(max-width:640px){nav.top{flex-direction:column}.brand{font-size:1rem}.headcta a.intake,.home-cta a.intake{display:block;width:100%;box-sizing:border-box}}.notice{background:#fff4d6;border-bottom:2px solid #e6cf8a;padding:.7rem 1rem;font-size:1rem}main{max-width:1140px;margin:0 auto;padding:1rem}main p,main li,.card p{max-width:75ch}main .toc,main .toc p,main .toc li,main .cards,main h1,main h2,main h3,main table,main .wrap{max-width:none}.crumbs{font-size:.95rem;margin:.3rem 0 .6rem}h1{font-size:2rem;line-height:1.25}h2{margin-top:2rem;font-size:1.45rem}.checked{display:inline-block;background:#e6f2ea;border:1px solid #a9d1b5;border-radius:4px;padding:.15rem .5rem;font-size:.95rem}.toc{background:#eef3f7;border-radius:6px;padding:.6rem 1rem;margin:1rem 0}.toc ul{margin:.3rem 0;padding-left:1.2rem}.card{background:#fff;border:1px solid #ddd;border-radius:8px;padding:.9rem 1.1rem;margin:.9rem 0}.warn{border-left:6px solid #c0392b;background:#fdeeee}.note{border-left:6px solid #d68910;background:#fff8ec}.conf{border-left:6px solid #8e44ad;background:#f6effa}.stage{border-left:6px solid #123b5c}.stage h2{margin-top:.2rem}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:.8rem}.cards a.card{display:block;text-decoration:none;color:#1a1a1a;margin:0}.cards a.card strong{color:#0b5394;font-size:1.1rem}.cards a.card:hover{border-color:#0b5394}.src{font-size:.88rem;color:#555}.pn{display:flex;justify-content:space-between;flex-wrap:wrap;gap:.8rem;margin-top:2.5rem;border-top:1px solid #ddd;padding-top:1rem}.pn a{font-weight:600}footer{max-width:1140px;margin:2rem auto;padding:1rem;font-size:.95rem;color:#444;border-top:1px solid #ddd}footer ul{padding-left:1.2rem}a{color:#0b5394}table{border-collapse:collapse;width:100%;background:#fff;font-size:.95rem}th,td{border:1px solid #ddd;padding:.45rem;text-align:left;vertical-align:top}th{background:#eef3f7}.wrap{overflow-x:auto}.headcta{margin:.55rem 0 .15rem}a.intake{display:inline-block;background:#a85f00;color:#fff;font-weight:700;text-decoration:none;border-radius:8px;padding:.6rem 1rem;line-height:1.3;text-align:center;max-width:100%;box-sizing:border-box}a.intake:hover{background:#8f4e00;color:#fff;text-decoration:none}a.intake:focus{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #123b5c}a.intake:focus:not(:focus-visible){outline:none;box-shadow:none}a.intake:focus-visible{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 5px #123b5c}.home-cta{margin:.2rem 0 1.1rem}.home-cta a.intake{font-size:1.15rem;padding:.8rem 1.2rem}a.guide-link{display:block;width:fit-content;margin-top:.45rem;font-size:.95rem;font-weight:600;text-decoration:underline}'''
+
+CSS=r'''*,*::before,*::after{box-sizing:border-box}html{scroll-padding-top:.75rem}body{margin:0;color:#1a1814;background:#f4f1ea;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:1.1875rem;line-height:1.6}[hidden]{display:none!important}img,svg{max-width:100%}.flag{height:22px;width:auto;max-width:none;display:block;border-radius:2px;box-shadow:0 0 0 1px rgba(255,255,255,.45)}.shell{max-width:76rem;margin:0 auto;padding:0 1rem;min-width:0}.skip{position:absolute;left:.5rem;top:0;transform:translateY(-120%);background:#fff;color:#1a1814;padding:.6rem 1rem;z-index:40;min-height:44px;font-weight:700}.skip:focus,.skip:focus-visible{transform:none}header{background:#1e3a32;color:#fff;position:relative;z-index:20}header a{color:#fff}.bar{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1rem;padding-top:.85rem}.brand{display:flex;align-items:center;gap:.55rem;min-width:0;flex:1 1 16rem;color:#fff;text-decoration:none;font-weight:700}.flags{display:inline-flex;gap:.3rem;flex:none;align-items:center}.name{display:flex;flex-direction:column;min-width:0}.name-main{font-size:1.05rem;line-height:1.25}.name-sub{font-size:.95rem;font-weight:600;color:#e7f2ec;line-height:1.35}.headlink{display:inline-flex;align-items:center;min-height:44px;padding:.25rem 0;font-weight:700;text-decoration:underline;text-underline-offset:.15em}.search-wrap{position:relative;margin:.75rem 0 .35rem}.sitesearch{display:flex;flex-wrap:wrap;gap:.5rem;align-items:flex-end}.sitesearch label{flex:1 1 100%;color:#fff;font-weight:700}.sitesearch input[type="search"]{flex:1 1 12rem;min-width:0;min-height:48px;font:inherit;color:#1a1814;background:#fff;border:2px solid #fff;border-radius:8px;padding:.4rem .7rem}.sitesearch button{min-height:48px;min-width:5.5rem;padding:.4rem 1rem;font:inherit;font-weight:700;color:#1a1814;background:#ffe08a;border:2px solid #ffe08a;border-radius:8px;cursor:pointer}.search-results{position:absolute;z-index:30;left:0;right:0;top:100%;background:#fff;color:#1a1814;border:2px solid #1a1814;border-radius:8px;max-height:70vh;overflow:auto}.search-results ul{list-style:none;margin:0;padding:0}.search-results a{display:flex;flex-direction:column;gap:.15rem;min-height:48px;justify-content:center;padding:.55rem .75rem;color:#0a3d66;text-decoration:underline;text-underline-offset:.12em}.search-results a span{color:#1a1814;font-weight:400}.search-empty{margin:0;padding:.75rem;color:#1a1814}.headcta{display:flex;align-items:center}.bar a.intake{min-height:44px;padding:.45rem .8rem;font-size:1rem}a.intake{display:inline-flex;align-items:center;justify-content:center;min-height:48px;background:#6e3b12;color:#fff;font-weight:700;text-decoration:none;border-radius:8px;padding:.65rem 1rem;line-height:1.3;text-align:center}a.intake:hover{background:#5c310e;color:#fff}a.intake:visited,header a.intake{color:#fff}.menu{margin:.15rem 0 .55rem}.menu summary{display:flex;align-items:center;width:100%;min-height:48px;padding:.65rem 1rem;background:#fff;color:#1a1814;border-radius:8px;font-weight:700;cursor:pointer;list-style:none}.menu summary::-webkit-details-marker,.grp summary::-webkit-details-marker{display:none}.menu summary::marker,.grp summary::marker{content:""}nav.top{display:none;flex-wrap:wrap;align-items:flex-start;gap:.15rem .35rem;border-top:1px solid rgba(255,255,255,.28);margin-top:.15rem;padding:.35rem 0 .7rem}details.menu[open]~nav.top{display:flex}.grp{position:relative;flex:1 1 auto;min-width:0}.grp>summary{display:flex;align-items:center;justify-content:space-between;gap:.6rem;min-height:48px;padding:.45rem .7rem;color:#fff;font-weight:700;cursor:pointer;list-style:none}.grp>summary::after{content:"";border:solid #fff;border-width:0 2px 2px 0;width:.45rem;height:.45rem;transform:rotate(45deg);flex:none}.grp[open]>summary::after{transform:rotate(-135deg);margin-top:.3rem}.grp.has-current>summary{box-shadow:inset 0 -3px 0 #ffe08a}.glinks{display:flex;flex-direction:column;min-width:16rem}.glinks a{display:flex;align-items:center;min-height:48px;padding:.4rem .7rem;color:#fff;text-decoration:underline;text-underline-offset:.15em}.glinks a.is-current{font-weight:700;background:rgba(255,255,255,.16);border-radius:6px}@media(min-width:960px){details.menu{display:none}nav.top{display:flex}.grp{flex:0 1 auto}.grp[open] .glinks{position:absolute;z-index:30;top:100%;left:0;background:#143028;border:2px solid #fff;border-radius:8px;padding:.35rem;box-shadow:0 8px 24px rgba(0,0,0,.28)}}@media(max-width:959px){nav.top{flex-direction:column;gap:.15rem}.grp{width:100%}.glinks a{border-bottom:1px solid rgba(255,255,255,.22)}}@media(max-width:720px){.bar .headcta{flex:1 1 100%}.bar a.intake{width:100%}}@media(max-width:640px){.headcta a.intake,.home-cta a.intake{display:flex;width:100%}.name-main{font-size:1rem}}@media(max-width:359px){body{font-size:1.125rem}.shell{padding:0 .75rem}}.notice{background:#fff6db;color:#1a1814;border-bottom:3px solid #8a5a00}.notice .shell{padding-top:.8rem;padding-bottom:.8rem;font-size:1.125rem}main{min-width:0}main .shell{padding-top:1rem;padding-bottom:2.5rem}main:focus{outline:none}main:focus-visible{outline:3px solid #1a1814;outline-offset:-3px}.crumbs ol{display:flex;flex-wrap:wrap;list-style:none;padding:0;margin:.35rem 0 .15rem;gap:0}.crumbs li{display:flex;align-items:center;min-height:44px}.crumbs li+li::before{content:"/";margin:0 .45rem;color:#3e3a34}.crumbs a{display:inline-flex;align-items:center;min-height:44px}.meta{display:flex;flex-wrap:wrap;gap:.5rem .75rem;align-items:center;margin:.15rem 0 1rem;max-width:none}.checked{display:inline-flex;align-items:center;background:#e5f2ea;color:#143024;border:1px solid #1d4f3e;border-radius:6px;padding:.25rem .7rem;font-size:1rem}.when{display:inline-flex;align-items:center;min-height:44px;padding:.25rem .7rem;background:#fff;border:1px solid #d9d3c7;border-radius:8px;font-weight:700}article.content{min-width:0}.head-block{margin-bottom:.25rem}.layout{display:flex;flex-direction:column;gap:1.15rem;min-width:0}.toc{order:-1}.rest{order:0;min-width:0}@media(min-width:960px){.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 17.5rem;column-gap:2.25rem;align-items:start}.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:1rem;max-height:calc(100vh - 2rem);overflow:auto}}h1,h2,h3{font-family:Georgia,Palatino,"Palatino Linotype",serif;line-height:1.25;font-weight:700;scroll-margin-top:.75rem}h1{font-size:clamp(1.75rem,1.15rem + 2.2vw,2.45rem);margin:0 0 .6rem}h2{font-size:1.5rem;margin:1.75rem 0 .6rem}h3{font-size:1.28rem;margin:1.15rem 0 .45rem}.content p{max-width:66ch}.inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:8px;padding:.85rem 1rem;margin:.75rem 0 1rem}.inshort p{margin:0;max-width:66ch}.toc{background:#fff;border:1px solid #d9d3c7;border-radius:10px;padding:.35rem .9rem}.toc summary{min-height:48px;display:flex;align-items:center;font-weight:700;cursor:pointer}.toc ul{list-style:none;margin:0;padding:0 0 .45rem}.toc a{display:flex;align-items:center;min-height:44px;padding:.15rem 0}@media(min-width:960px){.toc a{min-height:32px}}.card{background:#fff;border:1px solid #d9d3c7;border-radius:10px;padding:.95rem 1.05rem;margin:.95rem 0}.warn{border-left:6px solid #9b2c2c;background:#fdeeee}.note{border-left:6px solid #8a5a00;background:#fff8ec}.conf{border-left:6px solid #5c3d78;background:#f6f1fa}details.card summary{min-height:48px;display:flex;align-items:center;cursor:pointer;font-weight:700;font-size:1.05rem}.timeline{list-style:none;margin:0;padding:0;counter-reset:step}.period{counter-increment:step;background:#fff;border:1px solid #d9d3c7;border-radius:12px;padding:.9rem 1rem 1rem;margin:0 0 .85rem}.period>h3{margin:0 0 .7rem;font-size:1.35rem}.period>h3::before{content:counter(step) ". "}.period-pages{list-style:none;padding:0;margin:0;display:grid;gap:.6rem}.tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:0;display:grid;gap:.75rem;grid-template-columns:1fr}@media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}.topic{margin:0 0 1.4rem}.jump{display:flex;flex-direction:column;justify-content:center;gap:.2rem;min-height:48px;padding:.85rem 1rem;background:#fff;color:#1a1814;border:1px solid #d9d3c7;border-radius:10px;text-decoration:none}.jump:hover{border-color:#0a3d66}.jump .lt{color:#0a3d66;font-weight:700;text-decoration:underline;text-underline-offset:.12em;font-size:1.125rem}.jump .ls{color:#1a1814;font-size:1rem;text-decoration:none;font-weight:400}a.jump:visited .lt{color:#3d2a6b}.home-cta{margin:.2rem 0 1.15rem}.home-cta a.intake{font-size:1.125rem}.guide-link{display:inline-flex;align-items:center;min-height:44px;margin-top:.35rem;font-weight:700}.src{color:#3e3a34;font-size:1rem}.src,.card,td,th{overflow-wrap:anywhere}.pn{display:grid;gap:.75rem;margin-top:2rem}.pn a{display:flex;flex-direction:column;justify-content:center;gap:.15rem;min-height:48px;padding:.85rem 1rem;background:#fff;border:1px solid #d9d3c7;border-radius:10px;text-decoration:none}.pn .pn-k{color:#3e3a34;font-size:1rem;font-weight:700}.pn .pn-t{color:#0a3d66;font-weight:700;text-decoration:underline;text-underline-offset:.12em}.pn .pn-when{color:#1a1814;font-size:1rem}.pn a:visited .pn-t{color:#3d2a6b}@media(min-width:720px){.pn:has(a.prev):has(a.next){grid-template-columns:1fr 1fr}.pn a.next{align-items:flex-end;text-align:right}}.readnext{margin-top:1.75rem}.readnext h2{margin-top:0}.index-status{font-weight:700}a{color:#0a3d66}a:visited{color:#3d2a6b}.content a{text-decoration:underline;text-underline-offset:.12em}table{border-collapse:collapse;width:100%;background:#fff;font-size:1rem}th,td{border:1px solid #d9d3c7;padding:.55rem .65rem;text-align:left;vertical-align:top}th{background:#e7efe9;color:#1a1814}.wrap{overflow-x:auto;max-width:100%}footer{border-top:1px solid #d9d3c7;color:#1a1814;margin-top:1rem}footer .shell{padding-top:1.25rem;padding-bottom:2.25rem}footer p{max-width:66ch}.footnav{display:flex;flex-wrap:wrap;gap:.35rem 1rem;margin:0 0 .5rem}.footnav a{display:inline-flex;align-items:center;min-height:44px;font-weight:700}:focus{outline:3px solid #1a1814;outline-offset:2px}:focus:not(:focus-visible){outline:none}:focus-visible{outline:3px solid #1a1814;outline-offset:2px}header a:focus-visible,header button:focus-visible,header input:focus-visible{outline-color:#ffe08a}.menu summary:focus-visible{outline-color:#1a1814}@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}@media(forced-colors:active){.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary{border:1px solid CanvasText}a.intake{background:ButtonFace;color:ButtonText}}
+'''

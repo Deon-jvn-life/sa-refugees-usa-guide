@@ -81,14 +81,23 @@ S=dict(
     sssfaq="https://www.sss.gov/faq/",
     sssver="https://www.sss.gov/verify/")
 def src(*k): return ' <span class="src">['+', '.join(a(S[x]) for x in k)+']</span>'
-G=[("1. Applying",[('eligibility/index.html','Eligibility and referral'),('online-intake/index.html','Online intake questionnaire'),('programme-status/index.html','Programme status and caps'),('avoiding-scams/index.html','Avoiding scams')]),
- ("2. Arriving",[('bringing-pets/index.html','Bringing your pets'),('first-90-days/index.html','First 90 days'),('social-security-card/index.html','Social Security card')]),
- ("3. First 90 days",[('benefits/index.html','Benefits checklist'),('health-cover/index.html','Health cover (RMA and Medicaid)'),('jobs/index.html','Jobs and employment services'),('agency-not-helping/index.html','When your agency is not helping')]),
- ("4. First year",[('travel-document/index.html','Can I leave the USA?'),('sa-passport-citizenship/index.html','SA passport and citizenship risks')]),
- ("5. Green card and beyond",[('green-card/index.html','Green card after 1 year (I-485)'),('naturalization/index.html','Naturalisation after 5 years (N-400)')]),
- ("FAQ",[('faq/index.html','Common questions')]),
- ("About",[('about/index.html','About this site'),('glossary/index.html','Words and abbreviations explained'),('disclaimer/index.html','Disclaimer')])]
-ORDER=['index.html']+[p for g,it in G for p,t in it]
+# Menu groups are topics. TIMELINE is the previous and next path, in time order.
+G=[("Before you arrive",[('eligibility/index.html','Who can be referred'),('online-intake/index.html','The free questionnaire'),('programme-status/index.html','How many people can come'),('avoiding-scams/index.html','Avoiding scams')]),
+ ("Arriving",[('first-90-days/index.html','Your first 90 days'),('social-security-card/index.html','Social Security card'),('bringing-pets/index.html','Bringing your pets'),('agency-not-helping/index.html','If your helper is not helping')]),
+ ("Work and money",[('jobs/index.html','Work and jobs'),('benefits/index.html','Cash, food and other help')]),
+ ("Health",[('health-cover/index.html','Health cover')]),
+ ("Documents and travel",[('travel-document/index.html','Leaving the United States'),('sa-passport-citizenship/index.html','South African passport risks')]),
+ ("Green card and citizenship",[('green-card/index.html','Green card after one year'),('naturalization/index.html','Citizenship after five years')]),
+ ("Using this guide",[('faq/index.html','Common questions'),('find/index.html','All pages'),('glossary/index.html','Word list'),('about/index.html','About this guide'),('disclaimer/index.html','Disclaimer')])]
+TIMELINE=[
+ ("Before you leave South Africa",['eligibility/index.html','online-intake/index.html','programme-status/index.html','avoiding-scams/index.html']),
+ ("First week",['first-90-days/index.html','social-security-card/index.html','jobs/index.html','benefits/index.html','health-cover/index.html','agency-not-helping/index.html']),
+ ("First month",['bringing-pets/index.html']),
+ ("First year",['travel-document/index.html','sa-passport-citizenship/index.html']),
+ ("After 1 year",['green-card/index.html']),
+ ("After 5 years",['naturalization/index.html'])]
+ORDER=[p for _period,paths in TIMELINE for p in paths]
+WHEN={p:period for period,paths in TIMELINE for p in paths}
 STAGE={p:g for g,it in G for p,t in it}
 FOOT=f'<p>This is an independent, unofficial guide. It is not affiliated with any government or agency, including the U.S. Department of State, the U.S. Embassy in South Africa, ORR/ACF, USCIS, SSA, CBP, any resettlement agency or the South African government. Read more on the <a href="/about/">About page</a> and the <a href="/disclaimer/">disclaimer</a>. Facts link to official pages; always check the linked source.</p>'
 GLOSS=[]
@@ -161,35 +170,122 @@ TERMS=[(slug(h),pats) for h,pats,_html in GLOSS]
 s=Site(ROOT,BASE,"South African Refugees in the USA: plain-language guide",G,ORDER,FOOT,CSS,terms=TERMS,gsc='u0-9sKvlH1xyV4_DYf2JvQGap_ao0XPEfzPvMaGs_Ts',msvalidate='',related=[(PP,"SA Passport and ID Guide (USA)"),("https://sa-smart-id-bank-finder.vercel.app/","SA Smart ID bank finder")])
 
 # HOME
-cards=''
-blurb={
- 'eligibility/index.html':'Who the Embassy says can be considered for referral.',
- 'online-intake/index.html':'The official USRAP Intake Questionnaire: who should submit it, and what happens next.',
- 'programme-status/index.html':'FY2026 and FY2027 refugee ceilings.',
+BLURB={
+ 'eligibility/index.html':'Who the Embassy says can be considered for a referral.',
+ 'online-intake/index.html':'The official intake questionnaire: who should submit it, and what happens next.',
+ 'programme-status/index.html':'Refugee ceilings for fiscal year 2026 and fiscal year 2027.',
  'avoiding-scams/index.html':'The programme is free. Spot fake helpers and pet-travel scams.',
- 'bringing-pets/index.html':'CDC and USDA rules, how long a dog takes, and what the Embassy says about pets.',
+ 'bringing-pets/index.html':'Centers for Disease Control and Prevention and Department of Agriculture rules for pets, how long a dog takes, and what the Embassy says about pets.',
  'first-90-days/index.html':'What your local resettlement provider arranges.',
- 'social-security-card/index.html':'How refugees get an SSN and card.',
+ 'social-security-card/index.html':'How refugees get a Social Security number and card.',
  'benefits/index.html':'Cash, medical, food and services to sign up for.',
  'health-cover/index.html':'Refugee Medical Assistance now lasts up to 12 months.',
- 'jobs/index.html':'Work rights from day one, the EAD and Form I-9.',
+ 'jobs/index.html':'You may work from the day you arrive. The work card and Form I-9.',
  'agency-not-helping/index.html':'Contact your State Refugee Coordinator.',
- 'travel-document/index.html':'Whether you can leave the USA, and how the refugee travel document works.',
+ 'travel-document/index.html':'Whether you can leave the United States, and how the refugee travel document works.',
  'sa-passport-citizenship/index.html':'Why a South African passport can put refugee status at risk.',
  'green-card/index.html':'You must apply after 1 year of physical presence. Travel can pause that clock.',
- 'naturalization/index.html':'Form N-400. For a refugee the 5 years generally run from U.S. arrival.',
+ 'naturalization/index.html':'Form N-400. For a refugee the 5 years generally run from arrival in the United States.',
  'faq/index.html':'Short answers on applying, arrival, work, benefits, pets and the green card.',
  'about/index.html':'Independent site, sources and method.',
  'glossary/index.html':'Plain-English meanings for the abbreviations on this site.',
- 'disclaimer/index.html':'General information only. Not legal advice and not a government site.'}
-for g,it in G:
-    cards+=f'<section class="card stage"><h2>{esc(g)}</h2><div class="cards">'+''.join(f'<a class="card" href="{href(p)}"><strong>{esc(t)}</strong><br>{esc(blurb[p])}</a>' for p,t in it)+'</div></section>'
+ 'disclaimer/index.html':'General information only. Not legal advice and not a government site.',
+ 'find/index.html':'Every page on this guide, listed by topic.'}
+ALIAS={
+ 'eligibility/index.html':'USRAP eligibility referral',
+ 'online-intake/index.html':'UIQ questionnaire intake form',
+ 'programme-status/index.html':'FY2026 FY2027 cap ceiling',
+ 'avoiding-scams/index.html':'fraud scam fee',
+ 'bringing-pets/index.html':'CDC USDA dog cat rabies pet',
+ 'first-90-days/index.html':'PIR arrival resettlement 90',
+ 'social-security-card/index.html':'SSN SSA social security number',
+ 'benefits/index.html':'RCA SNAP TANF SSI medicaid cash benefits',
+ 'health-cover/index.html':'RMA medicaid refugee medical assistance health',
+ 'jobs/index.html':'EAD I-9 work employment authorization job',
+ 'agency-not-helping/index.html':'grievance coordinator complaint agency',
+ 'travel-document/index.html':'I-131 I-571 travel document leave USA',
+ 'sa-passport-citizenship/index.html':'SA passport South Africa citizenship',
+ 'green-card/index.html':'I-485 green card permanent resident',
+ 'naturalization/index.html':'N-400 citizenship naturalization naturalisation',
+ 'faq/index.html':'questions FAQ',
+ 'glossary/index.html':'abbreviations definitions words glossary',
+ 'about/index.html':'about sources independent',
+ 'disclaimer/index.html':'legal advice disclaimer',
+ 'find/index.html':'search index all pages'}
+READ_NEXT={
+ 'index.html':['first-90-days/index.html','jobs/index.html','health-cover/index.html'],
+ 'eligibility/index.html':['avoiding-scams/index.html','programme-status/index.html','faq/index.html'],
+ 'online-intake/index.html':['eligibility/index.html','avoiding-scams/index.html','faq/index.html'],
+ 'programme-status/index.html':['eligibility/index.html','online-intake/index.html','avoiding-scams/index.html'],
+ 'avoiding-scams/index.html':['online-intake/index.html','bringing-pets/index.html','first-90-days/index.html'],
+ 'bringing-pets/index.html':['avoiding-scams/index.html','first-90-days/index.html','agency-not-helping/index.html'],
+ 'first-90-days/index.html':['benefits/index.html','health-cover/index.html','jobs/index.html'],
+ 'social-security-card/index.html':['benefits/index.html','health-cover/index.html','first-90-days/index.html'],
+ 'jobs/index.html':['social-security-card/index.html','health-cover/index.html','avoiding-scams/index.html'],
+ 'benefits/index.html':['jobs/index.html','social-security-card/index.html','agency-not-helping/index.html'],
+ 'health-cover/index.html':['benefits/index.html','jobs/index.html','first-90-days/index.html'],
+ 'agency-not-helping/index.html':['first-90-days/index.html','benefits/index.html','faq/index.html'],
+ 'travel-document/index.html':['green-card/index.html','naturalization/index.html','first-90-days/index.html'],
+ 'sa-passport-citizenship/index.html':['travel-document/index.html','naturalization/index.html','disclaimer/index.html'],
+ 'green-card/index.html':['travel-document/index.html','sa-passport-citizenship/index.html','jobs/index.html'],
+ 'naturalization/index.html':['green-card/index.html','travel-document/index.html','jobs/index.html'],
+ 'faq/index.html':['first-90-days/index.html','eligibility/index.html','glossary/index.html'],
+ 'find/index.html':['first-90-days/index.html','glossary/index.html','faq/index.html'],
+ 'glossary/index.html':['faq/index.html','about/index.html','disclaimer/index.html'],
+ 'about/index.html':['disclaimer/index.html','glossary/index.html','faq/index.html'],
+ 'disclaimer/index.html':['about/index.html','faq/index.html','glossary/index.html'],
+ '404.html':['first-90-days/index.html','faq/index.html','glossary/index.html']}
+s.summaries=BLURB
+s.when=WHEN
+s.read_next=READ_NEXT
+s.aliases=ALIAS
+grouped=[p for _g,it in G for p,_t in it]
+assert set(BLURB)==set(grouped)
+assert set(ALIAS)==set(grouped)
+assert set(p for _per,ps in TIMELINE for p in ps)<=set(grouped)
+assert set(READ_NEXT)==set(grouped)|{'index.html','404.html'}
+for _src,dests in READ_NEXT.items():
+    assert len(dests)==3
+    for dest in dests:
+        assert dest in grouped
+def jump(p, label=None):
+    title=label or s.titles[p]
+    return f'<a class="jump" href="{href(p)}"><span class="lt">{esc(title)}</span><span class="ls">{esc(BLURB[p])}</span></a>'
+timeline=''.join(
+    f'<li class="period"><h3 id="{slug(period)}">{esc(period)}</h3><ol class="period-pages">'+''.join(f'<li>{jump(p)}</li>' for p in paths)+'</ol></li>'
+    for period,paths in TIMELINE)
+tasks=[
+ ('jobs/index.html','Work card'),
+ ('social-security-card/index.html','Social Security'),
+ ('health-cover/index.html','Medicaid and health cover'),
+ ('benefits/index.html','Cash, food and other help'),
+ ('green-card/index.html','Green card'),
+ ('travel-document/index.html','Travel document'),
+ ('naturalization/index.html','Citizenship')]
+task_html=''.join(f'<li>{jump(p,label)}</li>' for p,label in tasks)
+topics=''.join(
+    f'<section class="topic"><h3 id="{slug(g)}">{esc(g)}</h3><ul class="link-grid">'+''.join(f'<li>{jump(p)}</li>' for p,_t in it)+'</ul></section>'
+    for g,it in G)
 body=f'''<h1>South African refugees coming to the USA: where are you in the journey?</h1>
 <p class="home-cta">{intake_button()}<a class="guide-link" href="/online-intake/">Read our guide to the questionnaire first</a></p>
-<p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Pick your stage below. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
+<p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Open Start here for the pages in time order. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
+<section class="path" aria-labelledby="{slug("Start here")}">
+<h2>Start here</h2>
+<p>These pages follow the journey in time order. Open the group that matches where you are.</p>
+<ol class="timeline">{timeline}</ol>
+</section>
+<section class="tasks-wrap" aria-labelledby="{slug("Top tasks")}">
+<h2>Top tasks</h2>
+<p>The pages people need most often. Each link opens one page.</p>
+<ul class="tasks">{task_html}</ul>
+</section>
 <div class="card note"><ul><li>The FY2026 refugee ceiling was raised from 7,500 to 17,500 by Presidential Determination 2026-14{src("pd26")}.</li><li>The FY2027 ceiling is up to 17,500 under Presidential Determination 2026-24{src("pd27")}.</li><li>Since 1 January 2026 the Office of Refugee Resettlement (ORR) runs initial resettlement{src("pir")}.</li></ul></div>
 <div class="card warn"><strong>{NOTICE}</strong></div>
-{cards}'''
+<section aria-labelledby="{slug("All topics")}">
+<h2>All topics</h2>
+<p>Every page on this guide, grouped by subject.</p>
+{topics}
+</section>'''
 s.page('index.html',"South African refugees in the USA: a plain USRAP guide","Plain-language guide for South Africans in the U.S. Refugee Admissions Program: referral, arrival, benefits, health cover, work and the green card.",body,kind='home')
 
 f='eligibility/index.html'
@@ -809,19 +905,31 @@ P(f,"Disclaimer: this guide is general information only","This guide is general 
 <h2>Check the official source</h2><div class="card"><p>Every factual claim is meant to sit next to the official page it came from. If this guide and that page disagree, follow the official page. If two official pages disagree, the conflict is shown on purpose. Do not pick the sentence you prefer.</p></div>
 <h2>Corrections</h2><div class="card"><p>This site has no contact email address and no corrections desk. A correction is made by re-reading the official page and changing the guide. If you think a line is wrong, compare it with the link beside it and with the {L("about/index.html","about page",f)}, which lists the sources.</p></div>''')
 
+f='find/index.html'
+find_body='<h1>All pages</h1><p>Type in the search box at the top of this page. The list below stays complete if search is not available.</p><p id="index-status" class="index-status" aria-live="polite">Showing every page.</p><div id="page-index">'
+for g,it in G:
+    find_body+=f'<section><h2>{esc(g)}</h2><ul class="index-list">'+''.join(
+        f'<li data-keywords="{esc(ALIAS.get(p,""))}"><a class="jump" href="{href(p)}"><span class="lt">{esc(t)}</span><span class="ls">{esc(BLURB[p])}</span></a></li>'
+        for p,t in it)+'</ul></section>'
+find_body+='</div>'
+P(f,"Find a page in this guide for South African refugees","Search or browse every page in this independent guide, from arrival and work to health, documents, the green card and citizenship.",find_body)
+
 s.page('404.html',"Page not found: South African refugees in the USA guide","That page is not on this guide. Use the menu or the links below to reach eligibility, arrival, benefits and the green card.",f'''<h1>Page not found</h1>
 <p>That address is not on this guide. Use the menu, or start from one of these pages:</p>
 <ul>
-<li>{L("eligibility/index.html","Eligibility and referral")}</li>
-<li>{L("online-intake/index.html","Online intake questionnaire")}</li>
+<li>{L("eligibility/index.html","Who can be referred")}</li>
+<li>{L("online-intake/index.html","The free questionnaire")}</li>
 <li>{L("bringing-pets/index.html","Bringing your pets")}</li>
-<li>{L("first-90-days/index.html","First 90 days")}</li>
-<li>{L("benefits/index.html","Benefits checklist")}</li>
-<li>{L("travel-document/index.html","Can I leave the USA?")}</li>
-<li>{L("green-card/index.html","Green card after 1 year")}</li>
-<li>{L("naturalization/index.html","Naturalisation after 5 years")}</li>
+<li>{L("first-90-days/index.html","Your first 90 days")}</li>
+<li>{L("benefits/index.html","Cash, food and other help")}</li>
+<li>{L("health-cover/index.html","Health cover")}</li>
+<li>{L("jobs/index.html","Work and jobs")}</li>
+<li>{L("travel-document/index.html","Leaving the United States")}</li>
+<li>{L("green-card/index.html","Green card after one year")}</li>
+<li>{L("naturalization/index.html","Citizenship after five years")}</li>
 <li>{L("faq/index.html","Common questions")}</li>
-<li>{L("glossary/index.html","Words and abbreviations")}</li>
+<li>{L("glossary/index.html","Word list")}</li>
+<li>{L("find/index.html","All pages")}</li>
 <li>{L("disclaimer/index.html","Disclaimer")}</li>
 </ul>''',kind='error')
 s.finish()
