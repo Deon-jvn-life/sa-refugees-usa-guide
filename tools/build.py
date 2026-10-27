@@ -79,12 +79,58 @@ S=dict(
     ssswho="https://www.sss.gov/register/who-needs-to-register/",
     ssschart="https://www.sss.gov/wp-content/uploads/2026/07/WhoNeedstoRegister.Final.pdf",
     sssfaq="https://www.sss.gov/faq/",
-    sssver="https://www.sss.gov/verify/")
+    sssver="https://www.sss.gov/verify/",
+    irs_spt="https://www.irs.gov/individuals/international-taxpayers/substantial-presence-test",
+    irs_p519="https://www.irs.gov/publications/p519",
+    irs_visa="https://www.irs.gov/individuals/international-taxpayers/taxation-of-aliens-by-visa-type-and-immigration-status",
+    irs_fbar="https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar",
+    irs_fbarpen="https://www.irs.gov/pub/opr-taxpros/issue-number-2026-25-tax-practice-obligations-and-the-report-of-foreign-bank-and-financial-accounts.pdf",
+    fincen_fbar="https://www.fincen.gov/report-foreign-bank-and-financial-accounts",
+    irs_8938="https://www.irs.gov/businesses/corporations/do-i-need-to-file-form-8938-statement-of-specified-foreign-financial-assets",
+    irs_i8938="https://www.irs.gov/instructions/i8938",
+    irs_intpen="https://www.irs.gov/payments/international-information-reporting-penalties",
+    irs_ftc="https://www.irs.gov/individuals/international-taxpayers/foreign-tax-credit",
+    irs_2555="https://www.irs.gov/instructions/i2555",
+    irs_w4="https://www.irs.gov/forms-pubs/about-form-w-4",
+    irs_itin="https://www.irs.gov/tin/itin/individual-taxpayer-identification-number-itin",
+    irs_tin="https://www.irs.gov/individuals/international-taxpayers/us-taxpayer-identification-number-requirement",
+    irs_file="https://www.irs.gov/individual-tax-filing",
+    irs_vita="https://www.irs.gov/individuals/free-tax-return-preparation-for-qualifying-taxpayers",
+    irs_freefile="https://www.irs.gov/newsroom/free-options-and-resources-for-preparing-and-filing-taxes-in-2026",
+    irs_fx="https://www.irs.gov/individuals/international-taxpayers/foreign-currency-and-currency-exchange-rates",
+    irs_3520="https://www.irs.gov/individuals/international-taxpayers/us-citizens-and-residents-abroad-filing-requirements",
+    irs_5471="https://www.irs.gov/pub/irs-pdf/i5471.pdf",
+    irs_8621="https://www.irs.gov/instructions/i8621",
+    irs_8992="https://www.irs.gov/forms-pubs/about-form-8992",
+    irs_8992dft="https://www.irs.gov/pub/irs-dft/i8992--dft.pdf",
+    irs_treaty="https://www.irs.gov/pub/irs-trty/safrica.pdf",
+    irs_treatypage="https://www.irs.gov/businesses/international-businesses/south-africa-tax-treaty-documents",
+    fl_pit="https://floridarevenue.com/faq/Pages/FAQDetails.aspx?FAQID=1466",
+    fl_new="https://www.floridarevenue.com/Forms_library/current/brochure/gt800025.pdf",
+    sars_cease="https://www.sars.gov.za/individuals/cease-to-be-an-sa-tax-resident-and-reinstatement-of-sa-tax-resident/",
+    sars_nr="https://www.sars.gov.za/individuals/tax-during-all-life-stages-and-events/tax-and-non-residents/",
+    sars_cgt="https://www.sars.gov.za/types-of-tax/capital-gains-tax/",
+    sars_ait="https://www.sars.gov.za/individuals/manage-your-tax-compliance-status/supporting-documents-for-obtaining-approval-international-transfers/",
+    sars_tcs2021="https://www.sars.gov.za/latest-news/tcs-changes-in-respect-of-foreign-investment-allowance-fia-and-emigration/",
+    sars_directive="https://www.sars.gov.za/guide-to-tax-directive-for-cease-to-be-resident-and-expiry-of-visa/",
+    sars_paye="https://www.sars.gov.za/paye-gen-01-g20-guide-for-employers-iro-employees-tax-for-2026-external-guide/",
+    sars_codes="https://www.sars.gov.za/wp-content/uploads/Ops/Guides/PAYE-AE-06-G06-Guide-for-Codes-Applicable-to-Employees-Tax-Certificates-2026-External-Guide.pdf",
+    sars_35a="https://www.sars.gov.za/wp-content/uploads/Ops/Guides/IT-PP-02-G01-Amounts-to-be-Withheld-When-a-Non-Resident-Sells-Immovable-Property-in-South-AfricaSA-External-Guide.pdf",
+    sars_shares="https://www.sars.gov.za/wp-content/uploads/Ops/Guides/Legal-Pub-Guide-IT11-Tax-guide-for-share-owners.pdf",
+    sars_in43="https://www.sars.gov.za/wp-content/uploads/Legal/Notes/LAPD-IntR-IN-2012-43-Circumstances-Disposal-Shares-Capital-Nature-Amounts.pdf",
+    sars_brochure="https://www.sars.gov.za/wp-content/uploads/Ops/Guides/LAPD-IT-G13-Tax-Brochure-for-Non-Residents.pdf",
+    sarb_circ="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/6-2026.pdf",
+    sarb_guide="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/Currency%20and%20Exchanges%20Guidelines%20for%20Individuals.pdf",
+    sarb_faq="https://www.resbank.co.za/en/home/what-we-do/financial-surveillance/FinSurvFAQ",
+    sarb_circ12="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2025/12-2025.pdf",
+    cipc_foreign="https://www.cipc.co.za/wp-content/uploads/2023/11/Notice_Foreigner-Assurance-verification_version-1.1.pdf",
+    cipc_steps="https://www.cipc.co.za/wp-content/uploads/2024/01/Directors-Amendment-Step-by-Step-Automated-Appoint-Foreigner.pdf",
+    gov_regs="https://www.gov.za/sites/default/files/gcis_document/202305/48648rg11585gon3444.pdf")
 def src(*k): return ' <span class="src">['+', '.join(a(S[x]) for x in k)+']</span>'
 # Menu groups are topics. TIMELINE is the previous and next path, in time order.
 G=[("Before you arrive",[('eligibility/index.html','Who can be referred'),('online-intake/index.html','The free questionnaire'),('programme-status/index.html','How many people can come'),('avoiding-scams/index.html','Avoiding scams')]),
  ("Arriving",[('first-90-days/index.html','Your first 90 days'),('social-security-card/index.html','Social Security card'),('bringing-pets/index.html','Bringing your pets'),('agency-not-helping/index.html','If your helper is not helping')]),
- ("Work and money",[('jobs/index.html','Work and jobs'),('benefits/index.html','Cash, food and other help')]),
+ ("Work and money",[('jobs/index.html','Work and jobs'),('benefits/index.html','Cash, food and other help'),('tax-first-year/index.html','Tax when you start work'),('sa-tax-residency/index.html','SA tax residency'),('us-tax-treaty/index.html','US tax and the treaty'),('foreign-accounts/index.html','Reporting SA accounts'),('moving-money/index.html','Moving money and pensions'),('sa-company-property/index.html','A company or property')]),
  ("Health",[('health-cover/index.html','Health cover')]),
  ("Documents and travel",[('travel-document/index.html','Leaving the United States'),('sa-passport-citizenship/index.html','South African passport risks')]),
  ("Green card and citizenship",[('green-card/index.html','Green card after one year'),('naturalization/index.html','Citizenship after five years')]),
@@ -93,7 +139,7 @@ TIMELINE=[
  ("Before you leave South Africa",['eligibility/index.html','online-intake/index.html','programme-status/index.html','avoiding-scams/index.html']),
  ("First week",['first-90-days/index.html','social-security-card/index.html','jobs/index.html','benefits/index.html','health-cover/index.html','agency-not-helping/index.html']),
  ("First month",['bringing-pets/index.html']),
- ("First year",['travel-document/index.html','sa-passport-citizenship/index.html']),
+ ("First year",['tax-first-year/index.html','sa-tax-residency/index.html','us-tax-treaty/index.html','foreign-accounts/index.html','moving-money/index.html','sa-company-property/index.html','travel-document/index.html','sa-passport-citizenship/index.html']),
  ("After 1 year",['green-card/index.html']),
  ("After 5 years",['naturalization/index.html'])]
 ORDER=[p for _period,paths in TIMELINE for p in paths]
@@ -166,6 +212,17 @@ gterm("UIQ",[r'\bUIQ\b',r'\bUSRAP Intake Questionnaires?\b'],f'The USRAP Intake 
 gterm("Form N-400",[r'\bN-400\b'],f'USCIS Form N-400, Application for Naturalization. A permanent resident uses it to apply for U.S. citizenship. For a refugee, the permanent-residence date for the general 5-year rule is generally the date of entry as a refugee, once adjustment of status is approved.{src("n400","pm12d2","pm7l5")}')
 gterm("Good moral character",[r'\bgood moral character\b'],f'A requirement for naturalisation. Under the general rule, the applicant must show it for the 5 years immediately before filing Form N-400 and up to the oath. Conduct from before those 5 years can still matter.{src("n400five","pm12d9")}')
 gterm("Selective Service",[r'\bSelective Service\b'],f'The registration system for most men living in the United States from age 18 through 25, including refugees. Registration is not the same as joining the military. A knowing and willful failure to register can affect a later naturalisation application.{src("ssschart","sssfaq","pm12d7")}')
+gterm("FBAR (FinCEN Form 114)",[r'\bFBARs?\b',r'\bFinCEN Form 114\b'],f'FinCEN Form 114, the Report of Foreign Bank and Financial Accounts. A United States person files it if foreign financial accounts together went over $10,000 at any time in the calendar year. It is filed with FinCEN, not as part of the income tax return.{src("irs_fbar","fincen_fbar")}')
+gterm("FinCEN",[r'\bFinCEN\b'],f'The Financial Crimes Enforcement Network, a bureau of the U.S. Department of the Treasury. It receives the FBAR.{src("fincen_fbar","irs_fbar")}')
+gterm("Form 8938",[r'\bForm 8938\b'],f'IRS Form 8938, Statement of Specified Foreign Financial Assets. Some United States taxpayers attach it to the income tax return when specified foreign financial assets are above the threshold for their filing status. It is a different form from the FBAR.{src("irs_8938")}')
+gterm("SARS",[r'\bSARS\b'],f'The South African Revenue Service, the South African tax authority.{src("sars_cease")}')
+gterm("SARB",[r'\bSARB\b'],f'The South African Reserve Bank. Its Financial Surveillance Department publishes the exchange-control rules for moving money.{src("sarb_guide","sarb_circ")}')
+gterm("IRP5",[r'\bIRP5s?\b',r'\bIT3\(a\)\b'],f'An employees\' tax certificate. SARS says an employer who pays remuneration must give the employee an IRP5 or IT3(a) showing pay and employees\' tax deducted.{src("sars_paye")}')
+gterm("ITIN",[r'\bITINs?\b'],f'An individual taxpayer identification number. The IRS issues it on Form W-7 to a person who needs a United States taxpayer number and is not eligible for a Social Security number.{src("irs_itin")}')
+gterm("Substantial presence test",[r'\bsubstantial presence test\b'],f'The IRS day-count test for tax residence. You meet it if you are physically present in the United States for at least 31 days in the current year and 183 counted days over three years.{src("irs_spt","irs_p519")}')
+gterm("Form W-4",[r'\bForm W-4\b',r'\bW-4\b'],f'The Employee\'s Withholding Certificate. You give it to an employer so the employer can withhold federal income tax from your pay.{src("irs_w4")}')
+gterm("Foreign tax credit",[r'\bforeign tax credits?\b'],f'A credit that can reduce United States tax when you paid qualifying foreign income tax on the same income. Individuals claim it on Form 1116. You cannot claim it for tax on income you exclude.{src("irs_ftc")}')
+gterm("VITA",[r'\bVITA\b'],f'Volunteer Income Tax Assistance. IRS-certified volunteers prepare basic returns for free. The IRS says many sites help people who generally make about $70,244 or less, people with disabilities, and people with limited English. A site can set its own limit.{src("irs_vita")}')
 TERMS=[(slug(h),pats) for h,pats,_html in GLOSS]
 s=Site(ROOT,BASE,"South African Refugees in the USA: plain-language guide",G,ORDER,FOOT,CSS,terms=TERMS,gsc='u0-9sKvlH1xyV4_DYf2JvQGap_ao0XPEfzPvMaGs_Ts',msvalidate='',related=[(PP,"SA Passport and ID Guide (USA)"),("https://sa-smart-id-bank-finder.vercel.app/","SA Smart ID bank finder")])
 
@@ -181,6 +238,12 @@ BLURB={
  'benefits/index.html':'Cash, medical, food and services to sign up for.',
  'health-cover/index.html':'Refugee Medical Assistance now lasts up to 12 months.',
  'jobs/index.html':'You may work from the day you arrive. The work card and Form I-9.',
+ 'tax-first-year/index.html':'The checklist if you were an employee in South Africa and you have come to work.',
+ 'sa-tax-residency/index.html':'How SARS says you cease South African tax residency, and the deemed disposal.',
+ 'us-tax-treaty/index.html':'When the IRS treats you as a resident, and what the South Africa treaty says.',
+ 'foreign-accounts/index.html':'FinCEN Form 114 and IRS Form 8938 for South African accounts.',
+ 'moving-money/index.html':'South African transfer rules, retirement funds, and the pension treaty article.',
+ 'sa-company-property/index.html':'Forms to consider if you still have a company, property, a directorship, or cash.',
  'agency-not-helping/index.html':'Contact your State Refugee Coordinator.',
  'travel-document/index.html':'Whether you can leave the United States, and how the refugee travel document works.',
  'sa-passport-citizenship/index.html':'Why a South African passport can put refugee status at risk.',
@@ -202,6 +265,12 @@ ALIAS={
  'benefits/index.html':'RCA SNAP TANF SSI medicaid cash benefits',
  'health-cover/index.html':'RMA medicaid refugee medical assistance health',
  'jobs/index.html':'EAD I-9 work employment authorization job',
+ 'tax-first-year/index.html':'tax IRP5 W-4 1040 SSN first year employee refugee',
+ 'sa-tax-residency/index.html':'SARS cease residency exit tax section 9H ordinarily resident',
+ 'us-tax-treaty/index.html':'substantial presence green card treaty dual status Form 1116 Form 2555',
+ 'foreign-accounts/index.html':'FBAR FinCEN 114 Form 8938 FATCA foreign account',
+ 'moving-money/index.html':'SDA AIT retirement annuity pension SARB allowance',
+ 'sa-company-property/index.html':'Form 5471 CFC PFIC director property section 35A dividends',
  'agency-not-helping/index.html':'grievance coordinator complaint agency',
  'travel-document/index.html':'I-131 I-571 travel document leave USA',
  'sa-passport-citizenship/index.html':'SA passport South Africa citizenship',
@@ -219,9 +288,9 @@ READ_NEXT={
  'programme-status/index.html':['eligibility/index.html','online-intake/index.html','avoiding-scams/index.html'],
  'avoiding-scams/index.html':['online-intake/index.html','bringing-pets/index.html','first-90-days/index.html'],
  'bringing-pets/index.html':['avoiding-scams/index.html','first-90-days/index.html','agency-not-helping/index.html'],
- 'first-90-days/index.html':['benefits/index.html','health-cover/index.html','jobs/index.html'],
+ 'first-90-days/index.html':['tax-first-year/index.html','benefits/index.html','jobs/index.html'],
  'social-security-card/index.html':['benefits/index.html','health-cover/index.html','first-90-days/index.html'],
- 'jobs/index.html':['social-security-card/index.html','health-cover/index.html','avoiding-scams/index.html'],
+ 'jobs/index.html':['tax-first-year/index.html','social-security-card/index.html','benefits/index.html'],
  'benefits/index.html':['jobs/index.html','social-security-card/index.html','agency-not-helping/index.html'],
  'health-cover/index.html':['benefits/index.html','jobs/index.html','first-90-days/index.html'],
  'agency-not-helping/index.html':['first-90-days/index.html','benefits/index.html','faq/index.html'],
@@ -229,6 +298,12 @@ READ_NEXT={
  'sa-passport-citizenship/index.html':['travel-document/index.html','naturalization/index.html','disclaimer/index.html'],
  'green-card/index.html':['travel-document/index.html','sa-passport-citizenship/index.html','jobs/index.html'],
  'naturalization/index.html':['green-card/index.html','travel-document/index.html','jobs/index.html'],
+ 'tax-first-year/index.html':['sa-tax-residency/index.html','us-tax-treaty/index.html','sa-company-property/index.html'],
+ 'sa-tax-residency/index.html':['tax-first-year/index.html','moving-money/index.html','us-tax-treaty/index.html'],
+ 'us-tax-treaty/index.html':['tax-first-year/index.html','foreign-accounts/index.html','sa-tax-residency/index.html'],
+ 'foreign-accounts/index.html':['tax-first-year/index.html','moving-money/index.html','sa-company-property/index.html'],
+ 'moving-money/index.html':['sa-tax-residency/index.html','foreign-accounts/index.html','sa-company-property/index.html'],
+ 'sa-company-property/index.html':['tax-first-year/index.html','moving-money/index.html','foreign-accounts/index.html'],
  'faq/index.html':['first-90-days/index.html','eligibility/index.html','glossary/index.html'],
  'find/index.html':['first-90-days/index.html','glossary/index.html','faq/index.html'],
  'glossary/index.html':['faq/index.html','about/index.html','disclaimer/index.html'],
@@ -239,6 +314,10 @@ s.summaries=BLURB
 s.when=WHEN
 s.read_next=READ_NEXT
 s.aliases=ALIAS
+_TAX_CHECKED=('27 October 2026','2026-10-27')
+s.checked={p:_TAX_CHECKED for p in (
+ 'tax-first-year/index.html','sa-tax-residency/index.html','us-tax-treaty/index.html',
+ 'foreign-accounts/index.html','moving-money/index.html','sa-company-property/index.html')}
 grouped=[p for _g,it in G for p,_t in it]
 assert set(BLURB)==set(grouped)
 assert set(ALIAS)==set(grouped)
@@ -255,6 +334,7 @@ timeline=''.join(
     f'<li class="period"><h3 id="{slug(period)}">{esc(period)}</h3><ol class="period-pages">'+''.join(f'<li>{jump(p)}</li>' for p in paths)+'</ol></li>'
     for period,paths in TIMELINE)
 tasks=[
+ ('tax-first-year/index.html','Tax when you start work'),
  ('jobs/index.html','Work card'),
  ('social-security-card/index.html','Social Security'),
  ('health-cover/index.html','Medicaid and health cover'),
@@ -440,7 +520,8 @@ P(f,"Your first 90 days after you arrive as a USRAP refugee","What the Office of
 <p>PIR is delivered by eight organisations: Catholic Charities USA, Church World Service, Ethiopian Community Development Council, Global Refuge, HIAS, International Rescue Committee, U.S. Committee for Refugees and Immigrants, and World Relief{src("pir")}.</p></div>
 <h2>What the provider helps with</h2><div class="card"><ul><li>Airport welcome</li><li>Temporary or longer-term housing with food, necessities, furnishings and household items (hotels may be used where housing is limited)</li><li>Personal case management and a resettlement plan</li><li>Connections to cash and medical assistance</li><li>Referrals for the domestic medical screening, jobs, social services and school enrolment</li></ul>{src("pir")}
 <p>Pets are not on that list. The Embassy says the programme does not move pets and recommends waiting at least 90 days. See {L("bringing-pets/index.html","Bringing your pets",f)}{src("emb")}.</p></div>
-<h2>Do these early</h2><ul><li>Sign up for benefits immediately: they are time-limited. See {L("benefits/index.html","Benefits checklist",f)}{src("ben")}.</li><li>Get the ORR-funded domestic medical screening soon after arrival{src("ben")}.</li><li>Check your {L("social-security-card/index.html","Social Security card",f)} arrives.</li><li>Keep your I-94 safe. It proves refugee status and work authorisation{src("ben","gc")}.</li></ul>''')
+<h2>Do these early</h2><ul><li>Sign up for benefits immediately: they are time-limited. See {L("benefits/index.html","Benefits checklist",f)}{src("ben")}.</li><li>Get the ORR-funded domestic medical screening soon after arrival{src("ben")}.</li><li>Check your {L("social-security-card/index.html","Social Security card",f)} arrives.</li><li>Keep your I-94 safe. It proves refugee status and work authorisation{src("ben","gc")}.</li>
+<li>When you start a job, read {L("tax-first-year/index.html","Tax when you start work",f)}. That page is general information, not tax advice.</li></ul>''')
 
 f='social-security-card/index.html'
 P(f,"How refugees get a Social Security number and card","How refugees get a Social Security number and card, from the immigration record or at an SSA office, using the I-94 or an EAD.",f'''<h1>Social Security card</h1>
@@ -473,6 +554,7 @@ P(f,"Health cover for refugees in 2026: RMA versus Medicaid","How Refugee Medica
 f='jobs/index.html'
 P(f,"Jobs, the EAD and Form I-9 for newly arrived refugees","Refugees may work from the day they arrive. What USCIS says about the EAD, Form I-9 and the I-94, plus free job help from ORR.",f'''<h1>Jobs and employment services</h1>
 <h2>Your right to work</h2><div class="card"><ul><li>Refugees may work immediately on arrival{src("gc")}.</li><li>USCIS creates a digital Form I-765 for principal refugees and family who arrive with them. You should receive the Employment Authorization Document (EAD) within a few weeks after you arrive, depending on delivery times{src("gc")}.</li><li>For Form I-9, your I-94 is acceptable for 90 days after arrival. After that, show an unexpired EAD or other documents such as a driver's licence plus an unrestricted Social Security card{src("gc")}.</li><li>There is no fee for an initial or renewal refugee EAD in category (a)(3){src("gc")}.</li></ul></div>
+<p>A job also raises tax questions. If you were an employee in South Africa, start with {L("tax-first-year/index.html","Tax when you start work",f)}. That page is general information, not tax advice.</p>
 <h2>Free employment help</h2><div class="card"><ul><li>Refugee Support Services include job training, search, placement and retention, English classes, childcare and transport, for up to 5 years{src("ben")}.</li><li>RCA is provided alongside employment services through your provider{src("ben")}. Detailed participation rules: not stated by the pages checked.</li><li>Matching Grant is intensive case management and job help, aiming at self-sufficiency within 240 days{src("ben")}.</li></ul></div>
 <h2>Watch for job scams</h2><p>Be wary of overseas or email job offers that ask for money{src("scam")}. See {L("avoiding-scams/index.html","Avoiding scams",f)}.</p>''')
 
@@ -787,6 +869,10 @@ P(f,"Refugee naturalisation on Form N-400: the 5-year clock","When a refugee may
 <p>The dollar amounts for the ordinary filing fee do match: $760 on paper and $710 online on both the form page and Form G-1055{src("n400","g1055")}.</p></div>''',n400_faqs)
 
 faq_groups=[
+("Money and tax",[
+("I was an employee in South Africa. What happens to my tax when I start work?",
+ f'<p>Being a refugee is an immigration status. It is not, by itself, a tax status. The IRS says you are a resident alien for tax if you meet the green card test or the substantial presence test.{src("irs_p519","irs_visa")}</p><p>SARS says a change in South African tax residence must be declared. Leaving the country does not, on its own, complete that declaration.{src("sars_cease")}</p><p>The checklist is {L("tax-first-year/index.html","Tax when you start work")}. It is general information, not tax advice. Speak to a qualified tax practitioner.</p>'),
+]),
 ("Applying",[
 ("Who can be considered for this programme?",
  f'<p>The U.S. Embassy page dated 7 October 2026 says you must be a South African national, of Afrikaner ethnicity or a member of a racial minority, able to describe persecution or a fear of persecution, at least 18 or referred with a parent, and living in South Africa.{src("emb")}</p><p>Not everyone who meets that list is referred. The U.S. government decides access, not RSC Africa or Amerikaners. Read {L("eligibility/index.html","Eligibility and referral")}.{src("emb")}</p>'),
@@ -881,7 +967,7 @@ P(f,"About this independent guide for South African refugees","How this independ
 <div class="card warn"><strong>{NOTICE}</strong> The full notice is on the {L("disclaimer/index.html","disclaimer",f)}.</div>
 <h2>Independent</h2><div class="card"><p>This site is independent. It is not affiliated with, endorsed by or run for any government or agency. That includes the U.S. Department of State, the U.S. Embassy and Consulates in South Africa, the Department of Health and Human Services, ACF, ORR, USCIS, CBP, SSA, CDC, USDA, any resettlement agency or referral partner, and the South African government.</p></div>
 <h2>Method</h2><div class="card"><ul>
-<li>Facts are tied to official pages that were opened and checked on {D}. The list is below. A link sits beside every fact.</li>
+<li>Facts are tied to official pages that were opened and checked. A link sits beside every fact. The money and tax pages were checked on 27 October 2026. The other pages were checked on {D}.</li>
 <li>Where a source is silent, the page says "not stated by source". Where two official pages disagree, both are shown.</li>
 <li>IATA is included only for airline crate size. It is an airline industry body, not a government. The two related guides in the footer are independent sites about South African passports and smart ID cards. They are not official sources.</li>
 <li>The site is factual and does not take a political position. Abbreviations are listed on the {L("glossary/index.html","glossary",f)}.</li>
@@ -913,6 +999,9 @@ for g,it in G:
         for p,t in it)+'</ul></section>'
 find_body+='</div>'
 P(f,"Find a page in this guide for South African refugees","Search or browse every page in this independent guide, from arrival and work to health, documents, the green card and citizenship.",find_body)
+
+from moneytax import add_pages
+add_pages(P, L, a, src, S)
 
 s.page('404.html',"Page not found: South African refugees in the USA guide","That page is not on this guide. Use the menu or the links below to reach eligibility, arrival, benefits and the green card.",f'''<h1>Page not found</h1>
 <p>That address is not on this guide. Use the menu, or start from one of these pages:</p>

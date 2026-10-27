@@ -358,7 +358,7 @@ class Site:
         s.gsc=gsc or ''; s.msvalidate=msvalidate or ''; s.related=related or []
         s.titles={p:t for g,items in groups for p,t in items}; s.titles['index.html']='Home'
         s.terms=[(anchor,[re.compile(p,re.I) for p in pats]) for anchor,pats in (terms or [])]
-        s.when={}; s.summaries={}; s.read_next={}; s.aliases={}; s._search_cache=None
+        s.when={}; s.summaries={}; s.read_next={}; s.aliases={}; s.checked={}; s._search_cache=None
         if os.path.exists(s.out): shutil.rmtree(s.out)
         os.makedirs(s.out)
     def _search_json(s):
@@ -422,7 +422,8 @@ class Site:
             crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol>'+''.join(items_html)+'</ol></nav>'
         when=s.when.get(path,'')
         when_html=f'<a class="when" href="/#{slug(when)}">When you need this: {esc(when)}</a>' if when else ''
-        meta=f'<p class="meta"><span class="checked">Last checked: {D}</span>{when_html}</p>'
+        checked_label, checked_iso = s.checked.get(path, (D, ISO))
+        meta=f'<p class="meta"><span class="checked">Last checked: {checked_label}</span>{when_html}</p>'
         def step_link(target, kind):
             label=s.titles.get(target)
             if not label: return ''
@@ -462,7 +463,7 @@ class Site:
             graph.insert(0,{"@type":"WebSite","name":s.brand,"url":s.base+"/","description":desc,"inLanguage":"en"})
             graph.insert(1,{"@type":"Organization","name":s.brand,"url":s.base+"/","description":"Independent unofficial guide. Not affiliated with any government or agency."})
         elif kind=='article':
-            graph.insert(0,{"@type":"Article","headline":headline,"description":desc,"datePublished":ISO,"dateModified":ISO,
+            graph.insert(0,{"@type":"Article","headline":headline,"description":desc,"datePublished":checked_iso,"dateModified":checked_iso,
                             "inLanguage":"en","mainEntityOfPage":url,
                             "author":{"@type":"Organization","name":s.brand,"url":s.base+"/"},
                             "publisher":{"@type":"Organization","name":s.brand,"url":s.base+"/"}})
@@ -495,7 +496,7 @@ class Site:
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="{layout_cls}">{toc}<div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
-<footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/glossary/">Word list</a><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a><a href="/about/">About</a></nav><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {D}.</p></div></footer>
+<footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/glossary/">Word list</a><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a><a href="/about/">About</a></nav><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {checked_label}.</p></div></footer>
 <script type="application/json" id="search-data">{s._search_json()}</script><script>{SEARCH_JS}</script><script>{DOCK_JS}</script></body></html>'''
         for bad in ('\u2014','\u2013','&mdash;','&ndash;'): assert bad not in h,(path,bad)
         assert 'myuscisgov.com' not in h
@@ -508,7 +509,7 @@ class Site:
         _write_assets(s.out)
         bots=['GPTBot','OAI-SearchBot','PerplexityBot','Bingbot','Googlebot','*']
         open(os.path.join(s.out,'robots.txt'),'w').write(''.join(f'User-agent: {b}\nAllow: /\n\n' for b in bots)+f'Sitemap: {s.base}/sitemap.xml\n')
-        urls=''.join(f'<url><loc>{canon_url(s.base,p)}</loc><lastmod>{ISO}</lastmod></url>\n' for p in sorted(s.indexable))
+        urls=''.join(f'<url><loc>{canon_url(s.base,p)}</loc><lastmod>{s.checked.get(p,(D,ISO))[1]}</lastmod></url>\n' for p in sorted(s.indexable))
         open(os.path.join(s.out,'sitemap.xml'),'w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+urls+'</urlset>\n')
         needles=('not legal advice','information purposes only','Last checked:','/_vercel/insights/script.js')
         for path in s.pages:

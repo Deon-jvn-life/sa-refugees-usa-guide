@@ -26,5 +26,15 @@
 - Volume 12, Part D, Chapter 2, footnote 12 points to 7 USCIS-PM L.5(G)(1). The live Volume 7, Part L, Chapter 5 page places the same effective-date sentence under section E.1. The sentence matches. Re-check only if the section letter starts to matter.
 - State.gov PRM pages once fetchable.
 
+## Money and tax (checked 27 October 2026)
+- Single discretionary allowance: Exchange Control Circular 6/2026 (8 April 2026) says R2 million. The individuals guidelines in the 2026 folder, and the FinSurv questions page, still say R1 million. Do not pick one.
+- SARB individuals guide still says tax compliance for "emigration". SARS uses Approval for International Transfer. Circular 12/2025 names AIT.
+- Cease-residency page excludes immovable property in South Africa from the deemed disposal. Interpretation Note (LAPD-IntR-IN-2012-43) says that exclusion does not cover land-rich shares. AIT page writes section 9(H)(2); the note writes section 9H.
+- SARS Tax and Non-Residents page states the 80 percent property-rich test. The Tax Guide for Share Owners also states a 20 percent holding test. Keep both.
+- About Form 8992 (reviewed 22 July 2026) still says GILTI. The December 2026 draft Form 8992 instructions say the name becomes net CFC tested income for tax years beginning after 31 December 2025. Do not pick a name.
+- FBAR statute prints $10,000 and $100,000. IRS says those maximums are adjusted for inflation. Do not copy an adjusted dollar amount unless the current 31 CFR 1010.821 table is opened.
+- Do not say the exit tax is usually small. SARS does not say that. Do not say whether a retirement interest is inside the deemed disposal. The cease page does not say.
+- Do not invent an IRP5 day count, a Form 1040 gross-income threshold, a section 988 personal exchange-rate rule, or a state income tax rule other than Florida (Florida Department of Revenue: no personal income tax).
+
 ## Done
 - Naturalisation (Form N-400) page, including the refugee rollback of the permanent-residence date to the date of entry (or to the relative-petition approval date for a derivative already in the United States). The travel page no longer says the 5-year count excludes time as a refugee. Physical presence of at least 30 months (at least 913 days) is cited from Policy Manual Volume 12, Part D, Chapter 4.
