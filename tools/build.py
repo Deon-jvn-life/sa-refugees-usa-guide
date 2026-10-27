@@ -62,13 +62,30 @@ S=dict(
     united_pets="https://www.united.com/en/us/fly/travel/traveling-with-pets.html",
     petport="https://www.petport.co.za/international-pet-shipping-cost/",
     brakpan_spca="https://www.citizen.co.za/brakpan-herald/news-headlines/local-news/2026/10/15/spca-sterilisation-drive-treats-79-animals/",
-    parks_vet="https://theparksanimalcare.co.za/pricing/")
+    parks_vet="https://theparksanimalcare.co.za/pricing/",
+    n400="https://www.uscis.gov/n-400",
+    pm12d2="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-2",
+    pm12d4="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-4",
+    pm12d6="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-6",
+    pm12d7="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-7",
+    pm12d9="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-9",
+    pm7l5="https://www.uscis.gov/policy-manual/volume-7-part-l-chapter-5",
+    n400five="https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization/i-am-a-lawful-permanent-resident-of-5-years",
+    natex="https://www.uscis.gov/citizenship/exceptions-and-accommodations",
+    civics="https://www.uscis.gov/citizenship/find-study-materials-and-resources/check-for-test-updates",
+    n400red="https://www.uscis.gov/forms/filing-fees/additional-information-on-filing-a-reduced-fee-request",
+    i912="https://www.uscis.gov/i-912",
+    feewaive="https://www.uscis.gov/forms/filing-fees/additional-information-on-filing-a-fee-waiver",
+    ssswho="https://www.sss.gov/register/who-needs-to-register/",
+    ssschart="https://www.sss.gov/wp-content/uploads/2026/07/WhoNeedstoRegister.Final.pdf",
+    sssfaq="https://www.sss.gov/faq/",
+    sssver="https://www.sss.gov/verify/")
 def src(*k): return ' <span class="src">['+', '.join(a(S[x]) for x in k)+']</span>'
 G=[("1. Applying",[('eligibility/index.html','Eligibility and referral'),('online-intake/index.html','Online intake questionnaire'),('programme-status/index.html','Programme status and caps'),('avoiding-scams/index.html','Avoiding scams')]),
  ("2. Arriving",[('bringing-pets/index.html','Bringing your pets'),('first-90-days/index.html','First 90 days'),('social-security-card/index.html','Social Security card')]),
  ("3. First 90 days",[('benefits/index.html','Benefits checklist'),('health-cover/index.html','Health cover (RMA and Medicaid)'),('jobs/index.html','Jobs and employment services'),('agency-not-helping/index.html','When your agency is not helping')]),
  ("4. First year",[('travel-document/index.html','Can I leave the USA?'),('sa-passport-citizenship/index.html','SA passport and citizenship risks')]),
- ("5. Green card and beyond",[('green-card/index.html','Green card after 1 year (I-485)')]),
+ ("5. Green card and beyond",[('green-card/index.html','Green card after 1 year (I-485)'),('naturalization/index.html','Naturalisation after 5 years (N-400)')]),
  ("FAQ",[('faq/index.html','Common questions')]),
  ("About",[('about/index.html','About this site'),('glossary/index.html','Words and abbreviations explained'),('disclaimer/index.html','Disclaimer')])]
 ORDER=['index.html']+[p for g,it in G for p,t in it]
@@ -137,6 +154,9 @@ gterm("OCVI",[r'\bOCVI\b',r'\bofficial certificates? of veterinary inspection\b'
 gterm("Re-entry permit",[r'\bre-entry permits?\b',r'\breentry permits?\b'],f'A travel document for lawful permanent residents, requested on Form I-131. The instructions say lengthy or frequent absences without one can support a finding that permanent residence was abandoned.{src("i131i")}')
 gterm("RSC Africa",[r'\bRSC\b'],f'Resettlement Support Center Africa, operated by Church World Service. The Embassy names it as a USRAP partner for case processing and for booking refugee travel to the United States.{src("emb","embfaq")}')
 gterm("UIQ",[r'\bUIQ\b',r'\bUSRAP Intake Questionnaires?\b'],f'The USRAP Intake Questionnaire. The online form the U.S. Embassy in South Africa tells people to complete if they want to be considered for a referral.{src("emb")}')
+gterm("Form N-400",[r'\bN-400\b'],f'USCIS Form N-400, Application for Naturalization. A permanent resident uses it to apply for U.S. citizenship. For a refugee, the permanent-residence date for the general 5-year rule is generally the date of entry as a refugee, once adjustment of status is approved.{src("n400","pm12d2","pm7l5")}')
+gterm("Good moral character",[r'\bgood moral character\b'],f'A requirement for naturalisation. Under the general rule, the applicant must show it for the 5 years immediately before filing Form N-400 and up to the oath. Conduct from before those 5 years can still matter.{src("n400five","pm12d9")}')
+gterm("Selective Service",[r'\bSelective Service\b'],f'The registration system for most men living in the United States from age 18 through 25, including refugees. Registration is not the same as joining the military. A knowing and willful failure to register can affect a later naturalisation application.{src("ssschart","sssfaq","pm12d7")}')
 TERMS=[(slug(h),pats) for h,pats,_html in GLOSS]
 s=Site(ROOT,BASE,"South African Refugees in the USA: plain-language guide",G,ORDER,FOOT,CSS,terms=TERMS,gsc='u0-9sKvlH1xyV4_DYf2JvQGap_ao0XPEfzPvMaGs_Ts',msvalidate='',related=[(PP,"SA Passport and ID Guide (USA)"),("https://sa-smart-id-bank-finder.vercel.app/","SA Smart ID bank finder")])
 
@@ -157,6 +177,7 @@ blurb={
  'travel-document/index.html':'Whether you can leave the USA, and how the refugee travel document works.',
  'sa-passport-citizenship/index.html':'Why a South African passport can put refugee status at risk.',
  'green-card/index.html':'You must apply after 1 year of physical presence. Travel can pause that clock.',
+ 'naturalization/index.html':'Form N-400. For a refugee the 5 years generally run from U.S. arrival.',
  'faq/index.html':'Short answers on applying, arrival, work, benefits, pets and the green card.',
  'about/index.html':'Independent site, sources and method.',
  'glossary/index.html':'Plain-English meanings for the abbreviations on this site.',
@@ -446,9 +467,10 @@ P(f,"Can refugees leave the USA? The I-131 travel document","A plain answer on l
 <li>A derivative who was already in the United States and who gained status through an approved Form I-730 starts on the date that petition was approved{src("pm7")}.</li>
 </ul>
 <p>The public green card page also says you must be physically present for at least 1 year after admission when you file{src("gc")}. The Policy Manual stresses the date of the decision and the days you were actually here{src("pm7")}. Read both before you travel in year one.</p></div>
-<div class="card"><p><strong>Naturalisation is a later clock.</strong> The Policy Manual counts continuous residence from admission as a lawful permanent resident, not from the refugee admission. Under the general rule, that continuous residence is at least 5 years before you file, and you must also have lived in the state or service district for 3 months before you file. A trip while you are still only a refugee is not part of that later count{src("pm12")}.</p>
+<div class="card"><p><strong>Naturalisation is a later clock, and for a refugee it reaches back to admission.</strong> Continuous residence under the general rule is at least 5 years as a lawful permanent resident before you file, and you must also have lived in the state or service district for 3 months before you file{src("pm12")}.</p>
+<p>A refugee is generally a lawful permanent resident as of the date of entry into the United States, once adjustment is approved. That date is earlier than the day USCIS approves the green card. A derivative who was already in the United States when the relative petition was approved uses the petition approval date instead{src("pm12d2","pm7l5")}. A trip in that period can fall inside the 5-year count. The full rules, including physical presence, are on {L("naturalization/index.html","Naturalisation after 5 years",f)}.</p>
 <ul>
-<li>Continuous residence and physical presence are separate requirements. The number of months of physical presence required for naturalisation is not stated on the continuous-residence chapter checked here{src("pm12")}.</li>
+<li>Continuous residence and physical presence are separate requirements. The continuous-residence chapter does not state how many months of physical presence are required{src("pm12")}. The physical-presence chapter requires at least 30 months, which it also states as at least 913 days, before filing under the general provision{src("pm12d4")}.</li>
 <li>An absence of 6 months or less does not, by itself, break continuous residence. Several shorter trips can still be reviewed{src("pm12")}.</li>
 <li>More than 6 months but less than 1 year is presumed to break it. You can try to rebut that, for example if U.S. employment was not ended and you did not take a job abroad, if immediate family stayed, and if you still owned or leased a home{src("pm12")}.</li>
 <li>One year or more breaks continuous residence unless Form N-470 is approved for qualifying employment abroad{src("pm12")}.</li>
@@ -511,7 +533,162 @@ P(f,"Refugee green card after 1 year: Form I-485 steps for 2026","USCIS steps fo
 <h2>Family members</h2><div class="card"><p>Derivative spouses and children follow similar rules. The green card page tells a derivative to use the fee schedule and does not print a dollar amount for that person{src("gc")}.</p><p>Form G-1055, the USCIS fee schedule, lists a filing fee of $0 if you are a refugee or you were paroled as a refugee. That row does not split a principal from a family member. The schedule is in the <a href="/about/#src-g1055">source list</a>.</p></div>
 <h2>If you need to travel</h2>
 <div class="card warn"><p>Do not leave while the I-485 is pending until a lawyer has told you which document, if any, keeps the application alive. The Form I-131 instructions say leaving without advance parole generally abandons a pending I-485, and they do not say a refugee travel document prevents that{src("i131i")}.</p>
-<p>Do not put Form I-131 in the same envelope as Form I-485{src("gc")}. The travel page is {L("travel-document/index.html","Can I leave the USA?",f)}.</p></div>''')
+<p>Do not put Form I-131 in the same envelope as Form I-485{src("gc")}. The travel page is {L("travel-document/index.html","Can I leave the USA?",f)}.</p></div>
+<h2>After the green card</h2>
+<div class="card"><p>Naturalisation uses a different form, Form N-400. Once adjustment is approved, a refugee is generally a lawful permanent resident as of the date of entry into the United States, so the general 5-year count uses that earlier date{src("pm12d2","pm7l5")}. You generally must already be a permanent resident when you file{src("pm12d2")}. The steps are on {L("naturalization/index.html","Naturalisation after 5 years",f)}.</p></div>''')
+
+f='naturalization/index.html'
+n400_faqs=[
+("When does the 5-year clock start for a refugee?",
+ f'<p>Once USCIS approves adjustment, a refugee is generally a lawful permanent resident as of the date of entry into the United States, not as of the approval date. A derivative who was already in the United States when the relative petition was approved uses that approval date instead.{src("pm12d2","pm7l5")}</p><p>You generally must already be a permanent resident on the day you file Form N-400.{src("pm12d2")}</p>'),
+("Can I file 90 days early?",
+ f'<p>Yes, for the continuous-residence part of the general 5-year rule. USCIS counts 90 days back from the day before you would first meet the 5 years. You are not eligible to be naturalised until those 5 years are complete.{src("pm12d6","n400")}</p><p>The early-filing chapter does not say those 90 days reduce the physical-presence requirement. The public page asks for at least 30 months of physical presence in the 5 years immediately before the date you file.{src("n400five","pm12d4")}</p>'),
+("What if the date on the green card looks wrong?",
+ f'<p>The card shows the date of lawful permanent resident status and the class of admission. For an approved refugee adjustment, the policy manual sets that date as the date of first admission as a refugee, with the derivative exception above.{src("pm12d2","pm7l5")}</p><p>How to correct a card that prints a different date: not stated by the pages checked. Ask an immigration attorney or an accredited representative before you file.</p>'),
+("Do men have to register for Selective Service?",
+ f'<p>The Selective Service chart says yes for refugee, parolee and asylee immigrants, in the group of male immigrants ages 18 through 25. Registration is not enlistment in the military.{src("ssschart","sssfaq")}</p><p>As of 30 June 2026, Selective Service no longer issues the status information letter that the USCIS form page and Policy Manual still name. Read the conflict on this page before you assume a letter is available.{src("sssfaq","n400","pm12d7")}</p>'),
+]
+P(f,"Refugee naturalisation on Form N-400: the 5-year clock","When a refugee may file Form N-400, how the 5-year clock uses the U.S. arrival date, the 30-month presence rule, fees, the test and Selective Service.",f'''<h1>Naturalisation after 5 years (Form N-400)</h1>
+<div class="card"><p>Naturalisation is the way a person born outside the United States becomes a U.S. citizen. The usual application is Form N-400, Application for Naturalization, after at least 5 years as a lawful permanent resident{src("n400","n400five")}.</p>
+<p>For a refugee, those 5 years are not counted from the day U.S. Citizenship and Immigration Services (USCIS) approves the green card. USCIS rolls the permanent-residence date back to an earlier day, set out below. You still file Form N-400 only after you are a permanent resident{src("pm12d2","pm7l5")}.</p>
+<p>The green card application itself is on {L("green-card/index.html","Green card after 1 year",f)}. Rules for leaving the United States are on {L("travel-document/index.html","Can I leave the USA?",f)}.</p></div>
+<h2>When the 5 years start</h2>
+<div class="card"><p>Most people become lawful permanent residents on the day USCIS approves the adjustment application, or on the day they are admitted with an immigrant visa. For some classes the effective date is earlier. The Policy Manual calls that earlier date a rollback date. A refugee is generally considered a lawful permanent resident as of the date of entry into the United States. The manual cites section 209(a)(2) of the Immigration and Nationality Act{src("pm12d2")}.</p>
+<p>The refugee adjustment chapter states the same rule at approval: if the application is approved, the effective date of permanent residence is the date the person was first admitted to the United States as a refugee{src("pm7l5")}.</p>
+<p>There is one stated exception. A derivative refugee who gained status through an approved relative petition, and who was already in the United States when that petition was approved, has an effective date of the day the petition was approved, not the day of entry{src("pm7l5")}. The physical-presence chapter for adjustment calls that petition Form I-730{src("pm7")}.</p>
+<p><strong>Example of the counting rule, not a promise about a real case.</strong> A principal refugee admitted on 1 March 2026, whose adjustment USCIS later approves, has an effective permanent-residence date of 1 March 2026. The general 5-year period runs from that date.</p>
+<p>The permanent resident card shows the date of the status and the class of admission. After approval, a principal refugee is adjusted as RE-6. A spouse admitted as the spouse of a refugee is RE-7. A child admitted as the child of a refugee is RE-8{src("pm7l5","pm12d2")}.</p>
+<p>If the date printed on the card does not match the rule above, how to correct the card is not stated by the pages checked. Ask an immigration attorney or an accredited representative before you file.</p></div>
+<h2>You file only after the green card</h2>
+<div class="card"><p>You generally must show lawful admission for permanent residence at the time you file Form N-400. The card is evidence of the status. The card alone does not prove the admission was lawful, and it does not by itself prove continuous residence or physical presence{src("pm12d2","pm12","pm12d4")}.</p>
+<p>If Form I-485 is still pending on the anniversary of arrival, these pages do not say you may file Form N-400. Get the green card approved first.</p>
+<p>One narrow point goes the other way. If USCIS approved a refugee adjustment even though 1 year of physical presence had not yet accrued on the day the adjustment was filed, USCIS does not deny naturalisation on that ground alone, as long as the admission was otherwise lawful and the year had accrued by the time adjustment was approved{src("pm12d2")}.</p></div>
+<h2>Continuous residence and trips abroad</h2>
+<div class="card"><p>Under the general rule you must have resided continuously in the United States after lawful permanent resident admission for at least 5 years before you file, and up to the time of naturalisation. USCIS looks at the whole period from that admission to the present{src("pm12")}.</p>
+<p>Because a refugee admission date rolls back, time in the United States before the green card is approved can sit inside those 5 years. A trip taken while you were still waiting for the card can be an absence during the statutory period. Read that together with the travel page before you leave the country.</p>
+<ul>
+<li>An absence of 6 months or less does not, by itself, break continuous residence. Several shorter trips can still be reviewed{src("pm12")}.</li>
+<li>More than 6 months but less than 1 year is presumed to break it. You can try to rebut that presumption. Examples in the chapter include U.S. employment that was not ended, no job taken abroad, immediate family who stayed, and a home you still owned or leased{src("pm12")}.</li>
+<li>One year or more breaks continuous residence unless Form N-470 is approved for qualifying employment abroad{src("pm12")}.</li>
+<li>An approved Form N-470 does not remove the physical-presence requirement, except for certain U.S. government work or religious duties described in that chapter{src("pm12")}.</li>
+</ul>
+<p>If any trip lasted more than 6 months but less than 1 year, the Form N-400 page asks for evidence that you kept your residence. The examples it lists include rent or mortgage statements, pay statements, bank or credit-card statements, proof of car registration and insurance, passport stamps, and IRS tax transcripts{src("n400")}.</p>
+<p>Possession of the card for 5 years does not, by itself, prove continuous residence{src("pm12")}.</p>
+<p>A re-entry permit, requested on Form I-131 after you have a green card, is a different document from Form N-470. The pages checked do not say one replaces the other. See {L("travel-document/index.html","Can I leave the USA?",f)}.</p></div>
+<h2>Physical presence: 30 months</h2>
+<div class="card"><p>Continuous residence and physical presence are separate. For the general provision, you must have been physically present in the United States for at least 30 months, which the manual also states as at least 913 days, before you file{src("pm12d4","n400five")}.</p>
+<p>USCIS counts the day you depart and the day you return as days of physical presence{src("pm12d4")}.</p>
+<p>The public eligibility page measures those 30 months out of the 5 years immediately before the date you file Form N-400{src("n400five")}.</p>
+<p>Possession of the card does not, by itself, prove physical presence. USCIS reviews the records and can consider your testimony{src("pm12d4")}.</p></div>
+<h2>Age, address, and filing 90 days early</h2>
+<div class="card"><ul>
+<li>Be at least 18 years old when you submit Form N-400{src("n400five")}.</li>
+<li>Have lived for at least 3 months in the state or USCIS district with jurisdiction over your place of residence. The manual measures that time from the moment you first establish residence there. Residence means the principal, actual dwelling place, without regard to intent{src("n400five","pm12d6")}.</li>
+<li>A student who is financially dependent on parents may apply where the school is, or where the family lives{src("n400five")}.</li>
+<li>If you move after you file, you must report the change of address so USCIS can send the file to the office for the new address{src("pm12d6")}.</li>
+</ul>
+<p>You may file Form N-400 up to 90 days before you would first meet the 5-year continuous-residence period. You are not eligible for naturalisation until that 5-year period is complete. USCIS counts the 90 days back from the day before the day you would first meet the requirement{src("n400","pm12d6")}.</p>
+<p>The manual gives this example. If the 5 years would first be complete on 10 June 2010, USCIS starts the count from 9 June 2010, and the earliest filing date in the example is 12 March 2010{src("pm12d6")}.</p>
+<p>If you file early, and the 3-month state or district period falls inside the 5 years, the manual bases jurisdiction on the 3 months immediately before the examination on the application{src("pm12d6")}.</p>
+<p>The Form N-400 page also allows the 90-day filing window when eligibility is based on 3 years as a permanent resident married to a U.S. citizen. This page does not set out that marriage basis. Read the form page if that is your situation{src("n400")}.</p>
+<p>The early-filing chapter does not say the 90 days reduce the 30 months of physical presence. The public page ties those 30 months to the date you file. Read together, the 90-day window is not extra time in which to accumulate days inside the United States{src("pm12d6","n400five","pm12d4")}.</p></div>
+<h2>English, civics, character and the oath</h2>
+<div class="card"><p>The public 5-year page also requires all of the following{src("n400five")}:</p>
+<ul>
+<li>Good moral character for at least 5 years immediately before the date you file.</li>
+<li>Attachment to the principles and ideals of the U.S. Constitution.</li>
+<li>Ability to read, write and speak basic English.</li>
+<li>Knowledge of U.S. history and of the principles and form of government (civics).</li>
+<li>The Oath of Allegiance to the United States.</li>
+</ul>
+<p>The good-moral-character chapter says you must show that character during the 5 years immediately before the application and up to the oath, and that conduct from before those 5 years can still matter{src("pm12d9")}.</p>
+<p>The oath is taken at a public ceremony. The exceptions page says the law allows certain modifications and points to section 337 of the Immigration and Nationality Act and to title 8 of the Code of Federal Regulations, at 8 CFR 337.1(b). What those modifications are, in practice, is on those citations, which this page does not restate{src("natex")}.</p></div>
+<div class="card"><p><strong>English language exceptions.</strong> You are exempt from the English requirement, and you still take the civics test, if either of these is true at filing{src("natex")}:</p>
+<ul>
+<li>Age 50 or older, and you have lived as a permanent resident for 20 years (often called 50/20).</li>
+<li>Age 55 or older, and you have lived as a permanent resident for 15 years (often called 55/15).</li>
+</ul>
+<p>You may take the civics test in your native language. You must bring an interpreter who is fluent in English and in that language{src("natex")}.</p>
+<p>If you are 65 or older and have been a permanent resident for at least 20 years at filing, the exceptions page says you receive special consideration on civics. The test-updates page is more specific: USCIS gives 10 questions from a bank of 20, drawn from the 2008 test or the 2025 test according to when you filed, and you may take the test in the language of your choice{src("natex","civics")}.</p>
+<p>Those year-counts are years as a permanent resident. For a refugee, the Policy Manual treats permanent residence as beginning on the rollback date once adjustment is approved. The exceptions page does not repeat the refugee sentence. If you are close to 50, 55 or 65, show both pages to a lawyer before you rely on an exception{src("natex","pm12d2")}.</p>
+<p>A separate medical exception uses Form N-648, Medical Certification for Disability Exceptions, if a physical or developmental disability or a mental impairment prevents you from meeting the English or civics requirement. A licensed medical or osteopathic doctor, or a licensed clinical psychologist, completes it{src("natex","n400")}.</p>
+<p>For a disability accommodation at an appointment, the exceptions page tells you to use the request page it names, uscis.gov/accommodations, or to ask the USCIS Contact Center, and to do it when the appointment notice arrives{src("natex")}.</p></div>
+<div class="card"><p><strong>Which civics test.</strong> File Form N-400 before 20 October 2025 and USCIS uses the 2008 civics test. File on or after 20 October 2025 and USCIS uses the 2025 civics test. Some answers change after elections, appointments or changes in law. You answer with the name of the official who is serving at your interview. The updates page lists the answers that were current when that page was reviewed, and it is the page to re-check before you study{src("civics")}.</p>
+<p>A single processing time for Form N-400 is not stated on the pages this guide quotes. Use the {a(S["ptime"],"USCIS processing times tool")} and select the form and office there{src("ptime")}.</p></div>
+<h2>The fee</h2>
+<div class="card"><p>The Form N-400 page and Form G-1055, the fee schedule, list these filing amounts{src("n400","g1055")}:</p>
+<ul>
+<li>Full fee by paper: $760.</li>
+<li>Full fee online: $710.</li>
+<li>Reduced paper fee: $380, if you submit the supporting documents the schedule describes.</li>
+<li>$0 if you meet the military-service requirements in section 328 or 329 of the Immigration and Nationality Act. This page does not set out that path.</li>
+<li>$0 if you qualify for a fee waiver. The schedule points to Form I-912, Request for Fee Waiver.</li>
+</ul>
+<p>You cannot file online if you request the reduced fee or a fee waiver. File a paper Form N-400. Do not file both a reduced-fee request and a fee waiver{src("n400","n400red")}.</p>
+<p>On the form, the filing tips say to select No in Part 10 and skip to Part 11 if you pay the full fee, and to select Yes and complete Part 10 if you request the reduced fee. For a fee waiver, the tips say you are not required to complete Part 10, Item 1, and you submit Form I-912 or a written request instead of a fee{src("n400")}.</p></div>
+<div class="card conf"><p><strong>The income line is not written the same way on every page.</strong></p>
+<ul>
+<li>Form G-1055 gives the $380 paper fee if documented annual household income is not more than 400 percent of the Federal Poverty Guidelines{src("g1055")}.</li>
+<li>The reduced-fee page says USCIS approves a reduced fee only if documented annual household income is less than 400 percent of those guidelines. It also says: if income is at or below 150 percent, do not request the reduced fee. Request a fee waiver instead{src("n400red")}.</li>
+<li>The $380 row on the schedule does not repeat the 150 percent instruction. At exactly 400 percent, "not more than" and "less than" are not the same test. Show both pages to the person who helps you file, and follow the page that applies to the request you actually submit.</li>
+</ul></div>
+<div class="card"><p>A fee waiver is available when the form is eligible and you document one of these{src("feewaive","g1055")}:</p>
+<ul>
+<li>You, your spouse, your child, or your parent (if you are under 21 or disabled) currently receive a means-tested benefit.</li>
+<li>Household income is at or below 150 percent of the Federal Poverty Guidelines when you file.</li>
+<li>You are experiencing extreme financial hardship that prevents you from paying the fee, including unexpected medical bills or emergencies.</li>
+</ul>
+<p>Send Form I-912, or a written request, with the paper Form N-400. The I-912 page says you cannot send the waiver request after USCIS has already received the N-400{src("i912","feewaive")}.</p>
+<p>Examples of means-tested benefits on the waiver page include Medicaid, the Supplemental Nutrition Assistance Program (SNAP), Temporary Assistance for Needy Families (TANF) and Supplemental Security Income (SSI). The same page says it does not treat Medicare, unemployment benefits or Social Security benefits as means-tested benefits for this request. Whether Refugee Cash Assistance is on that list: not stated. A benefit card by itself is not acceptable evidence unless it shows the details that page requires{src("feewaive")}.</p>
+<p>The N-400 rows on the fee schedule do not add a separate Public Law 119-21 amount. The chart of non-waivable Public Law 119-21 fees on the fee-waiver page does not name Form N-400{src("g1055","feewaive")}.</p></div>
+<h2>What to send and how to file</h2>
+<div class="card"><p>The Form N-400 page checked for this edition lists edition date 01/20/25. Use the edition that page lists on the day you file. Every page must come from that edition, and the edition date and page numbers must be visible, or USCIS may reject the form{src("n400")}.</p>
+<p>You generally file online, through a USCIS online account, or by mail. The form page links the direct filing addresses. Mail sent to the wrong address can take longer. Reduced-fee and fee-waiver cases are paper filings only{src("n400")}.</p>
+<p>Sign the form. USCIS rejects an unsigned form{src("n400")}.</p>
+<p>Send copies unless the instructions ask for an original. Any document in a foreign language needs a full English translation and a certification that the translation is complete and accurate and that the translator is competent{src("n400")}.</p>
+<p>The form page checklist, which you do not submit, says every applicant provides the following if they apply to the case{src("n400")}:</p>
+<ul>
+<li>A copy of both sides of the permanent resident card.</li>
+<li>Form N-648, if you request a disability exception to English or civics.</li>
+<li>The current marriage certificate, and proof that each prior marriage ended, if that applies.</li>
+<li>Arrest, charge, conviction and sentencing records. This includes an arrest or detention where no charges were filed.</li>
+<li>Traffic records only if the incident involved alcohol or drugs, led to an arrest, or seriously injured another person.</li>
+<li>If taxes are owed, a signed agreement from the Internal Revenue Service (IRS) or the state or local tax office showing a return was filed and payment was arranged.</li>
+<li>Child-support evidence, if that applies.</li>
+<li>Evidence for any trip of more than 6 months but less than 1 year, as listed earlier.</li>
+<li>Selective Service evidence in the situation described in the next section.</li>
+</ul>
+<p>The checklist says it does not replace the form instructions. Read the instructions before you send the packet{src("n400")}.</p></div>
+<div class="card"><p><strong>Biometrics and the card while the case is pending.</strong> Applicants generally must attend biometrics unless USCIS waives them. The appointment notice gives the time and place. The photograph taken there may be used on the Certificate of Naturalization, so the form page recommends clothing that is acceptable for display on that certificate. USCIS may later ask for physical passport-style photographs{src("n400")}.</p>
+<p>For a Form N-400 properly filed on or after 12 December 2022, the receipt notice extends the green card for 24 months from the "Card Expires" date on the card. Present the receipt together with the card. If you lose the card, you generally must still file Form I-90, Application to Replace Permanent Resident Card, even though naturalisation is pending. If you lose the receipt and the date on the card has passed, you generally must file Form I-90{src("n400")}.</p>
+<p>You may be represented, at no expense to the U.S. government, by an attorney or an accredited representative. The representative submits Form G-28, Notice of Entry of Appearance as Attorney or Accredited Representative{src("n400")}.</p></div>
+<h2>Selective Service for men aged 18 to 25</h2>
+<div class="card"><p>The Selective Service chart says the registration requirement applies, with few exceptions, to male U.S. citizens and male immigrants living in the United States who are 18 through 25. On that chart, the row for refugee, parolee and asylee immigrants is Yes. The row for lawful nonimmigrants on a current nonimmigrant visa is No{src("ssschart","ssswho")}.</p>
+<p>The Selective Service FAQ says that if you were born a male, you are likely required to register, and it points you to that chart. The same FAQ says the Military Selective Service Act, as written, only authorizes registration of male persons{src("sssfaq")}.</p>
+<p>Registering does not mean you are joining the military{src("sssfaq")}.</p>
+<ul>
+<li>The Policy Manual says males must register within 30 days of the 18th birthday, and not after reaching age 26. It names a local post office, a registration card received by mail, and online registration{src("pm12d7")}.</li>
+<li>The FAQ says men 18 through 25 can register online with a valid Social Security number, and that a valid number already in the Selective Service database is required for online registration. A number issued recently may not be in that database yet. If you have a Social Security number, you are required to provide it{src("sssfaq")}.</li>
+<li>If more than 30 days have passed since the 18th birthday, the FAQ says to register immediately. Late registration is accepted until the man turns 26. After that, it is too late to register{src("sssfaq")}.</li>
+</ul>
+<p>A method for a man who has no Social Security number yet: not stated on the FAQ page checked. The Policy Manual names a post office and a card received by mail, and it does not say those two paths require a number. Read both pages, and read {L("social-security-card/index.html","Social Security card",f)} for how the number itself is issued.</p>
+<p>When a male applicant aged 18 to 26 files for adjustment of status, USCIS says it transmits the data to Selective Service. Selective Service then sends an acknowledgement, which is the proof of registration. If USCIS or Selective Service does not finish that process, the manual says that failure is not a willful failure by the applicant. Do not treat the Form I-485 receipt, by itself, as proof that you registered. Keep the acknowledgement. You can check registration on the {a(S["sssver"],"Selective Service verify page")}. The manual also lists telephone confirmation at (847) 688-6888{src("pm12d7","sssfaq")}.</p></div>
+<div class="card warn"><p><strong>Failure to register can block naturalisation for a time, and the letter USCIS asks for is no longer issued.</strong></p>
+<ul>
+<li>USCIS will deny naturalisation if the applicant refuses to register, or knowingly and willfully failed to register, during the period when registration was required{src("pm12d7")}.</li>
+<li>Under 26: generally ineligible. From 26 to 31: may be ineligible, with a chance to show the failure was not knowing or willful, or that registration was not required. Over 31: eligible even if the failure was knowing and willful, because the manual treats it as outside the statutory period{src("pm12d7")}.</li>
+<li>The Form N-400 evidence list asks for a status information letter and a statement of reasons if you had to register, did not do so before 26, and you are now over 26 but under 31. If you are filing because you are married to a U.S. citizen, that list uses under 29 instead of under 31{src("n400")}.</li>
+<li>As of 30 June 2026, the Selective Service FAQ says the agency no longer issues status information letters. It tells men to check registration on the verify page, and it says Selective Service does not decide whether another agency grants a benefit{src("sssfaq")}.</li>
+</ul>
+<p>Chapter 7 of the Policy Manual does not mention age 29. The form page does. And both USCIS pages still name a status information letter that Selective Service says it stopped issuing on 30 June 2026. If you are between these ages, or you did not register, show all three pages to an immigration attorney or an accredited representative. This guide does not invent a letter to stand in for the one Selective Service no longer issues.</p>
+<p>Separately, the FAQ says failure to register is a violation of the Military Selective Service Act, and that a conviction may result in imprisonment for up to 5 years, a fine of not more than $250,000, or both. That criminal sentence is not the same thing as the naturalisation rule above{src("sssfaq")}.</p></div>
+<h2>Where the official pages do not match</h2>
+<div class="card conf"><ul>
+<li>Reduced fee at the 400 percent line, and the 150 percent cross-over to a waiver: Form G-1055 says "not more than 400 percent". The reduced-fee page says "less than 400 percent", and it tells a person at or below 150 percent to request a waiver instead of the $380 fee. The schedule row does not repeat that 150 percent sentence{src("g1055","n400red")}.</li>
+<li>Selective Service evidence ages: the Form N-400 page uses under 31, or under 29 for a spouse of a U.S. citizen. Policy Manual Chapter 7 uses under 26, between 26 and 31, and over 31, and does not mention 29{src("n400","pm12d7")}.</li>
+<li>Status information letter: the Form N-400 page and Chapter 7 still ask for one. The Selective Service FAQ, as of 30 June 2026, says the agency no longer issues that letter{src("n400","pm12d7","sssfaq")}.</li>
+</ul>
+<p>The dollar amounts for the ordinary filing fee do match: $760 on paper and $710 online on both the form page and Form G-1055{src("n400","g1055")}.</p></div>''',n400_faqs)
 
 faq_groups=[
 ("Applying",[
@@ -571,6 +748,8 @@ faq_groups=[
  f'<p>Start with your case manager and the provider grievance process, which should be explained when you arrive.{src("embfaq","pir")}</p><p>You can also contact the State Refugee Coordinator on the federal contact list, or the initial-resettlement mailbox named on the guide page below.{src("src","pir")}</p><p>Read {L("agency-not-helping/index.html","When your agency is not helping")}.</p>'),
 ]),
 ("Green card after 1 year",[
+("When can a refugee apply for U.S. citizenship?",
+ f'<p>After you are a lawful permanent resident, on Form N-400. For a refugee, the general 5-year period runs from the date of entry into the United States once adjustment is approved, not from the approval date. A derivative already in the United States when the relative petition was approved uses that approval date.{src("pm12d2","pm7l5","n400")}</p><p>You also need at least 30 months of physical presence before you file, and you may file up to 90 days before the 5 years of continuous residence are complete.{src("pm12d4","pm12d6")}</p><p>Read {L("naturalization/index.html","Naturalisation after 5 years")}.</p>'),
 ("When do I apply for permanent residence, and is there a fee?",
  f'<p>USCIS requires an application after at least one year of physical presence, while the Embassy FAQ says to apply exactly one year after arrival.{src("gc","embfaq")}</p><p>The Policy Manual counts only days inside the United States when the application is decided, so a trip means you wait until those days add up to a year.{src("pm7")}</p><p>A principal pays no filing fee and no biometrics fee. For a family member, the green card page does not print a dollar amount and points to the fee schedule. Form G-1055 lists a filing fee of $0 if you are a refugee or you were paroled as a refugee. That row does not split a principal from a family member. Ask your resettlement agency how this applies to you, and read {L("green-card/index.html","Green card after 1 year")}. The schedule is in the <a href="/about/#src-g1055">source list</a>.{src("gc")}</p>'),
 ]),
@@ -640,6 +819,7 @@ s.page('404.html',"Page not found: South African refugees in the USA guide","Tha
 <li>{L("benefits/index.html","Benefits checklist")}</li>
 <li>{L("travel-document/index.html","Can I leave the USA?")}</li>
 <li>{L("green-card/index.html","Green card after 1 year")}</li>
+<li>{L("naturalization/index.html","Naturalisation after 5 years")}</li>
 <li>{L("faq/index.html","Common questions")}</li>
 <li>{L("glossary/index.html","Words and abbreviations")}</li>
 <li>{L("disclaimer/index.html","Disclaimer")}</li>
