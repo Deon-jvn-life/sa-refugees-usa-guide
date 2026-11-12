@@ -3,7 +3,7 @@
 import os,sys
 HERE=os.path.dirname(os.path.abspath(__file__)); ROOT=os.path.dirname(HERE); sys.path.insert(0,HERE)
 import re
-from sitelib import Site,CSS,D,NOTICE,esc,a,slug,href,INTAKE_FORM,intake_button
+from sitelib import Site,CSS,D,NOTICE,esc,a,slug,href,INTAKE_FORM,intake_button,journey_strip
 BASE="https://www.sarefugeesusa.org"
 PP="https://sa-passport-id-usa-guide-w1ab.vercel.app/"; PPC=PP+"citizenship/"
 S=dict(
@@ -321,6 +321,23 @@ s.checked={p:_TAX_CHECKED for p in (
  'tax-first-year/index.html','sa-tax-residency/index.html','us-tax-treaty/index.html',
  'foreign-accounts/index.html','moving-money/index.html','sa-company-property/index.html')}
 grouped=[p for _g,it in G for p,_t in it]
+def _with_journey_next(path, curated):
+    """Pager's next page first, then Avoiding scams, then one related page."""
+    if path=='index.html':
+        return ['eligibility/index.html','online-intake/index.html','first-90-days/index.html']
+    picked=[]
+    def add(p):
+        if p and p!=path and p not in picked and p in grouped:
+            picked.append(p)
+    if path in ORDER:
+        i=ORDER.index(path)
+        if i+1<len(ORDER):
+            add(ORDER[i+1])
+    add('avoiding-scams/index.html')
+    for p in curated:
+        add(p)
+    return picked[:3]
+READ_NEXT={p:_with_journey_next(p, dests) for p,dests in READ_NEXT.items()}
 assert set(BLURB)==set(grouped)
 assert set(ALIAS)==set(grouped)
 assert set(p for _per,ps in TIMELINE for p in ps)<=set(grouped)
@@ -329,6 +346,14 @@ for _src,dests in READ_NEXT.items():
     assert len(dests)==3
     for dest in dests:
         assert dest in grouped
+for i,p in enumerate(ORDER):
+    rn=READ_NEXT[p]
+    if i+1<len(ORDER):
+        assert rn[0]==ORDER[i+1], (p, rn)
+        if ORDER[i+1]!='avoiding-scams/index.html' and p!='avoiding-scams/index.html':
+            assert rn[1]=='avoiding-scams/index.html', (p, rn)
+assert READ_NEXT['index.html']==['eligibility/index.html','online-intake/index.html','first-90-days/index.html']
+s.read_next=READ_NEXT
 def jump(p, label=None):
     title=label or s.titles[p]
     return f'<a class="jump" href="{href(p)}"><span class="lt">{esc(title)}</span><span class="ls">{esc(BLURB[p])}</span></a>'
@@ -345,41 +370,43 @@ tasks=[
  ('travel-document/index.html','Travel document'),
  ('naturalization/index.html','Citizenship')]
 task_html=''.join(f'<li>{jump(p,label)}</li>' for p,label in tasks)
-topics=''.join(
-    f'<section class="topic"><h3 id="{slug(g)}">{esc(g)}</h3><ul class="link-grid">'+''.join(f'<li>{jump(p)}</li>' for p,_t in it)+'</ul></section>'
-    for g,it in G)
 body=f'''<h1>South African refugees coming to the USA: where are you in the journey?</h1>
-<p class="home-cta">{intake_button()}<a class="guide-link" href="/online-intake/">Read our guide to the questionnaire first</a></p>
-<p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Open Start here for the pages in time order. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
-<section class="path" aria-labelledby="{slug("Start here")}">
+<p>A plain-language, factual guide for South Africans being processed through, or recently resettled by, the U.S. Refugee Admissions Program (USRAP). Open <a href="#start-here">Start here</a> for the pages in time order. Words such as USRAP are explained in the {L("glossary/index.html","glossary")}.</p>
+<section class="journeys" aria-labelledby="where-are-you">
+<h2>Where are you?</h2>
+<ul class="journey-list">
+<li><a class="jump" href="/eligibility/"><span class="lt">I have not applied yet</span><span class="ls">Check who can be referred. Then read the questionnaire guide before you open the official form.</span></a></li>
+<li><a class="jump" href="/online-intake/"><span class="lt">I already submitted the form</span><span class="ls">See what the Embassy says happens next, how to confirm the dashboard, and how to avoid scams.</span></a></li>
+<li><a class="jump" href="/first-90-days/"><span class="lt">I have arrived</span><span class="ls">Start with your first 90 days, then a Social Security card, work and health cover.</span></a></li>
+</ul>
+<p class="form-quiet">The official form is free. <a href="/online-intake/">Read the questionnaire guide first</a>, or <a href="{esc(INTAKE_FORM)}" target="_blank" rel="noopener">open the official form</a>.</p>
+</section>
+<section class="path" aria-labelledby="start-here">
 <h2>Start here</h2>
 <p>These pages follow the journey in time order. Open the group that matches where you are.</p>
 <ol class="timeline">{timeline}</ol>
 </section>
-<section class="tasks-wrap" aria-labelledby="{slug("Top tasks")}">
+<section class="tasks-wrap" aria-labelledby="top-tasks">
 <h2>Top tasks</h2>
-<p>The pages people need most often. Each link opens one page.</p>
+<p>A short list of the pages people open most often.</p>
 <ul class="tasks">{task_html}</ul>
 </section>
 <div class="card note"><ul><li>The FY2026 refugee ceiling was raised from 7,500 to 17,500 by Presidential Determination 2026-14{src("pd26")}.</li><li>The FY2027 ceiling is up to 17,500 under Presidential Determination 2026-24{src("pd27")}.</li><li>Since 1 January 2026 the Office of Refugee Resettlement (ORR) runs initial resettlement{src("pir")}.</li></ul></div>
 <div class="card warn"><strong>{NOTICE}</strong></div>
-<section aria-labelledby="{slug("All topics")}">
-<h2>All topics</h2>
-<p>Every page on this guide, grouped by subject.</p>
-{topics}
-</section>'''
-s.page('index.html',"South African refugees in the USA: a plain USRAP guide","Plain-language guide for South Africans in the U.S. Refugee Admissions Program: referral, arrival, benefits, health cover, work and the green card.",body,kind='home')
+<p class="more-topics">The same pages are in the topic menu and on {L("find/index.html","All pages")}.</p>'''
+s.page('index.html',"Guide for South African refugees coming to the USA","A plain-language guide for South Africans in the U.S. refugee programme: referral, the free form, arrival, work, health cover and the green card.",body,kind='home')
 
 f='eligibility/index.html'
-P(f,"USRAP eligibility and referral rules for South Africans","Who the U.S. Embassy in South Africa says can be considered for a USRAP referral, and how the intake questionnaire fits the process.",f'''<h1>Eligibility and referral</h1>
+P(f,"Who can be referred as a South African refugee to the USA","Who the U.S. Embassy in South Africa says can be considered for a refugee referral, and how the free intake questionnaire fits that process.",f'''<h1>Eligibility and referral</h1>
+{journey_strip('rules')}
 <h2>Who the Embassy says can be considered</h2><div class="card"><p>The U.S. Mission South Africa page (dated 7 October 2026) lists all of these criteria{src("emb")}:</p><ul><li>South African nationality</li><li>Afrikaner ethnicity, or a member of a racial minority in South Africa</li><li>Able to describe past persecution or fear of future persecution on account of race, religion, nationality, membership in a particular social group or political opinion</li><li>At least 18, or referred with a parent</li><li>Living inside South Africa; the programme does not expect out-of-country processing</li></ul></div>
 <h2>How to ask for referral</h2><div class="card"><ul><li>If no USRAP partner has contacted you yet, complete the online {L("online-intake/index.html","USRAP Intake Questionnaire",f)}. This applies even if you sent an earlier Statement of Interest{src("emb")}.</li><li>The form the Embassy links is on a state.gov site: {a(S["uiq"],"USRAP Intake Questionnaire")}{src("emb")}.</li><li>Referral partners are RSC Africa (operated by Church World Service) and Amerikaners{src("emb","embfaq")}.</li><li>Not everyone is referred. The authority to grant access rests with the U.S. government, not with RSC Africa/CWS or Amerikaners{src("emb")}.</li><li>If accepted, next steps include a pre-screen interview, security vetting, a USCIS interview and a medical exam{src("embfaq")}.</li><li>There is no standard timeline. Case questions, once you have a case number: SouthAfrica@cwsafrica.org{src("embfaq")}.</li></ul></div>
 <h2>Conflicts and gaps</h2><div class="card conf"><ul><li>The Embassy's 13 February 2025 notice says to email PretoriaPRMInfo@state.gov and that access is free{src("emb2025")}. The 7 October 2026 page does not mention that mailbox. It says you must complete the questionnaire, even after a Statement of Interest{src("emb")}. The October page does not say the email was "replaced". Follow the newer page, and read {L("online-intake/index.html","Online intake questionnaire",f)}.</li><li>The Presidential Determinations refer to Afrikaners from South Africa{src("pd26","pd27")}. The Embassy criteria also include a member of a racial minority{src("emb")}.</li><li>Processing time: not stated as one number. The Embassy FAQ says there is no standard timeline{src("embfaq")}.</li></ul></div>
 <p>Next: read {L("avoiding-scams/index.html","Avoiding scams",f)} before you share documents or pay anyone.</p>''')
 
 f='online-intake/index.html'
-P(f,"USRAP online intake questionnaire for South Africans","What the official USRAP intake questionnaire is, who should submit it, what the Embassy says happens next, and why the form is free.",f'''<h1>Online intake questionnaire</h1>
-<p class="home-cta">{intake_button()}</p>
+P(f,"The free South African refugee form, and what happens next","What the official refugee intake questionnaire is, who should submit it, what the U.S. Embassy says happens next, and why the form is free.",f'''<h1>Online intake questionnaire</h1>
+{journey_strip('form')}
 <h2>What it is</h2><div class="card"><p>The U.S. Mission South Africa page (7 October 2026, U.S. Mission South Africa, marked as a 24 minute read) tells people who meet every eligibility rule, and who have not yet been contacted by a USRAP partner, to complete the online USRAP Intake Questionnaire if they want to be considered for referral{src("emb")}.</p>
 <p>The Embassy's own link, checked on {D}, is {a(S["uiq"],"https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8")}{src("emb")}. Do not use a look-alike site.</p>
 <p>The same page says you must complete this questionnaire even if you already submitted a Statement of Interest on the old link, if you are still interested and a partner has not contacted you to act on that statement{src("emb")}.</p></div>
@@ -394,14 +421,14 @@ P(f,"USRAP online intake questionnaire for South Africans","What the official US
 <p>The 7 October 2026 page does not mention PretoriaPRMInfo@state.gov. It says you must complete the questionnaire even if you already sent a Statement of Interest{src("emb")}. It does not use the word "replaced". Both pages are still on the Embassy site. Follow the newer page for how to ask for a referral.</p></div>''')
 
 f='programme-status/index.html'
-P(f,"Refugee programme status and the FY2026 to FY2027 caps","FY2026 and FY2027 refugee admission ceilings from the Federal Register, and which U.S. agencies run referral, interview and arrival.",f'''<h1>Programme status and caps</h1>
+P(f,"The US refugee admission ceilings for 2026 and 2027","FY2026 and FY2027 refugee admission ceilings from the Federal Register, and which U.S. agencies run referral, interview and arrival.",f'''<h1>Programme status and caps</h1>
 <h2>FY2026 (1 October 2025 to 30 September 2026)</h2><div class="card"><ul><li>Presidential Determination 2026-14 of 21 May 2026 raised the FY2026 ceiling from 7,500 (set by Presidential Determination 2025-13) to 17,500{src("pd26")}.</li><li>The additional admissions are allocated among Afrikaners from South Africa, consistent with Executive Order 14204{src("pd26")}.</li><li>Published 27 May 2026, 91 FR 31645{src("pd26")}.</li></ul></div>
 <h2>FY2027 determination</h2><div class="card"><ul><li>Yes, there is one. Presidential Determination 2026-24 of 25 September 2026 authorises up to 17,500 refugee admissions in FY2027{src("pd27")}.</li><li>Admissions are "primarily" allocated among Afrikaners from South Africa under Executive Order 14204{src("pd27")}.</li><li>Published 2 October 2026{src("pd27")}.</li></ul></div>
 <h2>Who runs what</h2><div class="card"><ul><li>The State Department identifies and refers applicants. USCIS interviews and checks them. CDC-approved doctors do the medical exam. CBP admits refugees at the port of entry. ORR starts services on arrival{src("roles")}.</li><li>ORR took over initial resettlement, now the Program of Initial Resettlement, on 1 January 2026{src("pir")}.</li><li>How to ask for a referral from South Africa is the {L("online-intake/index.html","online intake questionnaire",f)}, not an email to a private helper{src("emb")}.</li></ul></div>
 <p class="src">How many places are left in FY2027: not stated by source.</p>''')
 
 f='avoiding-scams/index.html'
-P(f,"Avoiding scams in the USRAP refugee programme in 2026","The USRAP intake questionnaire is free. Embassy and USCIS warnings about fees, fake helpers, notarios and how to report fraud.",f'''<h1>Avoiding scams</h1>
+P(f,"How to avoid scams when you apply as a South African refugee","The refugee questionnaire is free. What the U.S. Embassy and USCIS say about fees, fake helpers, notarios, and how to report fraud.",f'''<h1>Avoiding scams</h1>
 <h2>The referral process is free</h2><div class="card warn"><ul><li>Access to USRAP is free, including the {L("online-intake/index.html","questionnaire",f)}. Referral partners do not charge fees{src("emb")}.</li><li>It is not necessary to have documents verified{src("emb")}.</li><li>Do not pay anyone who claims to expedite your case or guarantee approval. Only RSC Africa/CWS and Amerikaners are official referral and USRAP implementers in South Africa. Report fraud with the USRAP Tip Form on the Embassy pages{src("emb","embfaq")}.</li><li>The 13 February 2025 Embassy notice also says access is free and that no one should pay a fee or a favour for access or for a faster case{src("emb2025")}.</li></ul></div>
 <h2>Pets are a common hook</h2><div class="card"><p>The Embassy says neither the U.S. government nor USRAP partners fund or arrange pet transport, and Embassy Pretoria is not working with any group to move pets. Beware of anyone who claims they are coordinating with the government to move a pet or to speed up the case{src("emb")}. Details are on {L("bringing-pets/index.html","Bringing your pets",f)}.</p></div>
 <h2>After you arrive</h2><div class="card"><ul><li>USCIS will never ask you to send money to a person, or to pay by Western Union, gift cards or similar{src("scam")}.</li><li>Notarios are not authorised to give immigration legal services. Only an attorney or an accredited representative of a DOJ-recognised organisation can{src("scam")}.</li><li>USCIS forms are free to download from uscis.gov{src("scam")}.</li><li>Government email addresses end in .gov{src("scam")}.</li></ul></div>
@@ -516,7 +543,7 @@ P(f,"Bringing pets from South Africa to the USA: rules and time","CDC, USDA and 
 </ul></div>''')
 
 f='first-90-days/index.html'
-P(f,"Your first 90 days after you arrive as a USRAP refugee","What the Office of Refugee Resettlement says a local provider arranges in the first period after you arrive, up to 90 days.",f'''<h1>First 90 days</h1>
+P(f,"Your first 90 days after you arrive in the USA as a refugee","What the Office of Refugee Resettlement says a local provider arranges in the first period after you arrive, up to 90 days.",f'''<h1>First 90 days</h1>
 <h2>Who helps you</h2><div class="card"><p>ORR coordinates placement and initial resettlement services up to 90 days through the Program of Initial Resettlement (PIR). Refugees are typically assigned a local resettlement provider{src("pir")}.</p>
 <p>The Embassy FAQ describes that support as typically for 30 to 90 days, with limited help on housing, orientation and basic benefits{src("embfaq")}. ACF's page says up to 90 days and does not state a 30-day minimum{src("pir")}. The two pages use different wording. Read both.</p>
 <p>PIR is delivered by eight organisations: Catholic Charities USA, Church World Service, Ethiopian Community Development Council, Global Refuge, HIAS, International Rescue Committee, U.S. Committee for Refugees and Immigrants, and World Relief{src("pir")}.</p></div>
@@ -547,14 +574,14 @@ P(f,"A benefits checklist for refugees in the first year","A checklist of refuge
 <h2>Conflict between sources</h2><div class="card conf">The ACF benefits fact sheet (page dated 9 October 2026) still says four months of RCA and RMA for an eligibility date on or after 5 May 2025{src("ben")}. ORR's Dear Colleague Letter 26-05 (revised 1 October 2026) and the Federal Register correction say up to 12 months for an eligibility date on or after 1 January 2026{src("dcl","frrma")}. The newer policy letter appears to govern. Confirm with your provider.</div>''')
 
 f='health-cover/index.html'
-P(f,"Health cover for refugees in 2026: RMA versus Medicaid","How Refugee Medical Assistance compares with Medicaid in 2026, including ORR's letter that RMA can last up to 12 months.",f'''<h1>Health cover: RMA versus Medicaid</h1>
+P(f,"Health cover for refugees: Medicaid and medical assistance","How refugee medical assistance compares with Medicaid in 2026, including ORR's letter that this help can last up to 12 months.",f'''<h1>Health cover: RMA versus Medicaid</h1>
 <h2>Refugee Medical Assistance (RMA)</h2><div class="card"><ul><li>RMA is for people who are not eligible for Medicaid. ORR says it provides the same coverage as Medicaid{src("ben")}.</li><li>From 1 October 2026, ORR provides up to 12 months of RMA for people whose ORR eligibility date is on or after 1 January 2026{src("dcl","frrma")}.</li><li>The letter gives states up to 30 days from 1 October 2026 to put the change into practice{src("dcl")}.</li><li>Conditions include not being eligible for Medicaid and meeting income and resource rules{src("dcl")}.</li></ul></div>
 <h2>Medicaid</h2><div class="card"><ul><li>The ACF fact sheet says refugees may be eligible for Medicaid{src("ben")}.</li><li>ORR's letter cites reduced access to other benefits as a reason reliance on ORR assistance is rising{src("dcl")}.</li><li>Exactly how refugee Medicaid eligibility changed on 1 October 2026: not stated by the Administration for Children and Families pages or the Federal Register notice linked on this page. The Embassy FAQ, quoted on the {L("faq/index.html","common questions",f)} page, says Medicaid is typically available once you are a lawful permanent resident. Ask your state Medicaid office or resettlement provider.</li></ul></div>
 <h2>What to do</h2><ul><li>Apply for health cover straight away through your resettlement provider or state benefits office{src("ben")}.</li><li>Already enrolled in RMA? Ask how the 12-month period under the 1 October 2026 letter applies to you{src("dcl")}.</li><li>Problems: contact the State Refugee Health Coordinator on {a(S["src"],"ACF's state contacts list")}{src("src")}.</li></ul>
 <div class="card conf">Conflict: the ACF fact sheet still lists four months of RMA{src("ben")}, while the October 2026 letter says up to 12 months{src("dcl")}.</div>''')
 
 f='jobs/index.html'
-P(f,"Jobs, the EAD and Form I-9 for newly arrived refugees","Refugees may work from the day they arrive. What USCIS says about the EAD, Form I-9 and the I-94, plus free job help from ORR.",f'''<h1>Jobs and employment services</h1>
+P(f,"Work and the work card for refugees new to the USA","Refugees may work from the day they arrive. What USCIS says about the EAD, Form I-9 and the I-94, plus free job help from ORR.",f'''<h1>Jobs and employment services</h1>
 <h2>Your right to work</h2><div class="card"><ul><li>Refugees may work immediately on arrival{src("gc")}.</li><li>USCIS creates a digital Form I-765 for principal refugees and family who arrive with them. You should receive the Employment Authorization Document (EAD) within a few weeks after you arrive, depending on delivery times{src("gc")}.</li><li>For Form I-9, your I-94 is acceptable for 90 days after arrival. After that, show an unexpired EAD or other documents such as a driver's licence plus an unrestricted Social Security card{src("gc")}.</li><li>There is no fee for an initial or renewal refugee EAD in category (a)(3){src("gc")}.</li></ul></div>
 <p>A job also raises tax questions. If you were an employee in South Africa, start with {L("tax-first-year/index.html","Tax when you start work",f)}. That page is general information, not tax advice.</p>
 <h2>Free employment help</h2><div class="card"><ul><li>Refugee Support Services include job training, search, placement and retention, English classes, childcare and transport, for up to 5 years{src("ben")}.</li><li>RCA is provided alongside employment services through your provider{src("ben")}. Detailed participation rules: not stated by the pages checked.</li><li>Matching Grant is intensive case management and job help, aiming at self-sufficiency within 240 days{src("ben")}.</li></ul></div>
@@ -980,7 +1007,7 @@ f='glossary/index.html'
 gloss_body='<h1>Words and abbreviations explained</h1><p>Short meanings for words used on this site. If a short line and the official page do not match, follow the official page. The first time a word appears on another page, it links here.</p>'
 for h,_pats,html in sorted(GLOSS, key=lambda row: row[0].lower()):
     gloss_body+=f'<h2>{esc(h)}</h2><div class="card"><p>{html}</p></div>'
-P(f,"Words and abbreviations explained in plain English","Plain-English meanings for USRAP, USCIS, ORR, the refugee travel document and the other abbreviations used on this guide.",gloss_body)
+P(f,"Plain-English word list for this South African refugee guide","Plain-English meanings for the names and abbreviations used on this guide, from the refugee programme to the travel document.",gloss_body)
 
 f='disclaimer/index.html'
 P(f,"Disclaimer: this guide is general information only","This guide is general information only. It is not legal advice, it has no warranty, and it is not affiliated with any government.",f'''<h1>Disclaimer</h1>

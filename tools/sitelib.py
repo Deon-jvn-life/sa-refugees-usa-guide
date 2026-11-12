@@ -10,6 +10,30 @@ def intake_button():
     return (f'<a class="intake" href="{esc(INTAKE_FORM)}" target="_blank" rel="noopener">'
             '<span class="intake-long">Start the official online intake questionnaire</span>'
             '<span class="intake-short"><span class="intake-wide">Intake form</span><span class="intake-mini">Intake</span></span></a>')
+def journey_strip(current):
+    """Three-step strip for the referral pages. current is 'rules' or 'form'."""
+    if current not in ('rules','form'):
+        raise ValueError(current)
+    def li(key, inner):
+        cur=' aria-current="step"' if key==current else ''
+        return f'<li{cur}>{inner}</li>'
+    if current=='rules':
+        rules='<span class="step-label">Check the rules</span><span class="you">Current step</span>'
+    else:
+        rules='<a class="step-label" href="/eligibility/">Check the rules</a>'
+    if current=='form':
+        form=('<span class="step-label">Submit the official form</span><span class="you">Current step</span>'
+              '<span class="step-links"><a class="guide-link" href="#what-it-is">Read the guide first</a>'
+              +intake_button()+'</span>')
+    else:
+        form=('<span class="step-label">Submit the official form</span><span class="step-links">'
+              '<a href="/online-intake/">Read the guide first</a>'
+              f'<a href="{esc(INTAKE_FORM)}" target="_blank" rel="noopener">Official form</a></span>')
+    done=('<span class="step-label">Confirm the dashboard and read Avoiding scams</span><span class="step-links">'
+          '<a href="/online-intake/#how-to-know-the-form-went-through">Confirm the dashboard</a>'
+          '<a href="/avoiding-scams/">Avoiding scams</a></span>')
+    return ('<nav class="where" aria-label="You are here"><p class="where-k">You are here</p><ol>'
+            +li('rules',rules)+li('form',form)+li('',done)+'</ol></nav>')
 def slug(t):
     t=H.unescape(re.sub(r'<[^>]+>','',t))
     return re.sub(r'[^a-z0-9]+','-',t.lower()).strip('-')
@@ -350,7 +374,17 @@ DOCK_JS=r'''(function(){
   measure();
   onScroll();
 })();'''
-TOC_BOOT='<script>if(window.matchMedia("(min-width:960px)").matches){var d=document.currentScript.previousElementSibling;if(d&&d.tagName==="DETAILS")d.open=true;}</script>'
+TOC_BOOT='<script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script>'
+def _split_head(body):
+    """Keep the title and intro in the head. A section or nav that wraps the first h2 stays with that h2."""
+    h2pos=body.find('<h2')
+    if h2pos==-1:
+        return body, ''
+    head=body[:h2pos]
+    m=re.search(r'((?:<(?:section|nav)\b[^>]*>\s*)+)$', head)
+    if m and m.start(1)>0:
+        return head[:m.start(1)], body[m.start(1):]
+    return head, body[h2pos:]
 class Site:
     def __init__(s,root,base,brand,groups,order,footer,css,terms=None,gsc='',msvalidate='',related=None):
         s.out=os.path.join(root,'site'); s.base=base.rstrip('/'); s.brand=brand; s.groups=groups; s.order=order
@@ -363,7 +397,7 @@ class Site:
         os.makedirs(s.out)
     def _search_json(s):
         if s._search_cache is not None: return s._search_cache
-        rows=[{"u":"/","t":"Home","s":"Start here, top tasks, and every topic.","g":"Home","k":"guide home"}]
+        rows=[{"u":"/","t":"Home","s":"Choose a path, then follow Start here in time order.","g":"Home","k":"guide home journey apply arrived"}]
         for g,items in s.groups:
             for p,t in items:
                 rows.append({"u":href(p),"t":t,"s":s.summaries.get(p,""),"g":g,"k":s.aliases.get(p,"")})
@@ -400,24 +434,19 @@ class Site:
         used=set()
         body=link_terms(body, s.terms, used)
         foot=link_terms(s.footer, s.terms, used)
-        h2pos=body.find('<h2')
-        if h2pos==-1:
-            head, rest = body, ''
-        else:
-            head, rest = body[:h2pos], body[h2pos:]
+        head, rest = _split_head(body)
         toc=''
         if len(h2)>=3:
-            opened=' open' if len(h2)<=8 else ''
             lis=''.join(
                 f'<li><a href="#{slug(x)}">{esc(H.unescape(re.sub("<[^>]+>","",x)))}</a></li>' for x in h2)
-            toc=f'<nav class="toc" aria-label="On this page"><details class="toc-details"{opened}><summary>On this page</summary><ul>{lis}</ul></details>{TOC_BOOT}</nav>'
+            toc=f'<nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul>{lis}</ul></details>{TOC_BOOT}</nav>'
         plain=s.titles.get(path, headline)
         if path=='index.html':
             crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Home</span></li></ol></nav>'
         else:
             items_html=['<li><a href="/">Home</a></li>']
             if stage:
-                items_html.append(f'<li><a href="/#{slug(stage)}">{esc(stage)}</a></li>')
+                items_html.append(f'<li><a href="/find/#{slug(stage)}">{esc(stage)}</a></li>')
             items_html.append(f'<li><span aria-current="page">{esc(plain)}</span></li>')
             crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol>'+''.join(items_html)+'</ol></nav>'
         when=s.when.get(path,'')
@@ -453,7 +482,7 @@ class Site:
         if path!='index.html':
             pos=2
             if stage:
-                crumbs_ld.append({"@type":"ListItem","position":pos,"name":stage,"item":s.base+"/#"+slug(stage)})
+                crumbs_ld.append({"@type":"ListItem","position":pos,"name":stage,"item":s.base+"/find/#"+slug(stage)})
                 pos+=1
             item={"@type":"ListItem","position":pos,"name":plain}
             if kind!='error': item["item"]=url
@@ -526,9 +555,29 @@ class Site:
                     raise SystemExit('Unexpected noindex on '+path)
             elif 'noindex,follow' not in html:
                 raise SystemExit('404 should be noindex')
+            if re.search(r'<details class="toc-details"[^>]*\sopen(?:[\s=]|/?>)', html):
+                raise SystemExit('On this page is expanded in the HTML on '+path)
+            if path=='index.html':
+                head_html=html.split('<div class="head-block">',1)[1].split('<div class="layout',1)[0]
+                if '<section' in head_html:
+                    raise SystemExit('Home heading block contains a section, so a landmark is split')
+                _assert_section_wraps_heading(html, 'journeys', 'where-are-you')
+                _assert_section_wraps_heading(html, 'path', 'start-here')
+                _assert_section_wraps_heading(html, 'tasks-wrap', 'top-tasks')
         missing=_check_links(s.out, s.pages)
         if missing: raise SystemExit('Broken internal links:\n'+'\n'.join(missing))
 
+def _assert_section_wraps_heading(html, class_name, heading_id):
+    needle=f'<section class="{class_name}"'
+    if needle not in html:
+        raise SystemExit(f'Missing section.{class_name}')
+    _pre, post = html.split(needle, 1)
+    section=post.split('</section>',1)[0]
+    if f'id="{heading_id}"' not in section:
+        raise SystemExit(f'{heading_id} is outside section.{class_name}')
+    before=section.split(f'id="{heading_id}"',1)[0]
+    if '</div>' in before:
+        raise SystemExit(f'section.{class_name} is split before {heading_id}')
 def _check_links(out, pages):
     missing=[]
     for path in pages:
@@ -722,9 +771,9 @@ body.is-docked .name-sub,body.is-docked .headlink,body.is-docked .name-compact,b
 body.is-docked .name-main{display:block;font-size:1rem;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 body.is-docked .headcta{margin:0}
 body.is-docked .headcta a.intake{width:auto;min-height:40px;padding:.2rem .7rem;font-size:.9375rem;line-height:1.2}
-body.is-docked .intake-long{display:none}
-body.is-docked .intake-short,body.is-docked .intake-wide{display:inline}
-body.is-docked .intake-mini{display:none}
+body.is-docked .headcta .intake-long{display:none}
+body.is-docked .headcta .intake-short,body.is-docked .headcta .intake-wide{display:inline}
+body.is-docked .headcta .intake-mini{display:none}
 body.is-docked .search-toggle{display:inline-flex}
 body.is-docked .search-wrap{display:none;margin:0;position:absolute;top:100%;left:0;right:0;z-index:36;background:var(--head-bg);padding:var(--space-4) 0 var(--space-4);box-shadow:0 12px 24px rgba(0,0,0,.28)}
 body.is-docked .search-wrap.is-open{display:block}
@@ -753,8 +802,8 @@ body.is-docked .flag{height:16px}
 body.is-docked .search-toggle{padding:0;width:40px}
 body.is-docked .search-toggle-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 body.is-docked .headcta a.intake{padding:0 .5rem;font-size:.875rem}
-body.is-docked .intake-wide{display:none}
-body.is-docked .intake-mini{display:inline}
+body.is-docked .headcta .intake-wide{display:none}
+body.is-docked .headcta .intake-mini{display:inline}
 }
 .notice{background:#fff6db;color:var(--ink);border-bottom:3px solid #8a5a00}
 .notice .shell{padding-top:var(--space-4);padding-bottom:var(--space-4);font-size:1.0625rem;line-height:1.5}
@@ -783,7 +832,7 @@ h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
 .toc{order:-1}
 .rest{order:0;min-width:0}
-.rest>h2:first-child,.rest>h3:first-child{margin-top:0}
+.rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
 @media(min-width:960px){
 .layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
 .layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
@@ -821,6 +870,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .topic{margin:0 0 var(--space-6)}
 .topic>h3{margin-top:0}
 .jump{display:flex;flex-direction:column;justify-content:center;gap:var(--space-2);min-height:48px;padding:var(--space-4) var(--space-5);background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:12px;text-decoration:none}
+.content a.jump{text-decoration:none}
 .jump:hover{border-color:var(--link)}
 .jump .lt{color:var(--link);font-weight:700;text-decoration:underline;text-underline-offset:.12em;font-size:1.125rem}
 .jump .ls{color:var(--ink);font-size:1rem;text-decoration:none;font-weight:400}
@@ -828,6 +878,30 @@ a.jump:visited .lt{color:var(--visited)}
 .home-cta{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-3) var(--space-4);margin:0}
 .home-cta a.intake{font-size:1.0625rem}
 .guide-link{display:inline-flex;align-items:center;min-height:44px;font-weight:700}
+.journey-list{list-style:none;margin:var(--space-4) 0 0;padding:0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
+.journey-list>li{max-width:none}
+.journey-list .jump{height:100%}
+@media(min-width:800px){.journey-list{grid-template-columns:1fr 1fr 1fr}}
+.form-quiet{margin:var(--space-4) 0 0}
+.form-quiet a{font-weight:700}
+.more-topics{margin-top:var(--space-5)}
+.where{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-4);margin:0 0 var(--space-5)}
+.where-k{font-weight:700;margin:0 0 var(--space-3)}
+.where ol{list-style:none;counter-reset:where;margin:0;padding:0;display:grid;gap:var(--space-4)}
+.where li{counter-increment:where;max-width:none;margin:0;min-width:0}
+.where li[aria-current="step"]{background:#e5f2ea;border:2px solid #1d4f3e;border-radius:10px;padding:var(--space-3)}
+.step-label{display:block;font-weight:700}
+.step-label::before{content:counter(where) ". "}
+a.step-label{display:inline-flex;align-items:center;min-height:44px}
+.you{display:inline-flex;align-items:center;min-height:1.6rem;margin:var(--space-1) 0 var(--space-2);padding:0 var(--space-2);border-radius:999px;background:#143024;color:#fff;font-size:1rem;font-weight:700}
+.step-links{display:flex;flex-wrap:wrap;align-items:center;gap:var(--space-2)}
+.step-links a{display:inline-flex;align-items:center;min-height:44px}
+.where a.intake{width:100%}
+@media(min-width:800px){
+.where ol{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr) minmax(0,1.15fr);gap:var(--space-4);padding-left:1.5rem}
+.where a.intake{width:auto}
+}
+article.content a.intake{text-decoration:none}
 .src{color:#3e3a34;font-size:1rem}
 .src,.card,td,th{overflow-wrap:anywhere}
 .content ul,.content ol{margin:var(--space-3) 0 var(--space-4);padding-left:1.25rem}
@@ -862,7 +936,8 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
 '''
