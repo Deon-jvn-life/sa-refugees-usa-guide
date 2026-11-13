@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -261,7 +247,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#using-this-guide">Using this guide</a></li><li><span aria-current="page">Disclaimer</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Disclaimer</h1><div class="inshort"><p><strong>In short.</strong> General information only. Not legal advice and not a government site.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#general-information-only">General information only</a></li><li><a href="#not-legal-advice">Not legal advice</a></li><li><a href="#no-warranty">No warranty</a></li><li><a href="#limitation-of-liability">Limitation of liability</a></li><li><a href="#external-links">External links</a></li><li><a href="#not-affiliated">Not affiliated</a></li><li><a href="#check-the-official-source">Check the official source</a></li><li><a href="#corrections">Corrections</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="general-information-only">General information only</h2><div class="card"><p>The pages on this site are general information about public rules for South Africans in the U.S. refugee programme. They are not legal advice, not tax advice, and not advice about your own case. Refugee status, travel, a <a href="/glossary/#green-card-lpr">green card</a> and citizenship can turn on facts this site does not know.</p></div>
+</div><div class="layout"><div class="rest"><h2 id="general-information-only">General information only</h2><div class="card"><p>The pages on this site are general information about public rules for South Africans in the U.S. refugee programme. They are not legal advice, not tax advice, and not advice about your own case. Refugee status, travel, a <a href="/glossary/#green-card-lpr">green card</a> and citizenship can turn on facts this site does not know.</p></div>
 <h2 id="not-legal-advice">Not legal advice</h2><div class="card"><p>Nothing here creates a lawyer-client relationship. Before you travel, file a form, pay anyone, or rely on a deadline, speak to an immigration attorney or an accredited representative, and confirm the point on the official page linked beside it. Your <a href="/glossary/#resettlement-agency">resettlement agency</a> can explain the services it actually provides. It is not your lawyer.</p></div>
 <h2 id="no-warranty">No warranty</h2><div class="card"><p>The pages are provided as general reading. There is no warranty, express or implied, that a page is complete, current or fit for a particular decision. Official pages change. The "Last checked" date is the date the cited pages were read for this edition. It is not a promise that the rule is the same today.</p></div>
 <h2 id="limitation-of-liability">Limitation of liability</h2><div class="card"><p>To the extent the law allows, the people who publish this guide are not liable for loss or damage that results from using it, from being unable to use it, or from acting on it without checking the official source and getting advice about your own case. Some jurisdictions do not allow certain limits. In those places, the limit applies only as far as the law allows.</p></div>

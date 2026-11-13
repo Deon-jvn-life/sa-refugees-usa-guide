@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -264,7 +250,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <div class="card"><p>Naturalisation is the way a person born outside the United States becomes a U.S. citizen. The usual application is Form N-400, Application for Naturalization, after at least 5 years as a <a href="/glossary/#green-card-lpr">lawful permanent resident</a> <span class="src">[<a href="https://www.uscis.gov/n-400" rel="noopener">source</a>, <a href="https://www.uscis.gov/citizenship/learn-about-citizenship/citizenship-and-naturalization/i-am-a-lawful-permanent-resident-of-5-years" rel="noopener">source</a>]</span>.</p>
 <p>For a refugee, those 5 years are not counted from the day U.S. Citizenship and Immigration Services (<a href="/glossary/#uscis">USCIS</a>) approves the green card. USCIS rolls the permanent-residence date back to an earlier day, set out below. You still file Form N-400 only after you are a permanent resident <span class="src">[<a href="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-2" rel="noopener">source</a>, <a href="https://www.uscis.gov/policy-manual/volume-7-part-l-chapter-5" rel="noopener">source</a>]</span>.</p>
 <p>The green card application itself is on <a href="/green-card/">Green card after 1 year</a>. Rules for leaving the United States are on <a href="/travel-document/">Can I leave the USA?</a>.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#when-the-5-years-start">When the 5 years start</a></li><li><a href="#you-file-only-after-the-green-card">You file only after the green card</a></li><li><a href="#continuous-residence-and-trips-abroad">Continuous residence and trips abroad</a></li><li><a href="#physical-presence-30-months">Physical presence: 30 months</a></li><li><a href="#age-address-and-filing-90-days-early">Age, address, and filing 90 days early</a></li><li><a href="#english-civics-character-and-the-oath">English, civics, character and the oath</a></li><li><a href="#the-fee">The fee</a></li><li><a href="#what-to-send-and-how-to-file">What to send and how to file</a></li><li><a href="#selective-service-for-men-aged-18-to-25">Selective Service for men aged 18 to 25</a></li><li><a href="#where-the-official-pages-do-not-match">Where the official pages do not match</a></li><li><a href="#questions-and-answers">Questions and answers</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="when-the-5-years-start">When the 5 years start</h2>
+</div><div class="layout"><div class="rest"><h2 id="when-the-5-years-start">When the 5 years start</h2>
 <div class="card"><p>Most people become lawful permanent residents on the day USCIS approves the adjustment application, or on the day they are admitted with an immigrant visa. For some classes the effective date is earlier. The Policy Manual calls that earlier date a rollback date. A refugee is generally considered a lawful permanent resident as of the date of entry into the United States. The manual cites section 209(a)(2) of the <a href="/glossary/#ina">Immigration and Nationality Act</a> <span class="src">[<a href="https://www.uscis.gov/policy-manual/volume-12-part-d-chapter-2" rel="noopener">source</a>]</span>.</p>
 <p>The refugee adjustment chapter states the same rule at approval: if the application is approved, the effective date of permanent residence is the date the person was first admitted to the United States as a refugee <span class="src">[<a href="https://www.uscis.gov/policy-manual/volume-7-part-l-chapter-5" rel="noopener">source</a>]</span>.</p>
 <p>There is one stated exception. A derivative refugee who gained status through an approved relative petition, and who was already in the United States when that petition was approved, has an effective date of the day the petition was approved, not the day of entry <span class="src">[<a href="https://www.uscis.gov/policy-manual/volume-7-part-l-chapter-5" rel="noopener">source</a>]</span>. The physical-presence chapter for adjustment calls that petition Form I-730 <span class="src">[<a href="https://www.uscis.gov/policy-manual/volume-7-part-l-chapter-2" rel="noopener">source</a>]</span>.</p>

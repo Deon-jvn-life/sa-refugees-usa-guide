@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -264,7 +250,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <div class="card warn"><p><strong>Refugees: the programme does not move or pay for pets.</strong> The Embassy page of 7 October 2026 says neither the U.S. government nor <a href="/glossary/#usrap">USRAP</a> implementing partners assist in or fund pet transport. Embassy Pretoria is not working with any entity to move pets. Arrange pet travel yourself after you arrive. The Embassy recommends waiting at least 90 days, because the first housing may not allow pets, and no one in the programme will move the pet inside the United States <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</p>
 <p>The Embassy FAQ answers "How do I arrange for my pet to join me?" in the same way: USRAP cannot fund or assist travel for pets or emotional-support animals, and it strongly discourages bringing pets until at least 90 days after the refugees arrive. Pets limit housing. Deposits and monthly pet rent cannot be paid from resettlement support. Later you may use a shipper. Not every animal can be admitted. The process can take a long time and cost a lot <span class="src">[<a href="https://za.usembassy.gov/u-s-refugee-admissions-program-faqs/" rel="noopener">source</a>]</span>.</p>
 <p>Beware of anyone who says they are coordinating with the government to move a pet or to speed up your case. Report that on the USRAP Tip Form linked from the Embassy page <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>. See <a href="/avoiding-scams/">Avoiding scams</a>.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#how-long-it-takes">How long it takes</a></li><li><a href="#dogs-what-cdc-requires-from-a-high-risk-country">Dogs: what CDC requires from a high-risk country</a></li><li><a href="#cats">Cats</a></li><li><a href="#usda-aphis-rules-for-dogs">USDA APHIS rules for dogs</a></li><li><a href="#south-africa-the-export-certificate">South Africa: the export certificate</a></li><li><a href="#airline-crate">Airline crate</a></li><li><a href="#if-you-are-going-to-florida">If you are going to Florida</a></li><li><a href="#refugee-flights">Refugee flights</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="how-long-it-takes">How long it takes</h2>
+</div><div class="layout"><div class="rest"><h2 id="how-long-it-takes">How long it takes</h2>
 <p>Count back from the <strong>dog's</strong> travel date. These figures are the ones <a href="/glossary/#cdc">CDC</a> states for a foreign-vaccinated dog that has been in a high-risk rabies country. South Africa is on CDC's high-risk list <span class="src">[<a href="https://www.cdc.gov/importation/dogs/high-risk-countries.html" rel="noopener">source</a>, <a href="https://www.cdc.gov/importation/dogs/foreign-vaccinated-high-risk-countries.html" rel="noopener">source</a>]</span>. Where a page gives no time, this table says so. Do not use European or British export timetables for a trip to the United States. Those rules are not on the CDC or South African pages checked.</p>
 <div class="wrap"><table>
 <tr><th>When, counted back from the dog's travel date</th><th>What has to be true</th><th>Where it is stated</th></tr>

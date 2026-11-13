@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -263,7 +249,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#work-and-money">Work and money</a></li><li><span aria-current="page">Reporting SA accounts</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 27 October 2026</span><a class="when" href="/#first-year">When you need this: First year</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Reporting South African accounts: <a href="/glossary/#fbar-fincen-form-114">FBAR</a> and <a href="/glossary/#form-8938">Form 8938</a></h1><div class="inshort"><p><strong>In short.</strong> <a href="/glossary/#fincen">FinCEN</a> Form 114 and IRS Form 8938 for South African accounts.</p></div>
 <div class="card warn"><p><strong>This is not tax advice.</strong> This page is general information for information purposes only. It is not legal advice and it is not tax advice. Confirm it with a qualified tax practitioner. If you have tax in both South Africa and the United States, speak to a cross-border tax practitioner. The sources on this page were read on 27 October 2026.</p></div>
 <p>These forms are reports. They are not, by themselves, a tax on the account. Interest on the account is a separate question, covered on <a href="/us-tax-treaty/">US tax and the treaty</a> and <a href="/tax-first-year/">the checklist</a>.</p>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#fincen-form-114-the-fbar">FinCEN Form 114, the FBAR</a></li><li><a href="#form-8938">Form 8938</a></li><li><a href="#the-two-forms-are-not-the-same-report">The two forms are not the same report</a></li><li><a href="#penalties-the-agencies-publish">Penalties the agencies publish</a></li><li><a href="#conflicts-and-gaps">Conflicts and gaps</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="fincen-form-114-the-fbar">FinCEN Form 114, the FBAR</h2>
+</div><div class="layout"><div class="rest"><h2 id="fincen-form-114-the-fbar">FinCEN Form 114, the FBAR</h2>
 <div class="card"><p>The Financial Crimes Enforcement Network (FinCEN) says a United States person who has a financial interest in, or signature authority over, foreign financial accounts must file a Report of Foreign Bank and Financial Accounts if the aggregate value of those accounts exceeds $10,000 at any time during the calendar year. An individual can file electronically through the BSA E-Filing System <span class="src">[<a href="https://www.fincen.gov/report-foreign-bank-and-financial-accounts" rel="noopener">source</a>]</span>.</p>
 <p>The IRS page says the same $10,000 aggregate test, and it says a United States person includes a citizen and a resident. The report is due on 15 April following the calendar year. If you miss 15 April, you have an automatic extension to 15 October. You do not file a form to get that extension. The FBAR is not filed with the income tax return <span class="src">[<a href="https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar" rel="noopener">source</a>]</span>.</p>
 <p>The IRS describes a foreign financial account as an account at a financial institution outside the United States. Reportable accounts include bank accounts. The pages checked do not print a special rule that leaves out a South African bank account <span class="src">[<a href="https://www.irs.gov/businesses/small-businesses-self-employed/report-of-foreign-bank-and-financial-accounts-fbar" rel="noopener">source</a>, <a href="https://www.fincen.gov/report-foreign-bank-and-financial-accounts" rel="noopener">source</a>]</span>.</p></div>

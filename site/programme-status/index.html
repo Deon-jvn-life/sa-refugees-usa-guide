@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -261,7 +247,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#before-you-arrive">Before you arrive</a></li><li><span aria-current="page">How many people can come</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span><a class="when" href="/#before-you-leave-south-africa">When you need this: Before you leave South Africa</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Programme status and caps</h1><div class="inshort"><p><strong>In short.</strong> Refugee ceilings for <a href="/glossary/#fiscal-year-fy">fiscal year</a> 2026 and fiscal year 2027.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#fy2026-1-october-2025-to-30-september-2026">FY2026 (1 October 2025 to 30 September 2026)</a></li><li><a href="#fy2027-determination">FY2027 determination</a></li><li><a href="#who-runs-what">Who runs what</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="fy2026-1-october-2025-to-30-september-2026">FY2026 (1 October 2025 to 30 September 2026)</h2><div class="card"><ul><li><a href="/glossary/#presidential-determination-pd">Presidential Determination</a> 2026-14 of 21 May 2026 raised the FY2026 ceiling from 7,500 (set by Presidential Determination 2025-13) to 17,500 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li><li>The additional admissions are allocated among Afrikaners from South Africa, consistent with <a href="/glossary/#executive-order-eo">Executive Order</a> 14204 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li><li>Published 27 May 2026, <a href="/glossary/#federal-register-fr">91 FR 31645</a> <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li></ul></div>
+</div><div class="layout"><div class="rest"><h2 id="fy2026-1-october-2025-to-30-september-2026">FY2026 (1 October 2025 to 30 September 2026)</h2><div class="card"><ul><li><a href="/glossary/#presidential-determination-pd">Presidential Determination</a> 2026-14 of 21 May 2026 raised the FY2026 ceiling from 7,500 (set by Presidential Determination 2025-13) to 17,500 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li><li>The additional admissions are allocated among Afrikaners from South Africa, consistent with <a href="/glossary/#executive-order-eo">Executive Order</a> 14204 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li><li>Published 27 May 2026, <a href="/glossary/#federal-register-fr">91 FR 31645</a> <span class="src">[<a href="https://www.federalregister.gov/documents/2026/05/27/2026-10598/emergency-presidential-determination-on-refugee-admissions-for-fiscal-year-2026" rel="noopener">source</a>]</span>.</li></ul></div>
 <h2 id="fy2027-determination">FY2027 determination</h2><div class="card"><ul><li>Yes, there is one. Presidential Determination 2026-24 of 25 September 2026 authorises up to 17,500 refugee admissions in FY2027 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/10/02/2026-20318/presidential-determination-on-refugee-admissions-for-fiscal-year-2027" rel="noopener">source</a>]</span>.</li><li>Admissions are "primarily" allocated among Afrikaners from South Africa under Executive Order 14204 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/10/02/2026-20318/presidential-determination-on-refugee-admissions-for-fiscal-year-2027" rel="noopener">source</a>]</span>.</li><li>Published 2 October 2026 <span class="src">[<a href="https://www.federalregister.gov/documents/2026/10/02/2026-20318/presidential-determination-on-refugee-admissions-for-fiscal-year-2027" rel="noopener">source</a>]</span>.</li></ul></div>
 <h2 id="who-runs-what">Who runs what</h2><div class="card"><ul><li>The State Department identifies and refers applicants. <a href="/glossary/#uscis">USCIS</a> interviews and checks them. <a href="/glossary/#cdc">CDC</a>-approved doctors do the medical exam. <a href="/glossary/#cbp">CBP</a> admits refugees at the port of entry. <a href="/glossary/#orr">ORR</a> starts services on arrival <span class="src">[<a href="https://acf.gov/orr/programs-services/refugees/resettlement-program" rel="noopener">source</a>]</span>.</li><li>ORR took over initial resettlement, now the <a href="/glossary/#pir">Program of Initial Resettlement</a>, on 1 January 2026 <span class="src">[<a href="https://acf.gov/orr/programs-services/refugees/pir" rel="noopener">source</a>]</span>.</li><li>How to ask for a referral from South Africa is the <a href="/online-intake/">online intake questionnaire</a>, not an email to a private helper <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</li></ul></div>
 <p class="src">How many places are left in FY2027: not stated by source.</p><nav class="pn" aria-label="Pages in time order"><a class="prev" href="/online-intake/"><span class="pn-k">Previous</span><span class="pn-t">The free questionnaire</span><span class="pn-when">Before you leave South Africa</span></a><a class="next" href="/avoiding-scams/"><span class="pn-k">Next</span><span class="pn-t">Avoiding scams</span><span class="pn-when">Before you leave South Africa</span></a></nav><aside class="readnext" aria-labelledby="read-next"><h2 id="read-next">Read next</h2><ul><li><a class="jump" href="/avoiding-scams/"><span class="lt">Avoiding scams</span><span class="ls">The programme is free. Spot fake helpers and pet-travel scams.</span></a></li><li><a class="jump" href="/eligibility/"><span class="lt">Who can be referred</span><span class="ls">Who the Embassy says can be considered for a referral.</span></a></li><li><a class="jump" href="/online-intake/"><span class="lt">The free questionnaire</span><span class="ls">The official intake questionnaire: who should submit it, and what happens next.</span></a></li></ul></aside></div></div></article></div></main>

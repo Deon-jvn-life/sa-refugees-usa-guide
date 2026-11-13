@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -263,7 +249,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#work-and-money">Work and money</a></li><li><span aria-current="page">Moving money and pensions</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 27 October 2026</span><a class="when" href="/#first-year">When you need this: First year</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Moving money and retirement savings</h1><div class="inshort"><p><strong>In short.</strong> South African transfer rules, retirement funds, and the pension treaty article.</p></div>
 <div class="card warn"><p><strong>This is not tax advice.</strong> This page is general information for information purposes only. It is not legal advice and it is not tax advice. Confirm it with a qualified tax practitioner. If you have tax in both South Africa and the United States, speak to a cross-border tax practitioner. The sources on this page were read on 27 October 2026.</p></div>
 <p>This page says what the official rules are. It does not say whether you should move money. If the question is "leave the cash in South Africa or bring it to the United States", the things to weigh are on <a href="/sa-company-property/">A company or property</a>.</p>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#allowances-while-you-are-still-a-south-african-resident">Allowances while you are still a South African resident</a></li><li><a href="#transfers-after-you-cease-to-be-a-tax-resident">Transfers after you cease to be a tax resident</a></li><li><a href="#retirement-funds">Retirement funds</a></li><li><a href="#pensions-under-the-treaty">Pensions under the treaty</a></li><li><a href="#a-south-african-bank-account">A South African bank account</a></li><li><a href="#conflicts-and-gaps">Conflicts and gaps</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="allowances-while-you-are-still-a-south-african-resident">Allowances while you are still a South African resident</h2>
+</div><div class="layout"><div class="rest"><h2 id="allowances-while-you-are-still-a-south-african-resident">Allowances while you are still a South African resident</h2>
 <div class="card"><p>Two <a href="/glossary/#sarb">SARB</a> documents, and the SARB questions-and-answers page, do not print the same rand amount for the single discretionary allowance. The conflict is in the box at the end of this page. Read that box before you use either number at a bank <span class="src">[<a href="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/6-2026.pdf" rel="noopener">source</a>, <a href="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/Currency%20and%20Exchanges%20Guidelines%20for%20Individuals.pdf" rel="noopener">source</a>, <a href="https://www.resbank.co.za/en/home/what-we-do/financial-surveillance/FinSurvFAQ" rel="noopener">source</a>]</span>.</p>
 <p>What the documents agree on is the shape of the rules for a resident <span class="src">[<a href="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/Currency%20and%20Exchanges%20Guidelines%20for%20Individuals.pdf" rel="noopener">source</a>, <a href="https://www.resbank.co.za/en/home/what-we-do/financial-surveillance/FinSurvFAQ" rel="noopener">source</a>, <a href="https://www.resbank.co.za/content/dam/sarb/what-we-do/financial-surveillance/financial-surveillance-documents/2026/6-2026.pdf" rel="noopener">source</a>]</span>:</p>
 <ul>
