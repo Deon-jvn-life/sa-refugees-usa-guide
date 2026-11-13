@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -261,7 +247,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#arriving">Arriving</a></li><li><span aria-current="page">Social Security card</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span><a class="when" href="/#first-week">When you need this: First week</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Social Security card</h1><div class="inshort"><p><strong>In short.</strong> How refugees get a <a href="/glossary/#ssn">Social Security number</a> and card.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#if-you-asked-for-an-ssn-during-processing">If you asked for an SSN during processing</a></li><li><a href="#if-you-apply-at-an-ssa-office">If you apply at an SSA office</a></li><li><a href="#lost-card-or-stolen-number">Lost card or stolen number</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="if-you-asked-for-an-ssn-during-processing">If you asked for an SSN during processing</h2><div class="card"><p>When a Social Security number is requested in the immigration process, <a href="/glossary/#dhs">DHS</a> sends the data to <a href="/glossary/#ssa">SSA</a>. SSA assigns the number and mails the card to the address you gave, or to your sponsoring agency if you had no address. The same rule says the card is sent within a reasonable time after the number is assigned. It does not give a number of days. That rule is 20 <a href="/glossary/#cfr">CFR</a> 422.103, in the Code of Federal Regulations <span class="src">[<a href="https://www.ssa.gov/OP_Home/cfr20/422/422-0103.htm" rel="noopener">source</a>, <a href="https://secure.ssa.gov/poms.nsf/lnx/0110205005" rel="noopener">source</a>]</span>.</p></div>
+</div><div class="layout"><div class="rest"><h2 id="if-you-asked-for-an-ssn-during-processing">If you asked for an SSN during processing</h2><div class="card"><p>When a Social Security number is requested in the immigration process, <a href="/glossary/#dhs">DHS</a> sends the data to <a href="/glossary/#ssa">SSA</a>. SSA assigns the number and mails the card to the address you gave, or to your sponsoring agency if you had no address. The same rule says the card is sent within a reasonable time after the number is assigned. It does not give a number of days. That rule is 20 <a href="/glossary/#cfr">CFR</a> 422.103, in the Code of Federal Regulations <span class="src">[<a href="https://www.ssa.gov/OP_Home/cfr20/422/422-0103.htm" rel="noopener">source</a>, <a href="https://secure.ssa.gov/poms.nsf/lnx/0110205005" rel="noopener">source</a>]</span>.</p></div>
 <h2 id="if-you-apply-at-an-ssa-office">If you apply at an SSA office</h2><div class="card"><p>Staff follow the <a href="/glossary/#poms">Program Operations Manual System</a> (POMS) <span class="src">[<a href="https://secure.ssa.gov/poms.nsf/lnx/0110211185" rel="noopener">source</a>]</span>.</p><ul><li>SSA treats refugees as having permanent work authorisation and issues an unrestricted card (no legend) <span class="src">[<a href="https://secure.ssa.gov/poms.nsf/lnx/0110211185" rel="noopener">source</a>]</span>.</li><li>One document can prove age, identity and status, for example the <a href="/glossary/#i-94">I-94</a> website printout with the State Department transportation boarding letter carrying the refugee admission stamp <span class="src">[<a href="https://secure.ssa.gov/poms.nsf/lnx/0110211185" rel="noopener">source</a>]</span>.</li><li>An I-94 with the refugee admission stamp, or an <a href="/glossary/#ead">EAD</a> with category <a href="/glossary/#a3-and-a03">A3</a>, is also accepted <span class="src">[<a href="https://secure.ssa.gov/poms.nsf/lnx/0110211185" rel="noopener">source</a>]</span>.</li></ul></div>
 <h2 id="lost-card-or-stolen-number">Lost card or stolen number</h2><p>Replacement and identity theft options are on <a href="https://www.ssa.gov/ssnumber/" rel="noopener">SSA's Social Security number page</a> <span class="src">[<a href="https://www.ssa.gov/ssnumber/" rel="noopener">source</a>]</span>.</p>
 <p class="src">A number of days for the card to arrive: not stated. The regulation says only that the card is sent within a reasonable time.</p><nav class="pn" aria-label="Pages in time order"><a class="prev" href="/first-90-days/"><span class="pn-k">Previous</span><span class="pn-t">Your first 90 days</span><span class="pn-when">First week</span></a><a class="next" href="/jobs/"><span class="pn-k">Next</span><span class="pn-t">Work and jobs</span><span class="pn-when">First week</span></a></nav><aside class="readnext" aria-labelledby="read-next"><h2 id="read-next">Read next</h2><ul><li><a class="jump" href="/jobs/"><span class="lt">Work and jobs</span><span class="ls">You may work from the day you arrive. The work card and Form I-9.</span></a></li><li><a class="jump" href="/avoiding-scams/"><span class="lt">Avoiding scams</span><span class="ls">The programme is free. Spot fake helpers and pet-travel scams.</span></a></li><li><a class="jump" href="/benefits/"><span class="lt">Cash, food and other help</span><span class="ls">Cash, medical, food and services to sign up for.</span></a></li></ul></aside></div></div></article></div></main>

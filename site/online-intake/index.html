@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -262,7 +248,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#before-you-arrive">Before you arrive</a></li><li><span aria-current="page">The free questionnaire</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span><a class="when" href="/#before-you-leave-south-africa">When you need this: Before you leave South Africa</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">Online intake questionnaire</h1><div class="inshort"><p><strong>In short.</strong> The official intake questionnaire: who should submit it, and what happens next.</p></div>
 <nav class="where" aria-label="You are here"><p class="where-k">You are here</p><ol><li><a class="step-label" href="/eligibility/">Check the rules</a></li><li aria-current="step"><span class="step-label">Submit the official form</span><span class="you">Current step</span><span class="step-links"><a class="guide-link" href="#what-it-is">Read the guide first</a><a class="intake" href="https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8" target="_blank" rel="noopener"><span class="intake-long">Start the official online intake questionnaire</span><span class="intake-short"><span class="intake-wide">Intake form</span><span class="intake-mini">Intake</span></span></a></span></li><li><span class="step-label">Confirm the dashboard and read Avoiding scams</span><span class="step-links"><a href="/online-intake/#how-to-know-the-form-went-through">Confirm the dashboard</a><a href="/avoiding-scams/">Avoiding scams</a></span></li></ol></nav>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#what-it-is">What it is</a></li><li><a href="#who-should-submit-it">Who should submit it</a></li><li><a href="#what-the-embassy-says-happens-after-you-submit">What the Embassy says happens after you submit</a></li><li><a href="#how-to-know-the-form-went-through">How to know the form went through</a></li><li><a href="#the-form-is-free">The form is free</a></li><li><a href="#february-2025-email-and-the-october-2026-page">February 2025 email and the October 2026 page</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="what-it-is">What it is</h2><div class="card"><p>The U.S. Mission South Africa page (7 October 2026, U.S. Mission South Africa, marked as a 24 minute read) tells people who meet every eligibility rule, and who have not yet been contacted by a <a href="/glossary/#usrap">USRAP</a> partner, to complete the online <a href="/glossary/#uiq">USRAP Intake Questionnaire</a> if they want to be considered for referral <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</p>
+</div><div class="layout"><div class="rest"><h2 id="what-it-is">What it is</h2><div class="card"><p>The U.S. Mission South Africa page (7 October 2026, U.S. Mission South Africa, marked as a 24 minute read) tells people who meet every eligibility rule, and who have not yet been contacted by a <a href="/glossary/#usrap">USRAP</a> partner, to complete the online <a href="/glossary/#uiq">USRAP Intake Questionnaire</a> if they want to be considered for referral <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</p>
 <p>The Embassy's own link, checked on 26 October 2026, is <a href="https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8" rel="noopener">https://us-dos.unqorkgov.state.gov/?#/display/68a77f413cdb0fe7ab8817a8</a> <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>. Do not use a look-alike site.</p>
 <p>The same page says you must complete this questionnaire even if you already submitted a Statement of Interest on the old link, if you are still interested and a partner has not contacted you to act on that statement <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</p></div>
 <h2 id="who-should-submit-it">Who should submit it</h2><div class="card"><ul><li>People who meet all of the criteria on the <a href="/eligibility/">eligibility page</a> <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</li><li>People a USRAP partner has not yet contacted to start a referral or to process the case <span class="src">[<a href="https://za.usembassy.gov/refugee-admissions-program-for-south-africans/" rel="noopener">source</a>]</span>.</li><li>A family group of one person still uses the family-group submit button. The Embassy FAQ says that <span class="src">[<a href="https://za.usembassy.gov/u-s-refugee-admissions-program-faqs/" rel="noopener">source</a>]</span>.</li></ul>

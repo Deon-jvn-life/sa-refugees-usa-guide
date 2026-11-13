@@ -374,7 +374,6 @@ DOCK_JS=r'''(function(){
   measure();
   onScroll();
 })();'''
-TOC_BOOT='<script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script>'
 def _split_head(body):
     """Keep the title and intro in the head. A section or nav that wraps the first h2 stays with that h2."""
     h2pos=body.find('<h2')
@@ -428,18 +427,12 @@ class Site:
         headline=H.unescape(re.sub(r'<[^>]+>','', h1m.group(1))) if h1m else title
         if path not in s.titles:
             s.titles[path]=headline
-        h2=re.findall(r'<h2>(.*?)</h2>',body)
         def addid(m): return f'<h2 id="{slug(m.group(1))}">{m.group(1)}</h2>'
         body=re.sub(r'<h2>(.*?)</h2>',addid,body)
         used=set()
         body=link_terms(body, s.terms, used)
         foot=link_terms(s.footer, s.terms, used)
         head, rest = _split_head(body)
-        toc=''
-        if len(h2)>=3:
-            lis=''.join(
-                f'<li><a href="#{slug(x)}">{esc(H.unescape(re.sub("<[^>]+>","",x)))}</a></li>' for x in h2)
-            toc=f'<nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul>{lis}</ul></details>{TOC_BOOT}</nav>'
         plain=s.titles.get(path, headline)
         if path=='index.html':
             crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol><li><span aria-current="page">Home</span></li></ol></nav>'
@@ -512,7 +505,6 @@ class Site:
         related=''
         if s.related:
             related='<p><strong>Related guides</strong></p><ul>'+''.join(f'<li><a href="{esc(u)}" rel="noopener">{esc(t)}</a></li>' for u,t in s.related)+'</ul>'
-        layout_cls='layout has-toc' if toc else 'layout'
         h=f'''<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#00563F"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}">{canonical}{robots}{verify}<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="apple-touch-icon" href="/apple-touch-icon.png"><meta property="og:type" content="{og_type}"><meta property="og:site_name" content="{esc(s.brand)}"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}">{og_url}<meta property="og:image" content="{esc(image)}"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="{esc(title)}"><meta name="twitter:description" content="{esc(desc)}"><meta name="twitter:image" content="{esc(image)}">{ld}<style>{s.css}</style><script defer src="/_vercel/insights/script.js"></script></head><body>
 <a class="skip" href="#content">Skip to content</a>
 <div id="head-slot"><header id="site-header"><div class="shell">
@@ -524,7 +516,7 @@ class Site:
 <details class="menu"><summary aria-controls="site-nav">Topics</summary></details><nav id="site-nav" class="top" aria-label="Topics">{nav}</nav>
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
-<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="{layout_cls}">{toc}<div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
+<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
 <footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/glossary/">Word list</a><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a><a href="/about/">About</a></nav><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {checked_label}.</p></div></footer>
 <script type="application/json" id="search-data">{s._search_json()}</script><script>{SEARCH_JS}</script><script>{DOCK_JS}</script></body></html>'''
         for bad in ('\u2014','\u2013','&mdash;','&ndash;'): assert bad not in h,(path,bad)
@@ -555,8 +547,10 @@ class Site:
                     raise SystemExit('Unexpected noindex on '+path)
             elif 'noindex,follow' not in html:
                 raise SystemExit('404 should be noindex')
-            if re.search(r'<details class="toc-details"[^>]*\sopen(?:[\s=]|/?>)', html):
-                raise SystemExit('On this page is expanded in the HTML on '+path)
+            if 'class="toc"' in html or 'toc-details' in html or 'aria-label="On this page"' in html:
+                raise SystemExit('On this page box is still present on '+path)
+            if re.search(r'<h2(?![^>]*\bid=")[^>]*>', html):
+                raise SystemExit('A section heading has no id on '+path)
             if path=='index.html':
                 head_html=html.split('<div class="head-block">',1)[1].split('<div class="layout',1)[0]
                 if '<section' in head_html:
@@ -827,27 +821,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -865,6 +844,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -936,7 +916,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }

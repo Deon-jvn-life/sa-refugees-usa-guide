@@ -136,27 +136,12 @@ h1{font-size:clamp(1.85rem,1.2rem + 2vw,2.5rem);margin:0 0 var(--space-4)}
 h2{font-size:1.5rem;margin:var(--space-7) 0 var(--space-3)}
 h3{font-size:1.28rem;margin:var(--space-5) 0 var(--space-3)}
 .content p,.content li{max-width:66ch}
+.content .period,.content .period li{max-width:none}
 .inshort{background:#eef4f1;border-left:6px solid #1d4f3e;border-radius:10px;padding:var(--space-4) var(--space-5);margin:0 0 var(--space-5)}
 .inshort p{margin:0;max-width:66ch}
 .layout{display:flex;flex-direction:column;gap:var(--space-5);min-width:0;margin-top:var(--space-6)}
-.toc{order:-1}
-.rest{order:0;min-width:0}
+.rest{min-width:0}
 .rest>h2:first-child,.rest>h3:first-child,.rest>section:first-child>h2:first-child{margin-top:0}
-@media(min-width:960px){
-.layout.has-toc{display:grid;grid-template-columns:minmax(0,1fr) 18rem;column-gap:var(--space-6);align-items:start}
-.layout.has-toc .rest{grid-column:1;grid-row:1;order:0}
-.layout.has-toc .toc{grid-column:2;grid-row:1;order:0;position:sticky;top:var(--scroll-pad);max-height:calc(100vh - var(--scroll-pad) - var(--space-4));overflow:auto}
-}
-.toc{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-2) var(--space-5) var(--space-3);margin:0}
-.toc summary{min-height:44px;display:flex;align-items:center;font-weight:700;cursor:pointer}
-.toc ul{list-style:none;margin:0;padding:0 0 var(--space-2)}
-.toc li+li{margin-top:0}
-.toc a{display:flex;align-items:center;min-height:44px;padding:var(--space-1) 0}
-@media(min-width:960px){
-.toc{padding-top:.15rem}
-.toc summary{min-height:0;padding:.2rem 0 var(--space-2);font-size:1.35rem;line-height:1.25}
-.toc a{min-height:32px}
-}
 .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:var(--space-5);margin:0}
 h2+.card,h3+.card{margin-top:0}
 .card+.card{margin-top:var(--space-4)}
@@ -174,6 +159,7 @@ details.card summary{min-height:48px;display:flex;align-items:center;cursor:poin
 .period>h3{margin:0 0 var(--space-4);font-size:1.35rem}
 .period>h3::before{content:counter(step) ". "}
 .period-pages{list-style:none;padding:0;margin:0;display:grid;gap:var(--space-3)}
+@media(min-width:720px){.period-pages{grid-template-columns:1fr 1fr}}
 .tasks,.link-grid,.readnext ul,.index-list{list-style:none;padding:0;margin:var(--space-4) 0 0;display:grid;gap:var(--space-4);grid-template-columns:1fr}
 @media(min-width:720px){.tasks,.link-grid,.readnext ul,.index-list{grid-template-columns:1fr 1fr}}
 .topic{margin:0 0 var(--space-6)}
@@ -245,7 +231,7 @@ footer p{max-width:66ch}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.toc,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
 }
@@ -262,7 +248,7 @@ a.intake{background:ButtonFace;color:ButtonText}
 </div></header></div>
 <main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> This is general information for information purposes only, not legal advice. Refugee status questions can affect your status: confirm with your resettlement agency, an accredited representative or an immigration attorney.</div></div><div class="shell"><nav class="crumbs" aria-label="Breadcrumb"><ol><li><a href="/">Home</a></li><li><a href="/find/#documents-and-travel">Documents and travel</a></li><li><span aria-current="page">South African passport risks</span></li></ol></nav><p class="meta"><span class="checked">Last checked: 26 October 2026</span><a class="when" href="/#first-year">When you need this: First year</a></p><article class="content" aria-labelledby="page-title"><div class="head-block"><h1 id="page-title">SA passport and citizenship risks for refugees</h1><div class="inshort"><p><strong>In short.</strong> Why a South African passport can put refugee status at risk.</p></div>
 <div class="card warn"><p>Using a South African passport, or travelling to South Africa, can put U.S. refugee status at risk. The detail, including the <a href="/glossary/#green-card-lpr">green card</a> effect, is on <a href="/travel-document/">Can I leave the USA?</a>. Speak to an immigration attorney or an accredited representative before you renew a passport or book a trip.</p></div>
-</div><div class="layout has-toc"><nav class="toc" aria-label="On this page"><details class="toc-details"><summary>On this page</summary><ul><li><a href="#what-u-s-official-sources-say">What U.S. official sources say</a></li><li><a href="#the-effect-is-not-unknown">The effect is not &quot;unknown&quot;</a></li><li><a href="#south-african-passports-and-citizenship">South African passports and citizenship</a></li></ul></details><script>(function(){var d=document.currentScript.previousElementSibling;if(!d||d.tagName!=="DETAILS")return;var mq=window.matchMedia("(min-width:960px)");if(mq.matches)d.open=true;if(mq.addEventListener)mq.addEventListener("change",function(){if(mq.matches)d.open=true;});})();</script></nav><div class="rest"><h2 id="what-u-s-official-sources-say">What U.S. official sources say</h2><div class="card"><ul>
+</div><div class="layout"><div class="rest"><h2 id="what-u-s-official-sources-say">What U.S. official sources say</h2><div class="card"><ul>
 <li>The <a href="/glossary/#uscis">USCIS</a> guide says refugees and asylees cannot acquire a passport from the country of nationality. The <a href="/glossary/#refugee-travel-document">refugee travel document</a> is the substitute <span class="src">[<a href="https://www.uscis.gov/sites/default/files/document/guides/Asylees_Refugees.pdf" rel="noopener">source</a>]</span>.</li>
 <li>The same guide says travel that suggests you no longer need protection may lead to termination of refugee or asylee status, and that a return to the country you fled can be evidence that protection is no longer needed <span class="src">[<a href="https://www.uscis.gov/sites/default/files/document/guides/Asylees_Refugees.pdf" rel="noopener">source</a>]</span>.</li>
 <li>The Adjudicator's Field Manual says that, unless there is proof to the contrary, obtaining a national passport or renewing one is presumed to mean you intended to use that country's protection. Birth and marriage records are not treated that way. Travel to that country may also block permanent residence under section 209 of the <a href="/glossary/#ina">Immigration and Nationality Act</a> <span class="src">[<a href="https://www.uscis.gov/sites/default/files/document/policy-manual-afm/afm53-external.pdf" rel="noopener">source</a>, <a href="https://www.uscis.gov/policy-manual/volume-11-part-d" rel="noopener">source</a>]</span>.</li>
