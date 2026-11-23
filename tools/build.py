@@ -128,11 +128,13 @@ S=dict(
     cipc_foreign="https://www.cipc.co.za/wp-content/uploads/2023/11/Notice_Foreigner-Assurance-verification_version-1.1.pdf",
     cipc_steps="https://www.cipc.co.za/wp-content/uploads/2024/01/Directors-Amendment-Step-by-Step-Automated-Appoint-Foreigner.pdf",
     gov_regs="https://www.gov.za/sites/default/files/gcis_document/202305/48648rg11585gon3444.pdf")
+from sending import EXTRA_SOURCES
+S.update(EXTRA_SOURCES)
 def src(*k): return ' <span class="src">['+', '.join(a(S[x]) for x in k)+']</span>'
 # Menu groups are topics. TIMELINE is the previous and next path, in time order.
 G=[("Before you arrive",[('eligibility/index.html','Who can be referred'),('online-intake/index.html','The free questionnaire'),('programme-status/index.html','How many people can come'),('avoiding-scams/index.html','Avoiding scams')]),
  ("Arriving",[('first-90-days/index.html','Your first 90 days'),('social-security-card/index.html','Social Security card'),('bringing-pets/index.html','Bringing your pets'),('agency-not-helping/index.html','If your helper is not helping')]),
- ("Work and money",[('jobs/index.html','Work and jobs'),('benefits/index.html','Cash, food and other help'),('tax-first-year/index.html','Tax when you start work'),('sa-tax-residency/index.html','SA tax residency'),('us-tax-treaty/index.html','US tax and the treaty'),('foreign-accounts/index.html','Reporting SA accounts'),('moving-money/index.html','Moving money and pensions'),('sa-company-property/index.html','A company or property')]),
+ ("Work and money",[('jobs/index.html','Work and jobs'),('benefits/index.html','Cash, food and other help'),('tax-first-year/index.html','Tax when you start work'),('sa-tax-residency/index.html','SA tax residency'),('us-tax-treaty/index.html','US tax and the treaty'),('foreign-accounts/index.html','Reporting SA accounts'),('moving-money/index.html','Moving money and pensions'),('sending-money/index.html','Sending money'),('sa-company-property/index.html','A company or property')]),
  ("Health",[('health-cover/index.html','Health cover')]),
  ("Documents and travel",[('travel-document/index.html','Leaving the United States'),('sa-passport-citizenship/index.html','South African passport risks')]),
  ("Green card and citizenship",[('green-card/index.html','Green card after one year'),('naturalization/index.html','Citizenship after five years')]),
@@ -245,6 +247,7 @@ BLURB={
  'us-tax-treaty/index.html':'When the IRS treats you as a resident, and what the South Africa treaty says.',
  'foreign-accounts/index.html':'FinCEN Form 114 and IRS Form 8938 for South African accounts.',
  'moving-money/index.html':'South African transfer rules, retirement funds, and the pension treaty article.',
+ 'sending-money/index.html':'Exchange-control allowances, and what each service says about sending either way.',
  'sa-company-property/index.html':'Forms to consider if you still have a company, property, a directorship, or cash.',
  'agency-not-helping/index.html':'Contact your State Refugee Coordinator.',
  'travel-document/index.html':'Whether you can leave the United States, and how the refugee travel document works.',
@@ -272,6 +275,7 @@ ALIAS={
  'us-tax-treaty/index.html':'substantial presence green card treaty dual status Form 1116 Form 2555',
  'foreign-accounts/index.html':'FBAR FinCEN 114 Form 8938 FATCA foreign account',
  'moving-money/index.html':'SDA AIT retirement annuity pension SARB allowance',
+ 'sending-money/index.html':'send money Wise WorldRemit Remitly Western Union Xe Mukuru SWIFT allowance',
  'sa-company-property/index.html':'Form 5471 CFC PFIC director property section 35A dividends',
  'agency-not-helping/index.html':'grievance coordinator complaint agency',
  'travel-document/index.html':'I-131 I-571 travel document leave USA',
@@ -304,7 +308,8 @@ READ_NEXT={
  'sa-tax-residency/index.html':['tax-first-year/index.html','moving-money/index.html','us-tax-treaty/index.html'],
  'us-tax-treaty/index.html':['tax-first-year/index.html','foreign-accounts/index.html','sa-tax-residency/index.html'],
  'foreign-accounts/index.html':['tax-first-year/index.html','moving-money/index.html','sa-company-property/index.html'],
- 'moving-money/index.html':['sa-tax-residency/index.html','foreign-accounts/index.html','sa-company-property/index.html'],
+ 'moving-money/index.html':['sending-money/index.html','sa-tax-residency/index.html','foreign-accounts/index.html'],
+ 'sending-money/index.html':['moving-money/index.html','foreign-accounts/index.html','sa-tax-residency/index.html'],
  'sa-company-property/index.html':['tax-first-year/index.html','moving-money/index.html','foreign-accounts/index.html'],
  'faq/index.html':['first-90-days/index.html','eligibility/index.html','glossary/index.html'],
  'find/index.html':['first-90-days/index.html','glossary/index.html','faq/index.html'],
@@ -320,6 +325,7 @@ _TAX_CHECKED=('27 October 2026','2026-10-27')
 s.checked={p:_TAX_CHECKED for p in (
  'tax-first-year/index.html','sa-tax-residency/index.html','us-tax-treaty/index.html',
  'foreign-accounts/index.html','moving-money/index.html','sa-company-property/index.html')}
+s.checked['sending-money/index.html']=('23 November 2026','2026-11-23')
 grouped=[p for _g,it in G for p,_t in it]
 def _with_journey_next(path, curated):
     """Pager's next page first, then Avoiding scams, then one related page."""
@@ -996,7 +1002,7 @@ P(f,"About this independent guide for South African refugees","How this independ
 <div class="card warn"><strong>{NOTICE}</strong> The full notice is on the {L("disclaimer/index.html","disclaimer",f)}.</div>
 <h2>Independent</h2><div class="card"><p>This site is independent. It is not affiliated with, endorsed by or run for any government or agency. That includes the U.S. Department of State, the U.S. Embassy and Consulates in South Africa, the Department of Health and Human Services, ACF, ORR, USCIS, CBP, SSA, CDC, USDA, any resettlement agency or referral partner, and the South African government.</p></div>
 <h2>Method</h2><div class="card"><ul>
-<li>Facts are tied to official pages that were opened and checked. A link sits beside every fact. The money and tax pages were checked on 27 October 2026. The other pages were checked on {D}.</li>
+<li>Facts are tied to official pages that were opened and checked. A link sits beside every fact. The money and tax pages were checked on 27 October 2026. The sending-money page was checked on 23 November 2026. The other pages were checked on {D}.</li>
 <li>Where a source is silent, the page says "not stated by source". Where two official pages disagree, both are shown.</li>
 <li>IATA is included only for airline crate size. It is an airline industry body, not a government. The two related guides in the footer are independent sites about South African passports and smart ID cards. They are not official sources.</li>
 <li>The site is factual and does not take a political position. Abbreviations are listed on the {L("glossary/index.html","glossary",f)}.</li>
@@ -1015,7 +1021,7 @@ P(f,"Disclaimer: this guide is general information only","This guide is general 
 <h2>Not legal advice</h2><div class="card"><p>Nothing here creates a lawyer-client relationship. Before you travel, file a form, pay anyone, or rely on a deadline, speak to an immigration attorney or an accredited representative, and confirm the point on the official page linked beside it. Your resettlement agency can explain the services it actually provides. It is not your lawyer.</p></div>
 <h2>No warranty</h2><div class="card"><p>The pages are provided as general reading. There is no warranty, express or implied, that a page is complete, current or fit for a particular decision. Official pages change. The "Last checked" date is the date the cited pages were read for this edition. It is not a promise that the rule is the same today.</p></div>
 <h2>Limitation of liability</h2><div class="card"><p>To the extent the law allows, the people who publish this guide are not liable for loss or damage that results from using it, from being unable to use it, or from acting on it without checking the official source and getting advice about your own case. Some jurisdictions do not allow certain limits. In those places, the limit applies only as far as the law allows.</p></div>
-<h2>External links</h2><div class="card"><p>Links to government sites, and the two related guides in the footer, are there so you can read the source. A link is not an endorsement of that site, of every page on that site, or of any organisation. Those sites have their own terms.</p></div>
+<h2>External links</h2><div class="card"><p>Links to government sites, and the two related guides in the footer, are there so you can read the source. The sending-money page also links to a bank and to money-transfer companies. Some of those links may earn this guide a fee. The page says so. A link is not an endorsement of that site, of every page on that site, or of any organisation. Those sites have their own terms.</p></div>
 <h2>Not affiliated</h2><div class="card"><p>This guide is not affiliated with any government or agency, including the U.S. Department of State, the U.S. Embassy in South Africa, USCIS, CBP, ORR, SSA, CDC, USDA, any resettlement agency, or the South African government. Flags in the header identify the two countries the guide is about. They are not a seal and they are not a sign of official status.</p></div>
 <h2>Check the official source</h2><div class="card"><p>Every factual claim is meant to sit next to the official page it came from. If this guide and that page disagree, follow the official page. If two official pages disagree, the conflict is shown on purpose. Do not pick the sentence you prefer.</p></div>
 <h2>Corrections</h2><div class="card"><p>This site has no contact email address and no corrections desk. A correction is made by re-reading the official page and changing the guide. If you think a line is wrong, compare it with the link beside it and with the {L("about/index.html","about page",f)}, which lists the sources.</p></div>''')
@@ -1031,6 +1037,8 @@ P(f,"Find a page in this guide for South African refugees","Search or browse eve
 
 from moneytax import add_pages
 add_pages(P, L, a, src, S)
+from sending import add_page
+add_page(P, L, a, src, S)
 
 s.page('404.html',"Page not found: South African refugees in the USA guide","That page is not on this guide. Use the menu or the links below to reach eligibility, arrival, benefits and the green card.",f'''<h1>Page not found</h1>
 <p>That address is not on this guide. Use the menu, or start from one of these pages:</p>

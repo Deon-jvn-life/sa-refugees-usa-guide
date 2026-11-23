@@ -27,7 +27,7 @@
 - State.gov PRM pages once fetchable.
 
 ## Money and tax (checked 27 October 2026)
-- Single discretionary allowance: Exchange Control Circular 6/2026 (8 April 2026) says R2 million. The individuals guidelines in the 2026 folder, and the FinSurv questions page, still say R1 million. Do not pick one.
+- Single discretionary allowance: Exchange Control Circular 6/2026 (8 April 2026) says R2 million. Circular 7/2026, the same day, raises the same limit in the ADLA manual. The individuals guidelines in the 2026 folder (PDF dated 7 January 2026), and the FinSurv questions page, still said R1 million when read again on 23 November 2026. Do not pick one. Stated on the sending-money page.
 - SARB individuals guide still says tax compliance for "emigration". SARS uses Approval for International Transfer. Circular 12/2025 names AIT.
 - Cease-residency page excludes immovable property in South Africa from the deemed disposal. Interpretation Note (LAPD-IntR-IN-2012-43) says that exclusion does not cover land-rich shares. AIT page writes section 9(H)(2); the note writes section 9H.
 - SARS Tax and Non-Residents page states the 80 percent property-rich test. The Tax Guide for Share Owners also states a 20 percent holding test. Keep both.
