@@ -233,6 +233,14 @@ DOCK_JS=r'''(function(){
   if(!header||!slot) return;
   var docked=false;
   var fullH=0;
+  var revealed=false;
+  function narrow(){
+    return window.matchMedia("(max-width: 899px)").matches;
+  }
+  function syncSticky(){
+    var h=header.offsetHeight;
+    if(h) document.documentElement.style.setProperty("--header-sticky", h+"px");
+  }
   function compactPx(){
     var raw=getComputedStyle(document.documentElement).getPropertyValue("--header-compact")||"64px";
     var n=parseFloat(raw);
@@ -243,7 +251,7 @@ DOCK_JS=r'''(function(){
   }
   function setSearchOpen(open){
     if(!search||!toggle) return;
-    if(open && !document.body.classList.contains("is-docked")) open=false;
+    if(open && !document.body.classList.contains("is-docked") && !narrow()) open=false;
     search.classList.toggle("is-open", open);
     toggle.setAttribute("aria-expanded", open?"true":"false");
     if(open){ if(menu) menu.removeAttribute("open"); closeGroups(); }
@@ -264,7 +272,7 @@ DOCK_JS=r'''(function(){
   }
   function updateHint(){
     if(!nav) return;
-    var more=docked && nav.scrollWidth>nav.clientWidth+8;
+    var more=(docked || narrow()) && nav.scrollWidth>nav.clientWidth+8;
     var atEnd=nav.scrollLeft+nav.clientWidth>=nav.scrollWidth-8;
     var atStart=nav.scrollLeft<=8;
     document.body.classList.toggle("nav-more-right", !!(more && !atEnd));
@@ -303,6 +311,13 @@ DOCK_JS=r'''(function(){
     measure();
   }
   function onScroll(){
+    if(narrow()){
+      if(docked) undock();
+      syncSticky();
+      updateHint();
+      if(!revealed){ revealed=true; revealCurrent(); }
+      return;
+    }
     var y=window.scrollY||document.documentElement.scrollTop||0;
     var line=fullH-compactPx();
     if(!fullH) measure();
@@ -346,7 +361,7 @@ DOCK_JS=r'''(function(){
   }
   document.addEventListener("focusin", function(e){
     var t=e.target;
-    if(!t||!docked) return;
+    if(!t||!(docked||narrow())) return;
     if(nav && nav.contains(t) && nav.scrollWidth>nav.clientWidth+8 && t.closest){
       var grp=t.closest(".grp");
       if(grp){
@@ -359,7 +374,7 @@ DOCK_JS=r'''(function(){
       }
     }
     if(header.contains(t)||(t.classList&&t.classList.contains("skip"))) return;
-    var edge=compactPx()+12;
+    var edge=(narrow()?header.offsetHeight:compactPx())+12;
     var r=t.getBoundingClientRect();
     if(r.bottom>edge && r.top>=edge) return;
     var y=(window.scrollY||0)+r.top-edge;
@@ -432,6 +447,14 @@ class Site:
         used=set()
         body=link_terms(body, s.terms, used)
         foot=link_terms(s.footer, s.terms, used)
+        checked_label, checked_iso = s.checked.get(path, (D, ISO))
+        when=s.when.get(path,'')
+        when_html=(f' <a class="when" href="/#{slug(when)}">When you need this: {esc(when)}</a>' if when else '')
+        stamp=f'<p class="checked-line">Last checked: {esc(checked_label)}.{when_html}</p>'
+        if '</h1><div class="inshort">' in body:
+            body=body.replace('</h1><div class="inshort">','</h1>'+stamp+'<div class="inshort">',1)
+        elif '</h1>' in body:
+            body=body.replace('</h1>','</h1>'+stamp,1)
         head, rest = _split_head(body)
         plain=s.titles.get(path, headline)
         if path=='index.html':
@@ -442,10 +465,6 @@ class Site:
                 items_html.append(f'<li><a href="/find/#{slug(stage)}">{esc(stage)}</a></li>')
             items_html.append(f'<li><span aria-current="page">{esc(plain)}</span></li>')
             crumbs='<nav class="crumbs" aria-label="Breadcrumb"><ol>'+''.join(items_html)+'</ol></nav>'
-        when=s.when.get(path,'')
-        when_html=f'<a class="when" href="/#{slug(when)}">When you need this: {esc(when)}</a>' if when else ''
-        checked_label, checked_iso = s.checked.get(path, (D, ISO))
-        meta=f'<p class="meta"><span class="checked">Last checked: {checked_label}</span>{when_html}</p>'
         def step_link(target, kind):
             label=s.titles.get(target)
             if not label: return ''
@@ -516,7 +535,8 @@ class Site:
 <details class="menu"><summary aria-controls="site-nav">Topics</summary></details><nav id="site-nav" class="top" aria-label="Topics">{nav}</nav>
 <span class="nav-fade nav-fade-left" aria-hidden="true"></span><span class="nav-fade nav-fade-right" aria-hidden="true"></span><span class="nav-hint" aria-hidden="true"></span>
 </div></header></div>
-<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}{meta}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
+<p class="fine">Independent guide. Not a government website. <a href="/disclaimer/">Disclaimer</a>.</p>
+<main id="content" tabindex="-1"><div class="notice" role="note"><div class="shell"><strong>Important:</strong> {NOTICE}</div></div><div class="shell">{crumbs}<article class="content" aria-labelledby="page-title"><div class="head-block">{head}</div><div class="layout"><div class="rest">{rest}{pn}{readnext}</div></div></article></div></main>
 <footer><div class="shell"><nav class="footnav" aria-label="About this guide"><a href="/glossary/">Word list</a><a href="/find/">All pages</a><a href="/disclaimer/">Disclaimer</a><a href="/about/">About</a></nav><p><strong>{NOTICE}</strong></p>{foot}{related}<p>Last checked: {checked_label}.</p></div></footer>
 <script type="application/json" id="search-data">{s._search_json()}</script><script>{SEARCH_JS}</script><script>{DOCK_JS}</script></body></html>'''
         for bad in ('\u2014','\u2013','&mdash;','&ndash;'): assert bad not in h,(path,bad)
@@ -915,9 +935,51 @@ footer p{max-width:66ch}
 .menu summary:focus-visible{outline-color:var(--ink)}
 body.is-docked .menu summary:focus-visible,body.is-docked .search-toggle:focus-visible{outline-color:var(--gold)}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+.checked-line{margin:0 0 var(--space-4);color:#3e3a34;font-size:1rem;max-width:66ch}
+.checked-line .when{display:inline;min-height:0;padding:0;background:none;border:0;border-radius:0;font-weight:700}
+.disclose{margin:0 0 var(--space-4);padding:var(--space-2) var(--space-3);background:#fff8ec;border-left:6px solid #8a5a00;max-width:66ch}
+.fine{display:none;margin:0;padding:var(--space-2) var(--space-4);background:#fff6db;color:var(--ink);font-size:1rem;line-height:1.4;border-bottom:3px solid #8a5a00}
+.fine a{font-weight:700}
+caption{caption-side:bottom;text-align:left;padding:var(--space-2) 0 0;color:#3e3a34;font-size:1rem}
+.compare{min-width:52rem}
 @media(forced-colors:active){
-.card,.inshort,.notice,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
+.card,.inshort,.notice,.fine,.disclose,.jump,.period,.pn a,a.intake,.menu summary,.search-toggle,.where,.you{border:1px solid CanvasText}
 .you{background:Canvas;color:CanvasText}
 a.intake{background:ButtonFace;color:ButtonText}
+}
+@media(max-width:899px){
+#head-slot{height:var(--header-sticky,5.875rem)}
+#site-header{position:fixed;top:0;left:0;right:0;z-index:40;box-shadow:0 2px 12px rgba(0,0,0,.28)}
+#site-header .shell{grid-template-columns:minmax(0,1fr) auto auto;grid-template-rows:2.5rem auto;grid-template-areas:"brand searchbtn cta" "nav nav nav";column-gap:var(--space-2);row-gap:4px;padding:4px var(--space-3)}
+#site-header .name-main,#site-header .name-sub,#site-header .headlink,#site-header .menu,#site-header .intake-long,#site-header .intake-wide{display:none}
+#site-header .intake-short{display:inline}
+#site-header .name-compact{display:block;font-size:.875rem;line-height:1.2;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#site-header .brand{min-height:40px;min-width:0;gap:.4rem}
+#site-header .flags{flex-direction:column-reverse;align-items:center;gap:2px}
+#site-header .flag{height:14px}
+#site-header .search-toggle{display:inline-flex;padding:0;width:40px;min-height:40px}
+#site-header .search-toggle-text{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+#site-header .search-wrap{display:none;margin:0;position:absolute;top:100%;left:0;right:0;z-index:36;background:var(--head-bg);padding:var(--space-3) 0;box-shadow:0 12px 24px rgba(0,0,0,.28)}
+#site-header .search-wrap.is-open{display:block}
+#site-header .headcta{margin:0}
+#site-header .headcta a.intake{width:auto;min-width:24px;min-height:40px;padding:0 .55rem;font-size:.875rem;line-height:1.2}
+#site-header .intake-mini{display:inline}
+#site-header nav.top{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:flex-start;gap:.15rem;margin:0;padding:0 0 2px;border:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin}
+#site-header .grp{flex:0 0 auto;width:auto}
+#site-header .grp>summary{min-height:40px;padding:.15rem .55rem;white-space:nowrap;font-size:.875rem;gap:.3rem;border:1px solid rgba(255,255,255,.75);border-radius:999px;background:rgba(0,0,0,.18)}
+#site-header .grp.has-current>summary{background:rgba(255,255,255,.14);box-shadow:inset 0 -3px 0 var(--gold)}
+#site-header .grp[open] .glinks{position:fixed;z-index:46;top:var(--header-sticky,6rem);left:0;right:0;min-width:0;max-width:none;background:#101820;border:2px solid #fff;border-radius:0 0 10px 10px;padding:var(--space-2);box-shadow:0 8px 24px rgba(0,0,0,.35);max-height:min(60vh,22rem);overflow:auto}
+.notice{display:none}
+.fine{display:block}
+main>.shell{padding-top:var(--space-3)}
+.crumbs ol{flex-wrap:nowrap;overflow-x:auto;margin-bottom:var(--space-2)}
+.crumbs li,.crumbs a{min-height:32px;white-space:nowrap}
+h1{font-size:1.6rem;margin-bottom:var(--space-3)}
+.checked-line{margin-bottom:var(--space-3)}
+.inshort{padding:var(--space-3) var(--space-4);margin-bottom:var(--space-4)}
+body.nav-more-right .nav-fade-right,body.nav-more-left .nav-fade-left{display:block;position:absolute;bottom:4px;height:2.6rem;width:2.4rem;pointer-events:none;z-index:4}
+body.nav-more-right .nav-fade-right{right:0;background:linear-gradient(90deg,rgba(27,42,74,0),#1B2A4A 70%)}
+body.nav-more-left .nav-fade-left{left:0;background:linear-gradient(90deg,#00563F 30%,rgba(0,86,63,0))}
+body.nav-more-right .nav-hint{display:flex;align-items:center;justify-content:flex-end;position:absolute;right:.4rem;bottom:4px;width:1.6rem;height:2.6rem;pointer-events:none;z-index:5}
 }
 '''

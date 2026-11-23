@@ -4,5 +4,18 @@
   "installCommand": "",
   "outputDirectory": "site",
   "cleanUrls": true,
-  "trailingSlash": true
+  "trailingSlash": true,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "^sa-refugees-usa-guide\\.vercel\\.app$"
+        }
+      ],
+      "destination": "https://www.sarefugeesusa.org/:path*",
+      "permanent": true
+    }
+  ]
 }
